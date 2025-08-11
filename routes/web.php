@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Request as RequestFacade;
 use App\Http\Controllers\EventosController;
 use App\Http\Controllers\NovedadesController;
 use App\Http\Controllers\OfertasController;
+use App\Http\Controllers\PerdidosController;
 use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
@@ -18,6 +19,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ValidacionesController;
 use App\Models\Caninos;
 use App\Models\PageView;
+use App\Models\Perdidos;
 use App\Models\Perfil;
 use App\Models\Restaurantes;
 use App\Models\User;
@@ -97,14 +99,16 @@ Route::get('/certificado', function () {
 
 });
 
+//gestión perdidos
 Route::get('/busqueda-perdidos', function () {
 
     return Inertia::render('BusquedaPerdidos', [
-
-
+        'perdidos' => Perdidos::where('estado', 1)->get(),
     ]);
 
 });
+Route::post('/crear-reporte', [PerdidosController::class, 'CrearReporte'])->name('crear-reporte');
+
 
 //Consultar por qr de carnet
 Route::get('/consulta-certificado/{id}', function ($id) {
