@@ -123,6 +123,7 @@ Route::get('/dashboard', function () {
     if ($user->roles->pluck('name')->toArray() == ['Administrador'] || $user->roles->pluck('name')->toArray() == ['Supervisor']) {
         // Si el usuario es administrador, obtiene el conteo total de caninos registrados
         $caninos = Caninos::count();
+        $caninos_info = [];
     } else {
         // Si el usuario no es administrador, obtiene el conteo de caninos registrados por el usuario
         $caninos = Caninos::where('user_id', $user->id)->count();
