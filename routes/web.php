@@ -120,18 +120,22 @@ Route::get('/consulta-certificado/{id}', function ($id) {
 Route::get('/dashboard', function () {
     $user = Auth::user();
 
-    if ($user->roles->pluck('name')->toArray() == ['Administrador']) {
+    if ($user->roles->pluck('name')->toArray() == ['Administrador'] || $user->roles->pluck('name')->toArray() == ['Supervisor']) {
         // Si el usuario es administrador, obtiene el conteo total de caninos registrados
         $caninos = Caninos::count();
     } else {
         // Si el usuario no es administrador, obtiene el conteo de caninos registrados por el usuario
         $caninos = Caninos::where('user_id', $user->id)->count();
+
+        $caninos_info = Caninos::select('id', 'user_id', 'foto_url', 'nombre', 'raza', 'caracteristicas', 'es_peligroso', 'estado')
+        ->where('user_id', $user->id)->paginate(6);
     }
 
     return Inertia::render('Dashboard', [
         'views' => PageView::all(),
         'registros' => User::role('Usuario')->count(), // Filtra solo los usuarios con el rol 'Usuario'
         'caninos' => $caninos,
+        'caninos_info' => $caninos_info,
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 

@@ -4,10 +4,10 @@
   <AuthenticatedLayout>
     <template #header> Dashboard </template>
 
-
+    <!-- info admin -->
     <div
       class="w-full"
-      v-if="$page.props.auth.user.roles[0].name == 'Administrador'"
+      v-if="$page.props.user.permissions.includes('usuarios-editar')"
     >
       <div class="items-center px-4 py-8 m-auto mt-5">
         <div class="flex flex-wrap pb-3 mx-4 md:mx-24 lg:mx-0">
@@ -81,7 +81,7 @@
               <h1
                 class="text-3xl sm:text-4xl xl:text-5xl font-bold text-gray-700 mt-12 group-hover:text-gray-50"
               >
-                {{caninos}}
+                {{ caninos }}
               </h1>
               <div class="flex group-hover:text-gray-200">
                 <p>Caninos registrados</p>
@@ -120,13 +120,61 @@
         </div>
       </div>
     </div>
+    <!-- info usuario -->
+    <div class="w-full" v-if="$page.props.auth.user.roles[0].name == 'Usuario'">
+      <h1 class="text-xl"><b>Total caninos registrados:</b> {{ caninos }}</h1>
+      <div class="sm:grid md:grid-cols-3 sm:grid-cols-2 w-full px-4 gap-4">
+        <!-- card for caninos -->
+        <div
+          v-for="canino in caninos_info.data"
+          :key="canino.id"
+          class="mb-2 w-full border rounded-md shadow-md text-base p-2"
+        >
+          <!-- foto y etiqueta de estado -->
+          <div class="w-full relative">
+            <img
+              :src="getUrl(canino.foto_url)"
+              class="relative p-2 w-full h-64 object-contain cursor-pointer"
+              alt="Foto del canino"
+              v-tooltip.bottom="canino.caracteristicas"
+              @click="openLightbox(getUrl(canino.foto_url))"
+            />
+            <div class="absolute" style="right: 4px; top: 4px">
+              <Tag
+                :value="canino.estado"
+                :severity="getSeverity(canino.estado)"
+              ></Tag>
+            </div>
+          </div>
+          <!-- info canino -->
+          <div class="w-full px-2 mt-4">
+            <h2 class="text-lg font-bold">
+              {{ canino.nombre }}
+            </h2>
+            <p><b>Raza:</b> {{ canino.raza }}</p>
+            <p><b>Es peligroso:</b> {{ canino.es_peligroso }}</p>
+          </div>
+        </div>
+        <!-- paginator -->
+        <div class="mt-2">
+          <Pagination :links="caninos_info.links" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Lightbox -->
+    <VueEasyLightbox
+      :visible="showLightbox"
+      :imgs="[previewImage]"
+      @hide="closeLightbox"
+    />
   </AuthenticatedLayout>
 </template>
 
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head } from "@inertiajs/vue3";
-import { ref, watch, inject, computed } from 'vue';
+import { ref, watch, inject, computed } from "vue";
 import {
   ShareIcon,
   UserGroupIcon,
@@ -134,6 +182,10 @@ import {
   FingerPrintIcon,
   SparklesIcon,
 } from "@heroicons/vue/24/solid";
+
+import Tag from "primevue/tag";
+import VueEasyLightbox from "vue-easy-lightbox";
+import Pagination from "@/Components/Pagination.vue";
 
 const props = defineProps({
   registros: {
@@ -144,31 +196,69 @@ const props = defineProps({
     type: Number,
     default: () => 0,
   },
+  caninos_info: {
+    type: Object,
+    default: () => ({}),
+  },
   views: {
-        type: Object,
-        default: () => ({}),
-    },
-
+    type: Object,
+    default: () => ({}),
+  },
 });
+
+// Lightbox
+const previewImage = ref("");
+const showLightbox = ref(false);
 
 const getTotalViews = computed(() => (pageType) => {
-    let pagesToCount;
+  let pagesToCount;
 
-    // Determina las páginas a contar según el tipo de página solicitado
-    if (pageType === 'inicio') {
-        pagesToCount = ['/', 'Welcome', 'Home'];
-    } else if (pageType === 'consultas') {
-        pagesToCount = ['consultar'];
-     } else if (pageType === 'register') {
-        pagesToCount = ['register'];
-    } else {
-        return 0;
-    }
+  // Determina las páginas a contar según el tipo de página solicitado
+  if (pageType === "inicio") {
+    pagesToCount = ["/", "Welcome", "Home"];
+  } else if (pageType === "consultas") {
+    pagesToCount = ["consultar"];
+  } else if (pageType === "register") {
+    pagesToCount = ["register"];
+  } else {
+    return 0;
+  }
 
-    // Filtra las vistas según el tipo de página y suma los views
-    return props.views
-        .filter(view => pagesToCount.includes(view.page))
-        .reduce((total, view) => total + view.views, 0);
+  // Filtra las vistas según el tipo de página y suma los views
+  return props.views
+    .filter((view) => pagesToCount.includes(view.page))
+    .reduce((total, view) => total + view.views, 0);
 });
 
+// Lightbox
+const openLightbox = (imageUrl) => {
+  previewImage.value = imageUrl;
+  showLightbox.value = true;
+};
+
+const closeLightbox = () => {
+  showLightbox.value = false;
+};
+//end Lightbox
+
+const getUrl = (url) => `/storage/uploads/caninos/${url}`;
+
+const getSeverity = (status) => {
+  switch (status) {
+    case "Pendiente":
+      return "warn";
+
+    case "Aprobado":
+      return "success";
+
+    case "Rechazado":
+      return "danger";
+
+    case "Vencido":
+      return "danger";
+
+    default:
+      return null;
+  }
+};
 </script>
