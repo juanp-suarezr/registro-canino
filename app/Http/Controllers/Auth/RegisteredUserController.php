@@ -209,6 +209,7 @@ class RegisteredUserController extends Controller
             return back()->with('success', 'Registro completado exitosamente.');
         } catch (\Exception $e) {
             DB::rollBack();
+            Log::error('error '.$e);
             return back()->withErrors(['error' => 'Ocurrió un error durante el registro. Inténtelo nuevamente. '.$e]);
         }
     }
