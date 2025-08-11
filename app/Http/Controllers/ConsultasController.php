@@ -370,9 +370,11 @@ class ConsultasController extends Controller
         $canino->esterilizado = $request->esterilizado;
         $canino->save();
 
-        if (!empty($request->novedades)) {
-            // Primero eliminamos todas las novedades actuales del canino
+        // Primero eliminamos todas las novedades actuales del canino
             HashNovedades::where('canino_id', $canino->id)->delete();
+            
+        if (!empty($request->novedades)) {
+
 
             // Luego insertamos las que llegan desde el request
             foreach ($request->novedades as $novedad) {
