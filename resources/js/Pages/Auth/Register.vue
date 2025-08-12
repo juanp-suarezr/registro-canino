@@ -486,7 +486,7 @@
                 <InputLabel
                   class="sm:text-sm text-xs"
                   for="fecha_nacimiento"
-                  value="Fecha de nacimiento(*)"
+                  value="Fecha de nacimiento aproximada(*)"
                 />
                 <TextInput
                   id="fecha_nacimiento"
@@ -873,6 +873,7 @@ const items = ref([
 const tipoIden = ref([
   { id: "2", nombre: "Cédula Ciudadanía", code: "CC" },
   { id: "3", nombre: "Cédula Extranjería", code: "CE" },
+  { id: "4", nombre: "Pasaporte", code: "PP" },
 ]);
 
 const razasPeligrosasIds = [

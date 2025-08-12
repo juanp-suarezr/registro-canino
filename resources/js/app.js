@@ -14,6 +14,7 @@ import PrimeVue from "primevue/config";
 import "vue-toast-notification/dist/theme-default.css";
 import Tooltip from "primevue/tooltip";
 import { VueReCaptcha } from "vue-recaptcha-v3";
+import Traduccion from '../../public/traduccion.json';
 
 const MyPreset = definePreset(Aura, {
     semantic: {
@@ -50,10 +51,10 @@ createInertiaApp({
         ),
     setup({ el, App, props, plugin }) {
         const application = createApp({ render: () => h(App, props) })
-        
             .use(plugin)
             .use(VueSweetalert2)
             .use(PrimeVue, {
+                locale: Traduccion,
                 theme: {
                     preset: MyPreset,
                     options: {
