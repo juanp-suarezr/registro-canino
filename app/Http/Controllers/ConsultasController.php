@@ -85,7 +85,7 @@ class ConsultasController extends Controller
             })
             ->whereHas('user.informacionUsuario', function ($query) use ($user) {
 
-                if ($user->roles->pluck('name')->toArray() == ['Administrador']) {
+                if ($user->roles->pluck('name')->toArray() == ['Administrador'] || $user->roles->pluck('name')->toArray() == ['Supervisor']) {
                     // Filtros opcionales para el administrador
                     $identificacion = RequestFacade::input('identificacion');
                     $nombre = RequestFacade::input('nombre');
@@ -372,7 +372,7 @@ class ConsultasController extends Controller
 
         // Primero eliminamos todas las novedades actuales del canino
             HashNovedades::where('canino_id', $canino->id)->delete();
-            
+
         if (!empty($request->novedades)) {
 
 

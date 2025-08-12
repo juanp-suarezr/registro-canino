@@ -34,7 +34,7 @@
               <InputLabel
                 class="sm:text-sm text-xs"
                 for="nombres"
-                value="Nombre Completo*"
+                value="Nombre Completo(*)"
               />
               <TextInput
                 id="nombres"
@@ -54,7 +54,7 @@
                 <InputLabel
                   class="sm:text-sm text-xs"
                   for="edad"
-                  value="Edad*"
+                  value="Edad(*)"
                 />
                 <TextInput
                   id="edad"
@@ -73,7 +73,7 @@
                 <div class="col-span-1">
                   <InputLabel
                     for="tipo"
-                    value="Tipo*"
+                    value="Tipo(*)"
                     class="text-neutral-500 sm:text-sm text-xs"
                   />
                   <select
@@ -100,7 +100,7 @@
                 <div class="col-span-3">
                   <InputLabel
                     for="identificacion"
-                    value="Identificación*"
+                    value="Identificación(*)"
                     class="sm:text-sm text-xs"
                   />
                   <TextInput
@@ -123,8 +123,8 @@
             <div class="mb-4">
               <InputLabel
                 class="sm:text-sm text-xs"
-                for="zona*"
-                value="Zona*"
+                for="zona(*)"
+                value="Zona(*)"
               />
               <select
                 name="zona"
@@ -143,7 +143,7 @@
               <InputLabel
                 class="sm:text-sm text-xs"
                 for="sector"
-                value="Comuna o corregimiento*"
+                value="Comuna o corregimiento(*)"
               />
 
               <Select
@@ -166,7 +166,7 @@
               <InputLabel
                 class="sm:text-sm text-xs"
                 for="direccion"
-                value="Dirección de residencia*"
+                value="Dirección de residencia(*)"
               />
               <TextInput
                 id="direccion"
@@ -199,7 +199,7 @@
               <InputLabel
                 class="sm:text-sm text-xs"
                 for="celular"
-                value="Teléfono Celular*"
+                value="Teléfono Celular(*)"
               />
               <TextInput
                 id="celular"
@@ -216,7 +216,7 @@
               <InputLabel
                 class="sm:text-sm text-xs"
                 for="email"
-                value="Correo electrónico*"
+                value="Correo electrónico(*)"
               />
               <TextInput
                 id="email"
@@ -276,7 +276,7 @@
               <InputLabel
                 class="sm:text-sm text-xs"
                 for="nombre_canino"
-                value="Nombre del canino*"
+                value="Nombre del canino(*)"
               />
               <TextInput
                 id="nombre_canino"
@@ -291,7 +291,7 @@
 
             <!-- sexo -->
             <div class="mb-4">
-              <InputLabel class="sm:text-sm text-xs" for="sexo" value="Sexo*" />
+              <InputLabel class="sm:text-sm text-xs" for="sexo" value="Sexo(*)" />
               <select
                 id="sexo"
                 name="sexo"
@@ -312,7 +312,7 @@
                 <InputLabel
                   class="sm:text-sm text-xs"
                   for="caracteristicas"
-                  value="Características del canino*"
+                  value="Características del canino(*)"
                 />
                 <Textarea
                   id="caracteristicas"
@@ -336,7 +336,7 @@
                 <InputLabel
                   class="sm:text-sm text-xs"
                   for="observaciones"
-                  value="Observaciones del canino*"
+                  value="Observaciones del canino(*)"
                 />
                 <Textarea
                   id="observaciones"
@@ -486,7 +486,7 @@
                 <InputLabel
                   class="sm:text-sm text-xs"
                   for="fecha_nacimiento"
-                  value="Fecha de nacimiento*"
+                  value="Fecha de nacimiento(*)"
                 />
                 <TextInput
                   id="fecha_nacimiento"
@@ -507,7 +507,7 @@
                 <InputLabel
                   class="sm:text-sm text-xs"
                   for="edad_canino"
-                  value="Edad del canino*"
+                  value="Edad del canino(*)"
                 />
                 <div
                   class="block bg-gray-200/80 border-gray-400 mt-1 w-full rounded-md form-input focus:border-sky-600 p-0 sm:p-2"
@@ -523,7 +523,7 @@
                 <InputLabel
                   class="sm:text-sm text-xs"
                   for="raza"
-                  value="Raza*"
+                  value="Raza(*)"
                 />
                 <!-- Icono de ayuda con tooltip -->
                 <div class="relative group">
@@ -554,7 +554,7 @@
               <InputLabel
                 class="sm:text-sm text-xs"
                 for="foto_url"
-                value="Foto del canino*"
+                value="Foto del canino(*)"
               />
               <div class="flex flex-col gap-2">
                 <!-- Input para cargar la imagen -->
@@ -563,7 +563,7 @@
                   type="file"
                   class="mt-1 block w-full p-0 sm:p-2"
                   @change="onImageChange"
-                  accept="image/*"
+                  accept="image/(*)"
                 />
                 <InputError class="mt-1" :message="form.errors.foto_url" />
 
@@ -590,7 +590,7 @@
               <InputLabel
                 class="sm:text-sm text-xs"
                 for="foto_url"
-                value="Carnet de vacunación vigente*"
+                value="Carnet de vacunación vigente(*)"
               />
               <div class="flex flex-col gap-2">
                 <!-- Input para cargar la imagen -->

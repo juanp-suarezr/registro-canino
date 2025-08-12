@@ -15,12 +15,12 @@ import banner2 from "../../../public/assets/img/perrito1.png";
 
 import AutoComplete from "primevue/autocomplete";
 import {
-  WifiIcon,
-  ComputerDesktopIcon,
-  AcademicCapIcon,
-  RocketLaunchIcon,
+    ArrowDownCircleIcon,
+  IdentificationIcon,
+  ShieldCheckIcon,
 } from "@heroicons/vue/24/solid";
 import axios from "axios";
+
 
 AOS.init();
 
@@ -98,7 +98,9 @@ const searchClientes = (busqueda) => {
     <div
       class="w-full sm:h-full overflow-y-hidden sm:flex flex-wrap bg-gradient-to-t from-azul via-azul/70 to-white bg-with-triangle relative sm:p-0 px-4"
     >
-      <div class="sm:w-[60%] h-full flex flex-col sm:px-24 md:px-32 lg:px-44 mt-4">
+      <div
+        class="sm:w-[60%] h-full flex flex-col sm:px-24 md:px-32 lg:px-44 mt-4"
+      >
         <div
           class="rounded-md bg-secondary shadow-lg hover:bg-primary transition-transform duration-300 ease-in-out hover:translate-x-2 hover:skew-x-2 hover:skew-y-1 p-2 sm:mt-24 md:mt-24 mt-4"
         >
@@ -114,20 +116,22 @@ const searchClientes = (busqueda) => {
         >
           Registra tu canino si:
         </p>
-        <ul class="text-start work-sans text-white text-lg md:text-xl lg:text-2xl pe-6 filter drop-shadow-[2px_2px_2px_rgba(0,0,0,0.5)]">
-            <li>
-                Ha sido entrenado para actividades de seguridad
-            </li>
-            <li>
-                Es de <a class="cursor-pointer underline" href="https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=5515#:~:text=c)%20Perros%20que%20pertenecen%20a,%2C%20Staffordshire%20Terrier%2C%20Tosa%20Japon%C3%A9s." target="_blank">raza potencialmente peligrosa.</a>
-            </li>
-            <li>
-                Ha sido entrenado para el ataque o defensa
-            </li>
-            <li>
-                Ha tenido agresiones a personas u otros perros
-            </li>
-        </ul>
+        <ol
+          class="list-decimal ms-6 text-start work-sans text-white text-lg md:text-xl lg:text-2xl pe-6 filter drop-shadow-[2px_2px_2px_rgba(0,0,0,0.5)]"
+        >
+          <li>Ha sido entrenado para actividades de seguridad</li>
+          <li>
+            Es de
+            <a
+              class="cursor-pointer underline"
+              href="https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=5515#:~:text=c)%20Perros%20que%20pertenecen%20a,%2C%20Staffordshire%20Terrier%2C%20Tosa%20Japon%C3%A9s."
+              target="_blank"
+              >manejo especial.</a
+            >
+          </li>
+          <li>Ha sido entrenado para el ataque o defensa</li>
+          <li>Ha tenido agresiones a personas u otros perros</li>
+        </ol>
         <PrimaryLink
           class="justify-center cursor-pointer inline-flex items-center px-2 py-2 mb-4 text-base sm:text-lg md:text-xl text-white mt-12 border border-gray-400 rounded-md font-semibold hover:scale-105 transition ease-in-out duration-150"
           href="/register"
@@ -155,7 +159,78 @@ const searchClientes = (busqueda) => {
     <!-- segunda seccion -->
     <div
       data-aos="fade-up"
-      class="w-full h-full sm:flex flex-wrap bg-gradient-to-t from-option1 via-white to-white relative sm:p-0 px-4 bg-with-triangle1"
+      class="w-full h-full sm:flex flex-wrap bg-gradient-to-t from-option1 via-white to-white relative p-8 bg-with-triangle1"
+    >
+      <div class="w-full flex flex-col items-center text-center mt-6">
+        <h1
+          class="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 filter drop-shadow-[2px_2px_2px_rgba(0,0,0,0.4)]"
+        >
+          ¿Cómo obtener tu certificado o carnet?
+        </h1>
+        <p
+          class="text-lg md:text-xl lg:text-2xl mb-12 filter drop-shadow-[1px_1px_1px_rgba(0,0,0,0.2)]"
+        >
+          El certificado garantiza que tu canino está registrado y cumple con
+          las normativas vigentes sobre caninos de manejo especial o
+          potencialmente peligrosos.
+        </p>
+      </div>
+
+      <!-- Tarjetas -->
+      <div class="w-full flex flex-wrap justify-center gap-8 my-4">
+        <!-- Tarjeta 1 -->
+        <div
+          class="w-[300px] bg-white rounded-lg shadow-lg p-6 hover:scale-105 transition-transform duration-300"
+        >
+          <div class="flex justify-center mb-4">
+            <IdentificationIcon class="w-12 h-12 text-primary" />
+          </div>
+          <h2 class="text-xl font-bold text-gray-800 mb-2">
+            Paso 1: Registra tu canino
+          </h2>
+          <p class="text-gray-600">
+            Completa el formulario de registro con los datos de tu mascota y su
+            historial de vacunación.
+          </p>
+        </div>
+
+        <!-- Tarjeta 2 -->
+        <div
+          class="w-[300px] bg-white rounded-lg shadow-lg p-6 hover:scale-105 transition-transform duration-300"
+        >
+          <div class="flex justify-center mb-4">
+            <ShieldCheckIcon class="w-12 h-12 text-primary" />
+          </div>
+          <h2 class="text-xl font-bold text-gray-800 mb-2">
+            Paso 2: Verifica tu información
+          </h2>
+          <p class="text-gray-600">
+            Asegúrate de que todos los datos sean correctos y estén actualizados
+            antes de enviar.
+          </p>
+        </div>
+
+        <!-- Tarjeta 3 -->
+        <div
+          class="w-[300px] bg-white rounded-lg shadow-lg p-6 hover:scale-105 transition-transform duration-300"
+        >
+          <div class="flex justify-center mb-4">
+            <ArrowDownCircleIcon class="w-12 h-12 text-primary" />
+          </div>
+          <h2 class="text-xl font-bold text-gray-800 mb-2">
+            Paso 3: Descarga tu certificado
+          </h2>
+          <p class="text-gray-600">
+            Una vez aprobado, podrás descargar el certificado o carnet desde tu
+            cuenta en línea.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- tercera seccion -->
+    <div
+      class="w-full h-full sm:flex flex-wrap bg-gradient-to-t from-option2 via-option2/50 to-option1/80 relative sm:p-0 px-4"
     >
       <div class="sm:w-[25%] w-[40%] h-auto flex items-end">
         <figure class="w-full flex inline-flex justify-center">
@@ -186,7 +261,7 @@ const searchClientes = (busqueda) => {
         >
           Si ya registraste tu canino, puedes consultar su información y estado.
         </p>
-        <div class="flex flex-wrap justify-between gap-4">
+        <div class="flex flex-wrap justify-between">
           <PrimaryLink
             class="justify-center cursor-pointer inline-flex items-center px-2 py-2 mb-4 text-base sm:text-lg md:text-xl text-white mt-12 border border-gray-400 rounded-md font-semibold hover:scale-105 transition ease-in-out duration-150"
             href="/consultar"
@@ -194,81 +269,11 @@ const searchClientes = (busqueda) => {
             Consultar registro
           </PrimaryLink>
           <PrimaryLink
-            class="justify-center cursor-pointer inline-flex items-center px-2 py-2 mb-4 text-base sm:text-lg md:text-xl text-white border border-gray-400 rounded-md font-semibold hover:scale-105 transition ease-in-out duration-150"
+            class="justify-center cursor-pointer inline-flex items-center px-2 py-2 mb-4 text-base sm:text-lg md:text-xl text-white mt-12 border border-gray-400 rounded-md font-semibold hover:scale-105 transition ease-in-out duration-150"
             href="/login"
           >
             Inicia sesión
           </PrimaryLink>
-        </div>
-      </div>
-    </div>
-
-    <!-- tercera seccion -->
-    <div
-      class="w-full h-full sm:flex flex-wrap bg-gradient-to-t from-option2 via-option2/50 to-option1/80 relative p-8"
-    >
-      <div class="w-full flex flex-col items-center text-center">
-        <h1
-          class="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 filter drop-shadow-[2px_2px_2px_rgba(0,0,0,0.4)]"
-        >
-          ¿Cómo obtener tu certificado o carnet?
-        </h1>
-        <p
-          class="text-lg md:text-xl lg:text-2xl mb-12 filter drop-shadow-[1px_1px_1px_rgba(0,0,0,0.2)]"
-        >
-          El certificado garantiza que tu canino está registrado y cumple con
-          las normativas vigentes sobre caninos de manejo especial o potencialmente peligrosos.
-        </p>
-      </div>
-
-      <!-- Tarjetas -->
-      <div class="w-full flex flex-wrap justify-center gap-8">
-        <!-- Tarjeta 1 -->
-        <div
-          class="w-[300px] bg-white rounded-lg shadow-lg p-6 hover:scale-105 transition-transform duration-300"
-        >
-          <div class="flex justify-center mb-4">
-            <RocketLaunchIcon class="w-12 h-12 text-primary" />
-          </div>
-          <h2 class="text-xl font-bold text-gray-800 mb-2">
-            Paso 1: Registra tu canino
-          </h2>
-          <p class="text-gray-600">
-            Completa el formulario de registro con los datos de tu mascota y su
-            historial de vacunación.
-          </p>
-        </div>
-
-        <!-- Tarjeta 2 -->
-        <div
-          class="w-[300px] bg-white rounded-lg shadow-lg p-6 hover:scale-105 transition-transform duration-300"
-        >
-          <div class="flex justify-center mb-4">
-            <AcademicCapIcon class="w-12 h-12 text-primary" />
-          </div>
-          <h2 class="text-xl font-bold text-gray-800 mb-2">
-            Paso 2: Verifica tu información
-          </h2>
-          <p class="text-gray-600">
-            Asegúrate de que todos los datos sean correctos y estén actualizados
-            antes de enviar.
-          </p>
-        </div>
-
-        <!-- Tarjeta 3 -->
-        <div
-          class="w-[300px] bg-white rounded-lg shadow-lg p-6 hover:scale-105 transition-transform duration-300"
-        >
-          <div class="flex justify-center mb-4">
-            <WifiIcon class="w-12 h-12 text-primary" />
-          </div>
-          <h2 class="text-xl font-bold text-gray-800 mb-2">
-            Paso 3: Descarga tu certificado
-          </h2>
-          <p class="text-gray-600">
-            Una vez aprobado, podrás descargar el certificado o carnet desde tu
-            cuenta en línea.
-          </p>
         </div>
       </div>
     </div>

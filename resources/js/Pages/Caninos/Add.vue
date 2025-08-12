@@ -19,7 +19,7 @@
         >
           <!-- Usuario -->
           <div
-            v-if="$page.props.auth.user.roles[0].name.includes('Administrador')"
+            v-if="$page.props.auth.user.roles[0].name.includes('Administrador') || $page.props.auth.user.roles[0].name.includes('Supervisor')"
           >
             <InputLabel for="user_id" value="Usuario" />
             <Select

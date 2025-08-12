@@ -41,7 +41,7 @@ class ValidacionesController extends Controller
 
         $caninos = Caninos::query()
             ->whereHas('user.informacionUsuario', function ($query) use ($user) {
-                if ($user->roles->pluck('name')->toArray() == ['Administrador']) {
+                if ($user->roles->pluck('name')->toArray() == ['Administrador'] || $user->roles->pluck('name')->toArray() == ['Supervisor']) {
                     // Filtros opcionales para el administrador
                     $identificacion = RequestFacade::input('identificacion');
                     $nombre = RequestFacade::input('nombre');

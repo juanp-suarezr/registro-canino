@@ -7,7 +7,7 @@
     <!-- info admin -->
     <div
       class="w-full"
-      v-if="$page.props.user.permissions.includes('usuarios-editar')"
+      v-if="$page.props.auth.user.roles[0].name.includes('Administrador') || $page.props.auth.user.roles[0].name.includes('Supervisor')"
     >
       <div class="items-center px-4 py-8 m-auto mt-5">
         <div class="flex flex-wrap pb-3 mx-4 md:mx-24 lg:mx-0">
