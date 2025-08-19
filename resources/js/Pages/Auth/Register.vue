@@ -291,7 +291,11 @@
 
             <!-- sexo -->
             <div class="mb-4">
-              <InputLabel class="sm:text-sm text-xs" for="sexo" value="Sexo(*)" />
+              <InputLabel
+                class="sm:text-sm text-xs"
+                for="sexo"
+                value="Sexo(*)"
+              />
               <select
                 id="sexo"
                 name="sexo"
@@ -556,41 +560,77 @@
                 for="foto_url"
                 value="Foto del canino(*)"
               />
-              <div class="flex flex-col gap-2">
-                <!-- Input para cargar la imagen -->
-                <TextInput
-                  id="foto_url"
-                  type="file"
-                  class="mt-1 block w-full p-0 sm:p-2"
-                  @change="onImageChange"
-                  accept="image/(*)"
-                />
-                <InputError class="mt-1" :message="form.errors.foto_url" />
 
-                <!-- Vista previa de la imagen -->
-                <div v-if="previewImage" class="relative mt-2">
-                  <img
-                    :src="previewImage"
-                    alt="Vista previa de la imagen"
-                    class="w-40 h-40 object-contain rounded-md border"
-                  />
-                  <!-- Botón para eliminar la imagen -->
-                  <button
-                    type="button"
-                    @click="removeImage"
-                    class="absolute top-0 right-0 bg-red-500 text-white text-xs px-2 py-1 rounded-md shadow-md hover:bg-red-600"
-                  >
-                    Eliminar
-                  </button>
+              <div class="flex flex-col gap-2">
+                <!-- Apartado de ayuda -->
+                <div
+                  class="mt-3 p-3 bg-blue-50 border border-blue-200 rounded-md"
+                >
+                  <p class="text-xs sm:text-sm text-blue-800 font-medium">
+                    📸 Recomendación: La foto debe ser tomada de frente y el
+                    canino debe ser claramente visible.
+                  </p>
+                  <div class="sm:flex items-center gap-3 mt-2">
+                    <!-- imagen ejemplo -->
+                    <div class="mb-4">
+                      <p class="sm:text-base text-xs text-gray-600">
+                        ejemplo foto de canino pastor alemán.
+                      </p>
+                      <img
+                        :src="ejemploFoto"
+                        alt="ejemplo foto canino"
+                        class="sm:w-36 w-24 rounded-md border"
+                      />
+                    </div>
+                    <!-- texto y input -->
+                    <div class="mb-4">
+                      <p class="sm:text-base text-xs text-gray-600">
+                        Cargue o subida de foto del canino (formato jpg, png o
+                        jpeg)
+                      </p>
+                      <div class="h-full">
+                        <!-- Input para cargar la imagen -->
+                        <TextInput
+                          id="foto_url"
+                          type="file"
+                          class="mt-1 sm:h-36 block w-full p-0 sm:p-2"
+                          @change="onImageChange"
+                          accept="image/*"
+                        />
+                        <InputError
+                          class="mt-1"
+                          :message="form.errors.foto_url"
+                        />
+
+                        <!-- Vista previa de la imagen -->
+                        <div v-if="previewImage" class="relative mt-2">
+                          <img
+                            :src="previewImage"
+                            alt="Vista previa de la imagen"
+                            class="w-40 h-40 object-contain rounded-md border"
+                          />
+                          <!-- Botón para eliminar la imagen -->
+                          <button
+                            type="button"
+                            @click="removeImage"
+                            class="absolute top-0 right-0 bg-red-500 text-white text-xs px-2 py-1 rounded-md shadow-md hover:bg-red-600"
+                          >
+                            Eliminar
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
+
             <!-- carnet vacunacion -->
             <div class="mb-4 relative">
               <InputLabel
                 class="sm:text-sm text-xs"
                 for="foto_url"
-                value="Carnet de vacunación vigente(*)"
+                value="Carnet de vacunación vigente (un solo pdf con ambas caras)(*)"
               />
               <div class="flex flex-col gap-2">
                 <!-- Input para cargar la imagen -->
@@ -602,6 +642,11 @@
                   accept="application/pdf"
                 />
                 <InputError class="mt-1" :message="form.errors.vacunas" />
+              </div>
+              <div class="mt-2">
+                <em class="font-normal text-sm">
+                  Cargar pdf con ambas caras de carnet de vacunación
+                </em>
               </div>
             </div>
             <!-- Poliza -->
@@ -642,48 +687,6 @@
                     class="underline text-blue-600"
                     target="_blank"
                     href="https://www.fasecolda.com/fasecolda/companias-afiliadas/"
-                    >Más info</a
-                  >
-                </em>
-              </div>
-            </div>
-            <!-- certificado sanidad -->
-            <div class="mb-4 relative">
-              <div class="flex items-center gap-2">
-                <InputLabel
-                  class="sm:text-sm text-xs"
-                  for="certificado_sanidad"
-                  value="Certificado de sanidad vigente (pdf)"
-                />
-                <!-- Icono de ayuda con tooltip -->
-                <div class="relative group">
-                  <QuestionMarkCircleIcon
-                    class="w-5 h-5 text-blue-500"
-                    v-tooltip.bottom="
-                      'expedido por la Secretaría de Salud del municipio'
-                    "
-                  />
-                </div>
-              </div>
-
-              <div class="flex flex-col gap-2">
-                <!-- Input para cargar la imagen -->
-                <TextInput
-                  id="certificado_sanidad"
-                  type="file"
-                  class="mt-1 block w-full p-0 sm:p-2"
-                  @change="onPdfChange2"
-                  accept="application/pdf"
-                />
-                <InputError class="mt-1" :message="form.errors.certificado_sanidad" />
-              </div>
-              <div class="mt-2">
-                <em class="font-normal text-sm">
-                  debe ser expedida por la Secretaría de Salud del municipio
-                  <a
-                    class="underline text-blue-600"
-                    target="_blank"
-                    href="https://www.pereira.gov.co/tramites/73/concepto-sanitario/"
                     >Más info</a
                   >
                 </em>
@@ -771,6 +774,7 @@
 </template>
 
 <script setup>
+import ejemploFoto from "../../../../public/assets/img/ejemplo_foto.jpeg";
 import ApplicationLogo from "@/Components/ApplicationLogo.vue";
 import GuestLayout from "@/Layouts/GuestLayout.vue";
 import InputError from "@/Components/InputError.vue";
@@ -836,7 +840,6 @@ const form = useForm({
   foto_url: "",
   vacunas: "",
   poliza: "",
-  certificado_sanidad: "",
   checked: "",
   declaracion: "",
   recaptcha_token: "", // Campo para el token de reCAPTCHA
@@ -882,7 +885,7 @@ const razasPeligrosasIds = [
 ];
 
 //step activo
-const active = ref(0);
+const active = ref(1);
 //validado
 const isValidate = ref(false);
 
@@ -1004,7 +1007,8 @@ const nextStep = (num) => {
         form.celular &&
         form.direccion &&
         form.sector &&
-        form.email
+        form.email &&
+        form.password
       ) {
         isValidate.value = true;
       }
@@ -1167,21 +1171,6 @@ const onPdfChange1 = (event) => {
     form.poliza = file;
   } else {
     form.poliza = "";
-    swal.fire({
-      title: "Archivo inválido",
-      text: "Por favor, selecciona un archivo PDF.",
-      icon: "error",
-      confirmButtonText: "OK",
-    });
-  }
-};
-
-const onPdfChange2 = (event) => {
-  const file = event.target.files[0];
-  if (file && file.type === "application/pdf") {
-    form.certificado_sanidad = file;
-  } else {
-    form.certificado_sanidad = "";
     swal.fire({
       title: "Archivo inválido",
       text: "Por favor, selecciona un archivo PDF.",

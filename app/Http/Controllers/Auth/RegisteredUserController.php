@@ -73,7 +73,6 @@ class RegisteredUserController extends Controller
             'foto_url' => 'nullable|image|mimes:pg,png,jpeg,jpg,gif,bmp,tiff,svg,web,webp|max:2048',
             'vacunas' => 'required|mimes:pdf|max:2048',
             'poliza' => 'nullable|mimes:pdf|max:2048',
-            'certificado_sanidad' => 'nullable|mimes:pdf|max:2048',
             'checked' => 'required|boolean',
             'declaracion' => 'required|boolean',
             'recaptcha_token' => 'required|string',
@@ -127,7 +126,6 @@ class RegisteredUserController extends Controller
             $fileName = 'NA';
             $fileNameVacunas = 'NA';
             $fileNamePoliza = 'NA';
-            $fileNameSanidad = 'NA';
 
 
 
@@ -169,13 +167,6 @@ class RegisteredUserController extends Controller
                 $request->file('poliza')->storeAs('uploads/' . $folder, $fileNamePoliza, 'public');
             }
 
-            if ($request->hasFile('certificado_sanidad')) {
-
-                $folder = 'certificado_sanidad';
-                $extension = $request->file('certificado_sanidad')->getClientOriginalExtension();
-                $fileNameSanidad = time() . '_certificado_sanidad_' . $request->nombre_canino . '_' . $user->id . '.' . $extension;
-                $request->file('certificado_sanidad')->storeAs('uploads/' . $folder, $fileNameSanidad, 'public');
-            }
 
 
 
@@ -195,7 +186,6 @@ class RegisteredUserController extends Controller
                 'observaciones' => $request->observaciones,
                 'foto_url' => $fileName,
                 'vacunas' => $fileNameVacunas,
-                'certificado_sanidad' => $fileNameSanidad,
                 'poliza' => $fileNamePoliza,
                 'vencimiento' => now()->addYear(),
                 'user_id' => $user->id,

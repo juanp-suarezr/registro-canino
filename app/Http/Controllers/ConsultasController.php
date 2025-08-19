@@ -342,19 +342,7 @@ class ConsultasController extends Controller
             $canino->poliza = $fileNamePoliza;
         }
 
-        // === CERTIFICADO DE SANIDAD ===
-        if ($request->hasFile('certificado_sanidad')) {
-            if ($canino->certificado_sanidad && Storage::disk('public')->exists("uploads/certificado_sanidad/{$canino->certificado_sanidad}")) {
-                Storage::disk('public')->delete("uploads/certificado_sanidad/{$canino->certificado_sanidad}");
-            }
 
-            $folder = 'certificado_sanidad';
-            $extension = $request->file('certificado_sanidad')->getClientOriginalExtension();
-            $fileNameSanidad = time() . "_certificado_sanidad_{$request->nombre_canino}_" . Auth::id() . ".{$extension}";
-            $request->file('certificado_sanidad')->storeAs("uploads/{$folder}", $fileNameSanidad, 'public');
-
-            $canino->certificado_sanidad = $fileNameSanidad;
-        }
 
         $canino->nombre = $request->nombre;
         $canino->sexo = $request->sexo;
@@ -448,34 +436,13 @@ class ConsultasController extends Controller
             $canino->vacunas = $fileNameVacunas;
         }
 
-        // === POLIZA ===
-        if ($request->hasFile('poliza')) {
-            if ($canino->poliza && Storage::disk('public')->exists("uploads/poliza/{$canino->poliza}")) {
-                Storage::disk('public')->delete("uploads/poliza/{$canino->poliza}");
-            }
-
-            $folder = 'poliza';
-            $extension = $request->file('poliza')->getClientOriginalExtension();
-            $fileNamePoliza = time() . "_poliza_{$request->nombre_canino}_" . Auth::id() . ".{$extension}";
-            $request->file('poliza')->storeAs("uploads/{$folder}", $fileNamePoliza, 'public');
-
-            $canino->poliza = $fileNamePoliza;
-        }
-
-        // === CERTIFICADO DE SANIDAD ===
-        if ($request->hasFile('certificado_sanidad')) {
-            if ($canino->certificado_sanidad && Storage::disk('public')->exists("uploads/certificado_sanidad/{$canino->certificado_sanidad}")) {
-                Storage::disk('public')->delete("uploads/certificado_sanidad/{$canino->certificado_sanidad}");
-            }
-
-            $folder = 'certificado_sanidad';
-            $extension = $request->file('certificado_sanidad')->getClientOriginalExtension();
-            $fileNameSanidad = time() . "_certificado_sanidad_{$request->nombre_canino}_" . Auth::id() . ".{$extension}";
-            $request->file('certificado_sanidad')->storeAs("uploads/{$folder}", $fileNameSanidad, 'public');
-
-            $canino->certificado_sanidad = $fileNameSanidad;
-        }
-
+        $canino->nombre = $request->nombre;
+        $canino->es_peligroso = $request->es_peligroso;
+        $canino->tiene_agresiones = $request->tiene_agresiones;
+        $canino->entrenado_ataque = $request->entrenado_ataque;
+        $canino->entrenado_proteccion = $request->entrenado_proteccion;
+        $canino->esterilizado = $request->esterilizado;
+        $canino->raza = $request->raza;
         $canino->estado = 'Pendiente';
         $canino->save();
 

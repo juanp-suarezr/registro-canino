@@ -31,7 +31,7 @@
                 {{ $fechaVencimiento ? $fechaVencimiento->format('d/m/Y') : 'N/A' }}
             </p>
         </div>
-        <p style="color: #888; font-size: 13px;">Si tienes dudas sobre este registro, comunícate con la Alcaldía de Pereira.</p>
+        <p style="color: #888; font-size: 13px;">Si tienes dudas sobre este registro, comunícate con la secretaria de gobierno de la Alcaldía de Pereira.</p>
     </div>
 </body>
 </html>

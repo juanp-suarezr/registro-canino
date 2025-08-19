@@ -33,7 +33,6 @@ class Caninos extends Model
         'foto_url',
         'vacunas',
         'poliza',
-        'certificado_sanidad',
         'vencimiento',
         'estado',
         'motivo',

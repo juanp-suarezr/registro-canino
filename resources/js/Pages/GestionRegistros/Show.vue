@@ -114,17 +114,7 @@
             <span class="text-gray-400 italic">No tiene póliza</span>
           </template>
         </div>
-        <div class="flex flex-col gap-2">
-          <b>Certificado de sanidad:</b>
-          <template v-if="canino.certificado_sanidad && canino.certificado_sanidad !== 'NA'">
-            <SecondaryButton @click="verPdf('certificado_sanidad')"
-              >Ver Certificado de sanidad</SecondaryButton
-            >
-          </template>
-          <template v-else>
-            <span class="text-gray-400 italic">No tiene póliza</span>
-          </template>
-        </div>
+        
         <!-- Select de motivos de rechazo -->
         <div class="flex flex-col gap-2 w-full md:w-1/3">
           <b>Motivo de rechazo:</b>
@@ -137,8 +127,9 @@
             <option value="vacunas_vencidas">Vacunas vencidas</option>
             <option value="pdf_vacunas_no_visible">PDF de vacunas no visible</option>
             <option value="pdf_vacunas_incorrecto">PDF de vacunas incorrecto</option>
-            <option value="pdf_certificado_sanidad_no_visible">PDF de certificado sanidad incorrecto</option>
-            <option value="pdf_certificado_sanidad_incorrecto">PDF de certificado sanidad incorrecto</option>
+            <option value="pdf_poliza_incorrecto">PDF de Póliza incorrecto</option>
+            <option value="pdf_poliza_no_visible">PDF de Póliza no visible</option>
+            <option value="foto_incorrecta">Foto incorrecta o poco visible</option>
           </select>
         </div>
       </div>

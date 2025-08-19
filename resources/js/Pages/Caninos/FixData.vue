@@ -19,8 +19,107 @@
           enctype="multipart/form-data"
           class="grid gap-4"
         >
+          <!-- Nombre -->
+          <div>
+            <InputLabel for="nombre" value="Nombre del canino" />
+            <TextInput
+              id="nombre"
+              type="text"
+              class="mt-1 block w-full"
+              v-model="form.nombre"
+              required
+            />
+            <InputError class="mt-2" :message="form.errors.nombre" />
+          </div>
 
-
+          <!-- Tiene agresiones -->
+          <div>
+            <InputLabel for="tiene_agresiones" value="¿Ha tenido agresiones?" />
+            <select
+              id="tiene_agresiones"
+              v-model="form.tiene_agresiones"
+              class="mt-1 block w-full border rounded"
+            >
+              <option value="No">No</option>
+              <option value="Si">Sí</option>
+            </select>
+            <InputError class="mt-2" :message="form.errors.tiene_agresiones" />
+          </div>
+          <!-- Entrenado ataque -->
+          <div>
+            <InputLabel
+              for="entrenado_ataque"
+              value="¿Entrenado para ataque?"
+            />
+            <select
+              id="entrenado_ataque"
+              v-model="form.entrenado_ataque"
+              class="mt-1 block w-full border rounded"
+            >
+              <option value="No">No</option>
+              <option value="Si">Sí</option>
+            </select>
+            <InputError class="mt-2" :message="form.errors.entrenado_ataque" />
+          </div>
+          <!-- Entrenado protección -->
+          <div>
+            <InputLabel
+              for="entrenado_proteccion"
+              value="¿Entrenado para protección?"
+            />
+            <select
+              id="entrenado_proteccion"
+              v-model="form.entrenado_proteccion"
+              class="mt-1 block w-full border rounded"
+            >
+              <option value="No">No</option>
+              <option value="Si">Sí</option>
+            </select>
+            <InputError
+              class="mt-2"
+              :message="form.errors.entrenado_proteccion"
+            />
+          </div>
+          <!-- Esterilizado -->
+          <div>
+            <InputLabel for="esterilizado" value="¿Esterilizado?" />
+            <select
+              id="esterilizado"
+              v-model="form.esterilizado"
+              class="mt-1 block w-full border rounded"
+            >
+              <option value="No">No</option>
+              <option value="Si">Sí</option>
+            </select>
+            <InputError class="mt-2" :message="form.errors.esterilizado" />
+          </div>
+          <!-- Raza -->
+          <div>
+            <div class="flex items-center gap-2">
+              <InputLabel class="sm:text-sm text-xs" for="raza" value="Raza*" />
+              <!-- Icono de ayuda con tooltip -->
+              <div class="relative group">
+                <QuestionMarkCircleIcon
+                  class="w-5 h-5 text-blue-500"
+                  v-tooltip.bottom="
+                    'Seleccione la raza de su canino. Si no está en la lista, elija la opción más cercana. Si no está seguro, seleccione la opción Criollo.'
+                  "
+                />
+              </div>
+            </div>
+            <Select
+              id="raza"
+              v-model="form.raza"
+              :options="razasVisibles"
+              filter
+              optionLabel="label"
+              placeholder="Seleccione una raza"
+              checkmark
+              :highlightOnSelect="false"
+              class="w-full"
+            />
+            <InputError class="mt-2" :message="form.errors.raza" />
+          </div>
 
           <!-- FOTO DEL CANINO -->
           <div class="sm:col-span-2">
@@ -75,9 +174,10 @@
 
             <!-- Mostrar archivo actual -->
             <div v-if="!cambiarVacunas" class="flex items-center gap-2">
-              <button class="text-blue-600 hover:underline text-base"
-              type="button"
-              @click="verPdf('vacunas')"
+              <button
+                class="text-blue-600 hover:underline text-base"
+                type="button"
+                @click="verPdf('vacunas')"
               >
                 Ver archivo actual
               </button>
@@ -111,13 +211,18 @@
           </div>
           <!-- POLIZA -->
           <div class="sm:col-span-2">
-            <InputLabel for="poliza" value="Póliza de responsabilidad civil extracontractual vigente (pdf)" />
+            <InputLabel
+              for="poliza"
+              value="Póliza de responsabilidad civil extracontractual vigente (pdf)"
+            />
 
             <!-- Mostrar archivo actual -->
             <div v-if="!cambiarPoliza" class="flex items-center gap-2">
-              <button class="text-blue-600 hover:underline text-base" v-if="canino.poliza != 'NA'"
-              type="button"
-              @click="verPdf('poliza')"
+              <button
+                class="text-blue-600 hover:underline text-base"
+                v-if="canino.poliza != 'NA'"
+                type="button"
+                @click="verPdf('poliza')"
               >
                 Ver archivo actual
               </button>
@@ -126,10 +231,9 @@
                 class="text-base text-blue-600 hover:underline"
                 @click="cambiarPoliza = true"
               >
-                {{ canino.poliza == 'NA' ? 'Cargar PDF' : 'Cambiar PDF' }}
+                {{ canino.poliza == "NA" ? "Cargar PDF" : "Cambiar PDF" }}
               </button>
             </div>
-
 
             <!-- Campo para cambiar el PDF -->
             <div v-else>
@@ -145,47 +249,6 @@
                 type="button"
                 class="text-sm text-gray-500 hover:underline mt-1"
                 @click="cancelarCambio('poliza')"
-              >
-                Cancelar
-              </button>
-            </div>
-          </div>
-          <!-- CERTIFICADO SANIDAD -->
-          <div class="sm:col-span-2">
-            <InputLabel for="certificado_sanidad" value="Póliza de responsabilidad civil extracontractual vigente (pdf)" />
-
-            <!-- Mostrar archivo actual -->
-            <div v-if="!cambiarSanidad" class="flex items-center gap-2">
-              <button class="text-blue-600 hover:underline text-base" v-if="canino.certificado_sanidad != 'NA'"
-              type="button"
-              @click="verPdf('certificado_sanidad')"
-              >
-                Ver archivo actual
-              </button>
-              <button
-                type="button"
-                class="text-base text-blue-600 hover:underline"
-                @click="cambiarSanidad = true"
-              >
-                {{ canino.certificado_sanidad == 'NA' ? 'Cargar PDF' : 'Cambiar PDF' }}
-              </button>
-            </div>
-
-
-            <!-- Campo para cambiar el PDF -->
-            <div v-else>
-              <TextInput
-                id="certificado_sanidad"
-                type="file"
-                class="mt-1 block w-full"
-                accept="application/pdf"
-                @change="onSanidadChange"
-              />
-              <InputError class="mt-2" :message="form.errors.certificado_sanidad" />
-              <button
-                type="button"
-                class="text-sm text-gray-500 hover:underline mt-1"
-                @click="cancelarCambio('certificado_sanidad')"
               >
                 Cancelar
               </button>
@@ -243,7 +306,7 @@ import Razas from "@/shared/razas.json"; // Importa el JSON
 import TextInput from "@/Components/TextInput.vue";
 import { Head, useForm, usePage } from "@inertiajs/vue3";
 import SecondaryLink from "@/Components/SecondaryLink.vue";
-import { ref, computed, inject, watch } from "vue";
+import { ref, computed, inject, watch, onMounted } from "vue";
 import { QuestionMarkCircleIcon } from "@heroicons/vue/24/solid";
 
 const Swal = inject("$swal");
@@ -262,14 +325,26 @@ const showPdf = ref(false);
 const pdfUrl = ref("");
 const pdfTitle = ref("");
 
-
+//es peligroso segun ataques o entrenamiento
+const esPeligroso = ref(false);
+const razasPeligrosasIds = [
+  16, 17, 86, 87, 121, 122, 123, 124, 136, 200, 201, 202, 203, 204, 263, 278,
+  290, 350, 376,
+];
+const razasVisibles = ref([]); // lista que se mostrará en el select
 
 const form = useForm({
   canino_id: props.canino.id,
+  nombre: props.canino.nombre,
+  es_peligroso: props.canino.es_peligroso,
+  tiene_agresiones: props.canino.tiene_agresiones,
+  entrenado_ataque: props.canino.entrenado_ataque,
+  entrenado_proteccion: props.canino.entrenado_proteccion,
+  esterilizado: props.canino.esterilizado,
+  raza: "",
   foto_url: null,
   vacunas: null,
   poliza: null,
-  certificado_sanidad: null,
 });
 
 const cambiarFoto = ref(false);
@@ -339,14 +414,66 @@ const onVacunasChange = (e) => {
 const onPolizaChange = (e) => {
   form.poliza = e.target.files[0];
 };
-const onSanidadChange = (e) => {
-  form.certificado_sanidad = e.target.files[0];
+
+// Observa el cambio en la si es peligroso
+watch(
+  [
+    () => form.tiene_agresiones,
+    () => form.entrenado_ataque,
+    () => form.entrenado_proteccion,
+  ],
+  ([agresiones, ataque, proteccion]) => {
+    const algunoEsSi = [agresiones, ataque, proteccion].includes("Si");
+    const todosSonNoOVacio = [agresiones, ataque, proteccion].every(
+      (v) => v === "No" || v === ""
+    );
+
+    if (algunoEsSi) {
+      if (!esPeligroso.value) {
+        esPeligroso.value = true;
+        razasVisibles.value = obtenerTodasRazas(); // Muestra todas las razas
+      }
+    }
+
+    if (todosSonNoOVacio) {
+      esPeligroso.value = false;
+      razasVisibles.value = obtenerRazasPeligrosas(); // Vuelve a mostrar solo peligrosas
+    }
+  }
+);
+
+const obtenerRazasPeligrosas = () => {
+  return Razas.filter((raza) => razasPeligrosasIds.includes(raza.id));
 };
 
+const obtenerTodasRazas = () => {
+  return Razas;
+};
 
+//get raza array segun label
+const getRaza = (razaName) => {
+  console.log(Razas.filter((raza) => raza.label == razaName));
+
+  return Razas.filter((raza) => raza.label == razaName);
+};
+
+// Inicializa solo con las razas peligrosas
+razasVisibles.value = obtenerRazasPeligrosas();
 
 const submit = () => {
 
+  let esPeligrosa =
+    form.tiene_agresiones == "Si" ||
+    form.entrenado_ataque == "Si" ||
+    form.entrenado_proteccion == "Si";
+
+  if (esPeligrosa) {
+    form.es_peligroso = "Si";
+  } else {
+    form.es_peligroso = "No";
+  }
+
+  form.raza = form.raza.label ?? form.raza;
 
   form.post(route("corregirDatos"), {
     forceFormData: true,
@@ -373,5 +500,13 @@ const submit = () => {
   });
 };
 
+onMounted(() => {
+  if (props.canino.raza) {
+    form.raza = getRaza(props.canino.raza)[0];
+
+    razasVisibles.value.push(form.raza);
+  }
+
+});
 
 </script>

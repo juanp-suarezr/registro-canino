@@ -20,7 +20,7 @@
           class="grid gap-4"
         >
           <!-- Nombre -->
-          <div>
+          <div v-if="!$page.props.auth.user.roles[0].name.includes('Usuario')">
             <InputLabel for="nombre" value="Nombre del canino" />
             <TextInput
               id="nombre"
@@ -32,7 +32,7 @@
             <InputError class="mt-2" :message="form.errors.nombre" />
           </div>
           <!-- Sexo -->
-          <div>
+          <div v-if="!$page.props.auth.user.roles[0].name.includes('Usuario')">
             <InputLabel for="sexo" value="Sexo" />
             <select
               id="sexo"
@@ -45,7 +45,10 @@
             <InputError class="mt-2" :message="form.errors.sexo" />
           </div>
           <!-- fecha nacimiento y edad -->
-          <div class="flex flex-wrap gap-2 col-span-2">
+          <div
+            v-if="!$page.props.auth.user.roles[0].name.includes('Usuario')"
+            class="flex flex-wrap gap-2 col-span-2"
+          >
             <!-- fecha de nacimiento -->
             <div class="mb-4 sm:w-4/6">
               <InputLabel
@@ -83,7 +86,7 @@
           </div>
 
           <!-- Características -->
-          <div>
+          <div v-if="!$page.props.auth.user.roles[0].name.includes('Usuario')">
             <InputLabel for="caracteristicas" value="Características" />
             <TextInput
               id="caracteristicas"
@@ -95,7 +98,7 @@
           </div>
 
           <!-- Tiene agresiones -->
-          <div>
+          <div v-if="!$page.props.auth.user.roles[0].name.includes('Usuario')">
             <InputLabel for="tiene_agresiones" value="¿Ha tenido agresiones?" />
             <select
               id="tiene_agresiones"
@@ -108,7 +111,7 @@
             <InputError class="mt-2" :message="form.errors.tiene_agresiones" />
           </div>
           <!-- Entrenado ataque -->
-          <div>
+          <div v-if="!$page.props.auth.user.roles[0].name.includes('Usuario')">
             <InputLabel
               for="entrenado_ataque"
               value="¿Entrenado para ataque?"
@@ -124,7 +127,7 @@
             <InputError class="mt-2" :message="form.errors.entrenado_ataque" />
           </div>
           <!-- Entrenado protección -->
-          <div>
+          <div v-if="!$page.props.auth.user.roles[0].name.includes('Usuario')">
             <InputLabel
               for="entrenado_proteccion"
               value="¿Entrenado para protección?"
@@ -143,7 +146,7 @@
             />
           </div>
           <!-- Esterilizado -->
-          <div>
+          <div v-if="!$page.props.auth.user.roles[0].name.includes('Usuario')">
             <InputLabel for="esterilizado" value="¿Esterilizado?" />
             <select
               id="esterilizado"
@@ -156,7 +159,7 @@
             <InputError class="mt-2" :message="form.errors.esterilizado" />
           </div>
           <!-- Raza -->
-          <div>
+          <div v-if="!$page.props.auth.user.roles[0].name.includes('Usuario')">
             <div class="flex items-center gap-2">
               <InputLabel class="sm:text-sm text-xs" for="raza" value="Raza*" />
               <!-- Icono de ayuda con tooltip -->
@@ -218,7 +221,10 @@
             </div>
           </div>
           <!-- Observaciones -->
-          <div class="lg:col-span-2">
+          <div
+            v-if="!$page.props.auth.user.roles[0].name.includes('Usuario')"
+            class="lg:col-span-2"
+          >
             <InputLabel for="observaciones" value="Observaciones" />
             <textarea
               id="observaciones"
@@ -228,7 +234,10 @@
             <InputError class="mt-2" :message="form.errors.observaciones" />
           </div>
           <!-- FOTO DEL CANINO -->
-          <div class="sm:col-span-2">
+          <div
+            v-if="!$page.props.auth.user.roles[0].name.includes('Usuario')"
+            class="sm:col-span-2"
+          >
             <InputLabel for="foto_url" value="Foto del canino" />
 
             <!-- Vista previa de la imagen actual -->
@@ -275,7 +284,10 @@
           </div>
 
           <!-- VACUNAS -->
-          <div class="sm:col-span-2">
+          <div
+            v-if="!$page.props.auth.user.roles[0].name.includes('Usuario')"
+            class="sm:col-span-2"
+          >
             <InputLabel for="vacunas" value="Vacunas (PDF)" />
 
             <!-- Mostrar archivo actual -->
@@ -316,7 +328,10 @@
             </div>
           </div>
           <!-- POLIZA -->
-          <div class="sm:col-span-2">
+          <div
+            v-if="!$page.props.auth.user.roles[0].name.includes('Usuario')"
+            class="sm:col-span-2"
+          >
             <InputLabel
               for="poliza"
               value="Póliza de responsabilidad civil extracontractual vigente (pdf)"
@@ -355,58 +370,6 @@
                 type="button"
                 class="text-sm text-gray-500 hover:underline mt-1"
                 @click="cancelarCambio('poliza')"
-              >
-                Cancelar
-              </button>
-            </div>
-          </div>
-          <!-- CERTIFICADO SANIDAD -->
-          <div class="sm:col-span-2">
-            <InputLabel
-              for="certificado_sanidad"
-              value="Póliza de responsabilidad civil extracontractual vigente (pdf)"
-            />
-
-            <!-- Mostrar archivo actual -->
-            <div v-if="!cambiarSanidad" class="flex items-center gap-2">
-              <button
-                class="text-blue-600 hover:underline text-base"
-                v-if="canino.certificado_sanidad != 'NA'"
-                type="button"
-                @click="verPdf('certificado_sanidad')"
-              >
-                Ver archivo actual
-              </button>
-              <button
-                type="button"
-                class="text-base text-blue-600 hover:underline"
-                @click="cambiarSanidad = true"
-              >
-                {{
-                  canino.certificado_sanidad == "NA"
-                    ? "Cargar PDF"
-                    : "Cambiar PDF"
-                }}
-              </button>
-            </div>
-
-            <!-- Campo para cambiar el PDF -->
-            <div v-else>
-              <TextInput
-                id="certificado_sanidad"
-                type="file"
-                class="mt-1 block w-full"
-                accept="application/pdf"
-                @change="onSanidadChange"
-              />
-              <InputError
-                class="mt-2"
-                :message="form.errors.certificado_sanidad"
-              />
-              <button
-                type="button"
-                class="text-sm text-gray-500 hover:underline mt-1"
-                @click="cancelarCambio('certificado_sanidad')"
               >
                 Cancelar
               </button>
@@ -516,7 +479,6 @@ const form = useForm({
   foto_url: null,
   vacunas: null,
   poliza: null,
-  certificado_sanidad: null,
   declaracion: true,
 });
 
@@ -527,7 +489,6 @@ const novedadesCanino = ref([]);
 const cambiarFoto = ref(false);
 const cambiarVacunas = ref(false);
 const cambiarPoliza = ref(false);
-const cambiarSanidad = ref(false);
 
 const getFoto = (url) => `/storage/uploads/caninos/${url}`;
 
@@ -590,9 +551,6 @@ const onVacunasChange = (e) => {
 };
 const onPolizaChange = (e) => {
   form.poliza = e.target.files[0];
-};
-const onSanidadChange = (e) => {
-  form.certificado_sanidad = e.target.files[0];
 };
 
 //watch para detectar el cambio en el input de la edad
@@ -720,8 +678,6 @@ onMounted(() => {
       : Object.values(props.canino.novedades || {});
 
     novedadesArray.forEach((element) => {
-        
-        
       novedadesCanino.value.push(element.novedad);
     });
   }

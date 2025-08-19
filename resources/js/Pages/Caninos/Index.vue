@@ -237,11 +237,10 @@
                 <SecondaryLink
                   v-if="
                     slotProps.data.estado != 'Rechazado' &&
-                    slotProps.data.estado != 'Pendiente' &&
-                    $page.props.user.roles[0].includes('Usuario')
+                    slotProps.data.estado != 'Pendiente'
                   "
                   class="border-blue-800 hover:!bg-blue-200"
-                  v-tooltip.bottom="'Editar'"
+                  v-tooltip.bottom="$page.props.user.roles[0].includes('Usuario') ? 'Registrar Novedad' :'Editar'"
                   :href="route('caninos.edit', slotProps.data.id)"
                 >
                   <PencilIcon class="h-6 w-6 text-blue-800" />
