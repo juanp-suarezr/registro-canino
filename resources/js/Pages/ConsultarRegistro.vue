@@ -197,10 +197,10 @@ const verCertificado = (id) => {
                     <th class="border border-gray-300 px-4 py-2 text-left">
                       Raza
                     </th>
-                    <th class="border border-gray-300 px-4 py-2 text-left">
+                    <th class="border border-gray-300 px-2 py-2 text-left">
                       Edad
                     </th>
-                    <th class="border border-gray-300 px-4 py-2 text-left">
+                    <th class="border border-gray-300 px-2 py-2 text-left">
                       Sexo
                     </th>
                     <th class="border border-gray-300 px-4 py-2 text-left">
@@ -210,7 +210,7 @@ const verCertificado = (id) => {
                       estado
                     </th>
 
-                    <th class="border border-gray-300 px-4 py-2 text-left">
+                    <th class="border border-gray-300 px-2 py-2 text-left">
                       Foto
                     </th>
                     <th class="border border-gray-300 px-4 py-2 text-left">
@@ -276,7 +276,7 @@ const verCertificado = (id) => {
                       />
                       <span v-else>No disponible</span>
                     </td>
-                    <!-- estado -->
+                    <!-- acciones -->
                     <td class="border border-gray-300 px-4 py-2">
                       <SecondaryButton
                         v-if="canino.certificado"
@@ -308,7 +308,28 @@ const verCertificado = (id) => {
                   <p><strong>Raza:</strong> {{ canino.raza }}</p>
                   <p><strong>Edad:</strong> {{ canino.edad_canino }}</p>
                   <p><strong>Sexo:</strong> {{ canino.sexo }}</p>
-
+                  <p>
+                    <!-- fecha vencimiento -->
+                    <strong>Fecha vencimiento:</strong>
+                    {{
+                      canino.certificado
+                        ? canino.certificado.fecha_vencimiento
+                        : "No disponible"
+                    }}
+                  </p>
+                  <!-- estado -->
+                  <p>
+                    <strong>Estado:</strong>
+                    <span
+                      class="ms-2 text-green-200 bg-green-600 p-1 rounded-md"
+                      :class="{
+                        'text-red-200 bg-red-600': canino.estado === 'Vencido',
+                      }"
+                    >
+                      {{ canino.estado }}
+                    </span>
+                  </p>
+                  <!-- foto -->
                   <div>
                     <strong>Foto:</strong>
                     <img
@@ -318,7 +339,16 @@ const verCertificado = (id) => {
                       class="w-full h-44 object-contain rounded-md mt-2 cursor-pointer"
                       @click="openLightbox(getUrl(canino.foto_url))"
                     />
+                    <!-- else sin foto -->
                     <span v-else>No disponible</span>
+                    <!-- acciones -->
+                    <SecondaryButton
+                      v-if="canino.certificado"
+                      class="border-blue-800 hover:!bg-blue-200 mt-2"
+                      @click="verCertificado(canino.certificado.id)"
+                    >
+                      Ver certificado
+                    </SecondaryButton>
                   </div>
                 </div>
               </div>
