@@ -11,7 +11,11 @@
         <h3 class="text-gray-500">
           Editar registro canino {{ canino.nombre }}
         </h3>
-        <SecondaryLink :href="route('caninos.index')"> Regresar </SecondaryLink>
+        <SecondaryButton
+          @click="goBack"
+        >
+          Regresar
+        </SecondaryButton>
       </div>
       <div class="p-4 md:p-5">
         <form
@@ -430,6 +434,7 @@ import { Head, useForm, usePage } from "@inertiajs/vue3";
 import SecondaryLink from "@/Components/SecondaryLink.vue";
 import { ref, computed, inject, watch, onMounted } from "vue";
 import { QuestionMarkCircleIcon } from "@heroicons/vue/24/solid";
+import SecondaryButton from "@/Components/SecondaryButton.vue";
 
 const Swal = inject("$swal");
 
@@ -649,7 +654,11 @@ const submit = () => {
         text: "El registro del canino fue actualizado correctamente.",
         confirmButtonText: "OK",
       }).then(() => {
+        if (usePage().props.auth.user.roles[0].name.includes("Usuario")) {
+          window.location.href = route("dashboard");
+        } else {
         window.location.href = route("caninos.index");
+        }
       });
       form.reset();
       fotoPreview.value = null;
@@ -686,4 +695,8 @@ onMounted(() => {
   //     firmaPreview.value = props.votante.user.biometrico.firma;
   //   }
 });
+
+function goBack() {
+  window.history.back()
+}
 </script>

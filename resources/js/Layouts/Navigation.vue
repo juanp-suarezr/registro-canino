@@ -18,20 +18,20 @@
                 <HomeIcon class="h-6 w-6 text-white" />
                 <span class="mx-3">Inicio</span>
             </nav-link>
-            <nav-link  :href="route('welcome')" :active="route().current('welcome')">
+            <nav-link v-if="$page.props.user.permissions.includes('usuarios-listar')"  :href="route('welcome')" :active="route().current('welcome')">
                 <FireIcon class="h-6 w-6 text-white" />
                 <span class="mx-3">Pagina </span>
             </nav-link>
-            <SeparadorMenu>Registro</SeparadorMenu>
+            <SeparadorMenu v-if="$page.props.user.permissions.includes('usuarios-listar')">Registro</SeparadorMenu>
             <nav-link v-if="$page.props.user.permissions.includes('usuarios-listar')" :href="route('gestion_registros.index')" :active="route().current().includes('gestion_registros')">
                 <CheckIcon class="h-6 w-6 text-white" />
                 <span class="mx-3">Gestión caninos</span>
             </nav-link>
-            <nav-link :href="route('caninos.index')" :active="route().current().includes('caninos')">
+            <nav-link v-if="$page.props.user.permissions.includes('usuarios-listar')" :href="route('caninos.index')" :active="route().current().includes('caninos')">
                 <ClipboardDocumentIcon class="h-6 w-6 text-white" />
                 <span class="mx-3">Registro caninos </span>
             </nav-link>
-            <nav-link :href="route('certificados.index')" :active="route().current().includes('certificados')">
+            <nav-link v-if="$page.props.user.permissions.includes('usuarios-listar')" :href="route('certificados.index')" :active="route().current().includes('certificados')">
                 <CreditCardIcon class="h-6 w-6 text-white" />
                 <span class="mx-3">Certificados</span>
             </nav-link>

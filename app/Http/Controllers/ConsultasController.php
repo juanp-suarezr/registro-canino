@@ -45,11 +45,15 @@ class ConsultasController extends Controller
                             $query->where('numero_documento', 0);
                         }
                     })
+                    ->whereDoesntHave('novedades.novedad', function ($query) {
+                        $query->whereIn('nombre', ['Fallecimiento', 'Cancelar registro']);
+                    })
+                    ->whereIn('estado', ['Aprobado', 'Vencido'])
                     ->with([
                         'user.informacionUsuario:nombre_completo,user_id', // Solo trae el campo 'nombres' de informacionUsuario
+                        'certificado' // Solo trae los campos necesarios de informacionUsuario
                     ])
-                    ->select('id', 'nombre', 'raza', 'edad_canino', 'sexo', 'foto_url', 'es_peligroso', 'user_id') // Solo selecciona el ID del usuario
-                    ->where('estado', 'Aprobado')
+                    ->select('id', 'nombre', 'raza', 'edad_canino', 'sexo', 'foto_url', 'es_peligroso', 'user_id', 'estado') // Solo selecciona el ID del usuario
                     ->paginate(4)
                     ->withQueryString(),
                 'filters' => RequestFacade::only(['identificacion']),
@@ -359,7 +363,7 @@ class ConsultasController extends Controller
         $canino->save();
 
         // Primero eliminamos todas las novedades actuales del canino
-            HashNovedades::where('canino_id', $canino->id)->delete();
+        HashNovedades::where('canino_id', $canino->id)->delete();
 
         if (!empty($request->novedades)) {
 

@@ -29,6 +29,13 @@ const props = defineProps({
   },
 });
 
+console.log(props.registro);
+
+//path url
+const certificado_path = ref("");
+//modal iframe
+const showIframe = ref(false);
+
 const IsSecondTime = ref(false);
 //loading
 const loading = ref(false);
@@ -95,6 +102,11 @@ const clearAll = () => {
       replace: true,
     }
   );
+};
+
+const verCertificado = (id) => {
+  certificado_path.value = route("certificados.ver", id); // Usa la ruta del controlador
+  showIframe.value = true;
 };
 </script>
 
@@ -191,9 +203,18 @@ const clearAll = () => {
                     <th class="border border-gray-300 px-4 py-2 text-left">
                       Sexo
                     </th>
+                    <th class="border border-gray-300 px-4 py-2 text-left">
+                      fecha vencimiento
+                    </th>
+                    <th class="border border-gray-300 px-4 py-2 text-left">
+                      estado
+                    </th>
 
                     <th class="border border-gray-300 px-4 py-2 text-left">
                       Foto
+                    </th>
+                    <th class="border border-gray-300 px-4 py-2 text-left">
+                      Acciones
                     </th>
                   </tr>
                 </thead>
@@ -208,31 +229,64 @@ const clearAll = () => {
                         "Sin información"
                       }}
                     </td>
+                    <!-- nombre -->
                     <td class="border border-gray-300 px-4 py-2">
                       {{ canino.nombre }}
                     </td>
+                    <!-- raza -->
                     <td class="border border-gray-300 px-4 py-2">
                       {{ canino.raza }}
                     </td>
+                    <!-- edad canino -->
                     <td class="border border-gray-300 px-4 py-2">
                       {{ canino.edad_canino }}
                     </td>
+                    <!-- sexo -->
                     <td class="border border-gray-300 px-4 py-2">
                       {{ canino.sexo }}
                     </td>
-                    
+                    <!-- fecha vencimiento -->
+                    <td class="border border-gray-300 px-4 py-2">
+                      {{
+                        canino.certificado
+                          ? canino.certificado.fecha_vencimiento
+                          : "No disponible"
+                      }}
+                    </td>
+                    <!-- estado -->
+                    <td class="border border-gray-300 px-4 py-2">
+                      <span
+                        class="text-green-200 bg-green-600 p-2 rounded-md"
+                        :class="{
+                          'text-red-200 bg-red-600':
+                            canino.estado === 'Vencido',
+                        }"
+                      >
+                        {{ canino.estado }}
+                      </span>
+                    </td>
+                    <!-- foto -->
                     <td class="border border-gray-300 px-4 py-2">
                       <img
                         v-if="canino.foto_url"
                         :src="getUrl(canino.foto_url)"
                         alt="Foto del canino"
-                        class="sm:w-52 sm:h-32 object-cover rounded-full cursor-pointer"
+                        class="w-full object-contain rounded-md cursor-pointer"
                         @click="openLightbox(getUrl(canino.foto_url))"
                       />
                       <span v-else>No disponible</span>
                     </td>
+                    <!-- estado -->
+                    <td class="border border-gray-300 px-4 py-2">
+                      <SecondaryButton
+                        v-if="canino.certificado"
+                        class="border-blue-800 hover:!bg-blue-200"
+                        @click="verCertificado(canino.certificado.id)"
+                      >
+                        Ver certificado
+                      </SecondaryButton>
+                    </td>
                   </tr>
-
                 </tbody>
               </table>
               <!-- Diseño vertical para pantallas pequeñas -->
@@ -323,6 +377,32 @@ const clearAll = () => {
     :imgs="[previewImage]"
     @hide="closeLightbox"
   />
+
+  <!-- Modal Iframe -->
+  <!-- Modal personalizado -->
+  <div
+    v-if="showIframe"
+    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+  >
+    <div class="bg-white rounded-lg shadow-lg w-full lg:mx-24 mx-4 h-[90%]">
+      <div class="flex justify-between items-center p-4 border-b">
+        <h2 class="text-xl font-bold text-gray-800">Vista del Certificado</h2>
+        <button
+          class="text-gray-500 hover:text-gray-800"
+          @click="showIframe = false"
+        >
+          ✕
+        </button>
+      </div>
+      <div class="px-2 pt-2 pb-2">
+        <iframe
+          v-if="certificado_path"
+          :src="certificado_path"
+          class="w-full h-[70vh] rounded"
+        ></iframe>
+      </div>
+    </div>
+  </div>
 </template>
 
 <style scoped>

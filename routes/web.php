@@ -88,7 +88,8 @@ Route::get('/home', function () {
 });
 
 Route::get('/consultar', [ConsultasController::class, 'showConsultasRegistros'])->name('consultarRegistro');
-// Route::get('/searchRestaurant', [RestaurantesController::class, 'searchRestaurant'])->name('searchRestaurant');
+//ver certificado
+    Route::get('/certificados/ver/{id}', [CertificadosController::class, 'verCertificado'])->name('certificados.ver');
 
 Route::get('/certificado', function () {
 
@@ -132,7 +133,8 @@ Route::get('/dashboard', function () {
         // Si el usuario no es administrador, obtiene el conteo de caninos registrados por el usuario
         $caninos = Caninos::where('user_id', $user->id)->count();
 
-        $caninos_info = Caninos::select('id', 'user_id', 'foto_url', 'nombre', 'raza', 'caracteristicas', 'es_peligroso', 'estado')
+        $caninos_info = Caninos::select('id', 'user_id', 'foto_url', 'nombre', 'raza', 'caracteristicas', 'es_peligroso', 'estado', 'created_at')
+        ->with('novedades.novedad')
         ->where('user_id', $user->id)->paginate(6);
     }
 
@@ -158,8 +160,7 @@ Route::middleware('auth')->group(function () {
     //GESTION CERTIFICADOS
     //descargar
     Route::get('/certificados/descargar/{id}', [CertificadosController::class, 'descargarCertificado'])->name('certificados.descargar');
-    //ver certificado
-    Route::get('/certificados/ver/{id}', [CertificadosController::class, 'verCertificado'])->name('certificados.ver');
+
 
     //CORREGIR REGISTROS
     Route::get('/corregirDatos/{id}', [ConsultasController::class, 'fixData'])->name('caninos.fixData');

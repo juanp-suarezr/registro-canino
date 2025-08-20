@@ -15,12 +15,12 @@ import banner2 from "../../../public/assets/img/perrito1.png";
 
 import AutoComplete from "primevue/autocomplete";
 import {
-    ArrowDownCircleIcon,
+  ArrowDownCircleIcon,
   IdentificationIcon,
   ShieldCheckIcon,
 } from "@heroicons/vue/24/solid";
 import axios from "axios";
-
+import PrimaryButton from "@/Components/PrimaryButton.vue";
 
 AOS.init();
 
@@ -41,49 +41,16 @@ defineProps({
   },
 });
 
-//texto autocomplete campistas
-const campista_sel = ref("");
-//guarda los resultados de busqueda
-const restaurante = ref([]);
-//gurada el seleccionado
-const info_res = ref("");
-//determinar si es seleccionado
-const Selected = ref(0);
-//const video
-const videoSrc = ref("");
+swal.fire({
+  title: "Bienvenido a la sección de registro canino",
+  text: "Si ya ha realizado un registro y quiere añadir otro canino, por favor inicie sesión.",
+  icon: "info",
+  timer: 3000,
+  position: "bottom-end",
+  showConfirmButton: false,
+});
 
-//carga de video
-// Función para cargar el video cuando el usuario hace clic
-const loadVideo = () => {
-  if (!videoSrc.value) {
-    videoSrc.value = "/assets/videos/your-video-file.mp4";
-  }
-};
-
-//cuando hay restaurante seleccionado
-const selectCl = () => {
-  Selected.value = campista_sel.value.id;
-  console.log(Selected.value);
-};
-
-const searchClientes = (busqueda) => {
-  // console.log(form.colaboradores);
-  if (busqueda && busqueda.length > 5) {
-    axios
-      .get("/searchRestaurant", {
-        params: {
-          search: busqueda,
-        },
-      })
-      .then((response) => {
-        restaurante.value = response.data.restaurante;
-        console.log(restaurante.value);
-      })
-      .catch((error) => {
-        console.error("Error loading:", error);
-      });
-  }
-};
+const showModal = ref(false);
 </script>
 
 <template>
@@ -132,16 +99,18 @@ const searchClientes = (busqueda) => {
           <li>Ha sido entrenado para el ataque o defensa</li>
           <li>Ha tenido agresiones a personas u otros perros</li>
         </ol>
-        <PrimaryLink
+        <PrimaryButton
           class="justify-center cursor-pointer inline-flex items-center px-2 py-2 mb-4 text-base sm:text-lg md:text-xl text-white mt-12 border border-gray-400 rounded-md font-semibold hover:scale-105 transition ease-in-out duration-150"
-          href="/register"
+          @click="showModal = true"
         >
           Registra tu canino
-        </PrimaryLink>
+        </PrimaryButton>
       </div>
 
       <div class="sm:w-[25%] w-[40%] h-auto flex items-end">
-        <figure class="w-full flex inline-flex justify-center">
+        <figure
+          class="w-full flex inline-flex justify-center hover:translate-x-1"
+        >
           <img
             class="w-full mb-0 object-cover z-20"
             :src="banner1"
@@ -221,8 +190,7 @@ const searchClientes = (busqueda) => {
             Paso 3: Descarga tu certificado
           </h2>
           <p class="text-gray-600">
-            Una vez aprobado, podrás descargar el certificado o carnet desde tu
-            cuenta en línea.
+            Una vez aprobado, podrás descargar el certificado o carnet en el apartado <a class="underline italic" href="/consultar">consultar registros.</a>
           </p>
         </div>
       </div>
@@ -233,7 +201,7 @@ const searchClientes = (busqueda) => {
       class="w-full h-full sm:flex flex-wrap bg-gradient-to-t from-option2 via-option2/50 to-option1/80 relative sm:p-0 px-4"
     >
       <div class="sm:w-[25%] w-[40%] h-auto flex items-end">
-        <figure class="w-full flex inline-flex justify-center">
+        <figure class="w-full flex inline-flex justify-center hover:translate-x-1">
           <img
             class="w-full object-cover z-20"
             :src="banner2"
@@ -268,11 +236,47 @@ const searchClientes = (busqueda) => {
           >
             Consultar registro
           </PrimaryLink>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal de opciones de registro -->
+    <div
+      v-if="showModal"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40"
+    >
+      <div class="bg-white rounded-lg shadow-lg p-8 max-w-xl w-full relative">
+        <button
+          class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-xl sm:text-2xl"
+          @click="showModal = false"
+        >
+          &times;
+        </button>
+        <h2 class="text-xl sm:text-2xl font-bold mb-4 text-center text-primary">
+          ¿Cómo registrar tu canino?
+        </h2>
+        <p class="mb-6 text-center text-gray-700 sm:text-lg">
+          Si es la
+          <span class="font-semibold text-primary">primera vez</span> que
+          registras un canino y aún no tienes usuario, crea tu cuenta y registra
+          tu canino.<br /><br />
+          Si ya tienes usuario y deseas
+          <span class="font-semibold text-primary">registrar otro canino</span>
+          o <span class="font-semibold text-primary">renovar</span> el registro,
+          inicia sesión.
+        </p>
+        <div class="flex flex-col gap-4">
           <PrimaryLink
-            class="justify-center cursor-pointer inline-flex items-center px-2 py-2 mb-4 text-base sm:text-lg md:text-xl text-white mt-12 border border-gray-400 rounded-md font-semibold hover:scale-105 transition ease-in-out duration-150"
+            class="justify-center cursor-pointer inline-flex items-center px-2 py-2 text-base sm:text-lg md:text-xl text-white border border-gray-400 rounded-md font-semibold bg-primary hover:scale-105 transition ease-in-out duration-150"
+            href="/register"
+          >
+            Registra tu canino
+          </PrimaryLink>
+          <PrimaryLink
+            class="justify-center cursor-pointer inline-flex items-center px-2 py-2 text-base sm:text-lg md:text-xl text-white border border-gray-400 rounded-md font-semibold !bg-green-600 hover:scale-105 transition ease-in-out duration-150"
             href="/login"
           >
-            Inicia sesión
+            Iniciar sesión
           </PrimaryLink>
         </div>
       </div>

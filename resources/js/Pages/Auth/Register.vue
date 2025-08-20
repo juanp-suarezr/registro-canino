@@ -579,7 +579,7 @@
                       <img
                         :src="ejemploFoto"
                         alt="ejemplo foto canino"
-                        class="sm:w-36 w-24 rounded-md border"
+                        class="sm:w-36 w-24 rounded-md border filter grayscale hover:grayscale-0 transition"
                       />
                     </div>
                     <!-- texto y input -->
@@ -885,7 +885,7 @@ const razasPeligrosasIds = [
 ];
 
 //step activo
-const active = ref(1);
+const active = ref(0);
 //validado
 const isValidate = ref(false);
 

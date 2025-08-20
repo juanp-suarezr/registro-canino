@@ -9,7 +9,12 @@
         class="bg-gray-100 border-b rounded-t-xl py-3 px-4 md:py-4 md:px-5 flex justify-between items-center"
       >
         <h3 class="text-gray-500">Nuevo canino</h3>
-        <SecondaryLink :href="route('caninos.index')"> Regresar </SecondaryLink>
+        <SecondaryButton
+          @click="goBack"
+        >
+          Regresar
+        </SecondaryButton>
+
       </div>
       <div class="p-4 md:p-5">
         <form
@@ -19,7 +24,10 @@
         >
           <!-- Usuario -->
           <div
-            v-if="$page.props.auth.user.roles[0].name.includes('Administrador') || $page.props.auth.user.roles[0].name.includes('Supervisor')"
+            v-if="
+              $page.props.auth.user.roles[0].name.includes('Administrador') ||
+              $page.props.auth.user.roles[0].name.includes('Supervisor')
+            "
           >
             <InputLabel for="user_id" value="Usuario" />
             <Select
@@ -209,23 +217,68 @@
             ></textarea>
             <InputError class="mt-2" :message="form.errors.observaciones" />
           </div>
-          <!-- Foto -->
+
+          <!-- imagen -->
           <div class="sm:col-span-2">
-            <InputLabel for="foto_url" value="Foto del canino" />
-            <TextInput
-              id="foto_url"
-              type="file"
-              class="mt-1 block w-full"
-              accept="image/*"
-              @change="onFileChange"
+            <InputLabel
+              class="sm:text-sm text-xs"
+              for="foto_url"
+              value="Foto del canino"
             />
-            <InputError class="mt-2" :message="form.errors.foto_url" />
-            <div v-if="fotoPreview" class="mt-2">
-              <img
-                :src="fotoPreview"
-                alt="Vista previa"
-                class="h-24 border rounded"
-              />
+
+            <div class="flex flex-col gap-2">
+              <!-- Apartado de ayuda -->
+              <div
+                class="mt-3 p-3 bg-blue-50 border border-blue-200 rounded-md"
+              >
+                <p class="text-xs sm:text-sm text-blue-800 font-medium">
+                  📸 Recomendación: La foto debe ser tomada de frente y el
+                  canino debe ser claramente visible.
+                </p>
+                <div class="sm:flex items-center gap-3 mt-2">
+                  <!-- imagen ejemplo -->
+                  <div class="mb-4">
+                    <p class="sm:text-base text-xs text-gray-600">
+                      ejemplo foto de canino pastor alemán.
+                    </p>
+                    <img
+                      :src="ejemploFoto"
+                      alt="ejemplo foto canino"
+                      class="sm:w-36 w-24 rounded-md border filter grayscale hover:grayscale-0 transition"
+                    />
+                  </div>
+                  <!-- texto y input -->
+                  <div class="mb-4">
+                    <p class="sm:text-base text-xs text-gray-600">
+                      Cargue o subida de foto del canino (formato jpg, png o
+                      jpeg)
+                    </p>
+                    <div class="h-full">
+                      <!-- Input para cargar la imagen -->
+                      <TextInput
+                        id="foto_url"
+                        type="file"
+                        class="mt-1 sm:h-36 block w-full p-0 sm:p-2"
+                        @change="onFileChange"
+                        accept="image/*"
+                      />
+                      <InputError
+                        class="mt-1"
+                        :message="form.errors.foto_url"
+                      />
+
+                      <!-- Vista previa de la imagen -->
+                      <div v-if="fotoPreview" class="relative mt-2">
+                        <img
+                          :src="fotoPreview"
+                          alt="Vista previa de la imagen"
+                          class="w-40 h-40 object-contain rounded-md border"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           <!-- Vacunas -->
@@ -266,40 +319,6 @@
               @change="onPolizaChange"
             />
             <InputError class="mt-2" :message="form.errors.poliza" />
-          </div>
-          <!-- certificado_sanidad -->
-          <div class="sm:col-span-2">
-            <div class="flex items-center gap-2">
-              <InputLabel
-                class="sm:text-sm text-xs"
-                for="certificado_sanidad"
-                value="Certificado de sanidad vigente (pdf)"
-              />
-              <!-- Icono de ayuda con tooltip -->
-              <div class="relative group">
-                <QuestionMarkCircleIcon
-                  class="w-5 h-5 text-blue-500"
-                  v-tooltip.bottom="
-                    'expedido por la Secretaría de Salud del municipio'
-                  "
-                />
-              </div>
-            </div>
-
-            <div class="flex flex-col gap-2">
-              <!-- Input para cargar la imagen -->
-              <TextInput
-                id="certificado_sanidad"
-                type="file"
-                class="mt-1 block w-full p-0 sm:p-2"
-                @change="onSanidadChange"
-                accept="application/pdf"
-              />
-              <InputError
-                class="mt-1"
-                :message="form.errors.certificado_sanidad"
-              />
-            </div>
           </div>
           <!-- declaración juramentada -->
           <div class="mb-4 col-span-2">
@@ -347,6 +366,8 @@ import { Head, useForm, usePage } from "@inertiajs/vue3";
 import SecondaryLink from "@/Components/SecondaryLink.vue";
 import { ref, computed, inject, watch } from "vue";
 import { QuestionMarkCircleIcon } from "@heroicons/vue/24/solid";
+import ejemploFoto from "../../../../public/assets/img/ejemplo_foto.jpeg";
+import SecondaryButton from "@/Components/SecondaryButton.vue";
 
 const Swal = inject("$swal");
 
@@ -386,7 +407,6 @@ const form = useForm({
   foto_url: null,
   vacunas: null,
   poliza: null,
-  certificado_sanidad: null,
   declaracion: "",
 });
 
@@ -409,9 +429,6 @@ const onVacunasChange = (e) => {
 };
 const onPolizaChange = (e) => {
   form.poliza = e.target.files[0];
-};
-const onSanidadChange = (e) => {
-  form.certificado_sanidad = e.target.files[0];
 };
 
 //watch para detectar el cambio en el input de la edad
@@ -505,7 +522,12 @@ const submit = () => {
         text: "El canino fue registrado correctamente.",
         confirmButtonText: "OK",
       }).then(() => {
+        // Redirige al listado de caninos después de registrar
+        if (usePage().props.auth.user.roles[0].name.includes("Usuario")) {
+          window.location.href = route("dashboard");
+        } else {
         window.location.href = route("caninos.index");
+        }
       });
       form.reset();
       fotoPreview.value = null;
@@ -520,4 +542,8 @@ const submit = () => {
     },
   });
 };
+
+function goBack() {
+  window.history.back()
+}
 </script>

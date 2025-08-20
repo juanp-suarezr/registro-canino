@@ -41,12 +41,12 @@
                         >
                             <a href="/consultar" class="hover:text-parrafo transition duration-300">Consultar registro</a>
                         </li>
-                        <li
+                        <!-- <li
                             class="sm:border-white border-gray-400 sm:pr-2 border-b"
                             :class="{ 'font-bold': isActive('/certificado') }"
                         >
                             <a href="/certificado" class="hover:text-parrafo transition duration-300">Certificados</a>
-                        </li>
+                        </li> -->
                         <li
                             class="sm:border-white border-gray-400 sm:pr-2 border-b"
                             :class="{ 'font-bold': isActive('/busqueda-perdidos') }"

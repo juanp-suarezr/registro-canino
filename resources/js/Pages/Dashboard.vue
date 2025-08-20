@@ -7,7 +7,10 @@
     <!-- info admin -->
     <div
       class="w-full"
-      v-if="$page.props.auth.user.roles[0].name.includes('Administrador') || $page.props.auth.user.roles[0].name.includes('Supervisor')"
+      v-if="
+        $page.props.auth.user.roles[0].name.includes('Administrador') ||
+        $page.props.auth.user.roles[0].name.includes('Supervisor')
+      "
     >
       <div class="items-center px-4 py-8 m-auto mt-5">
         <div class="flex flex-wrap pb-3 mx-4 md:mx-24 lg:mx-0">
@@ -122,7 +125,10 @@
     </div>
     <!-- info usuario -->
     <div class="w-full" v-if="$page.props.auth.user.roles[0].name == 'Usuario'">
-      <h1 class="text-xl"><b>Total caninos registrados:</b> {{ caninos }}</h1>
+      <div class="w-full flex flex-wrap sm:justify-between">
+        <h1 class="text-xl"><b>Total caninos registrados:</b> {{ caninos }}</h1>
+        <PrimaryLink class="!text-xl" :href="route('caninos.create')"> Agregar registro </PrimaryLink>
+      </div>
       <div class="sm:grid md:grid-cols-3 sm:grid-cols-2 w-full px-4 gap-4">
         <!-- card for caninos -->
         <div
@@ -153,6 +159,48 @@
             </h2>
             <p><b>Raza:</b> {{ canino.raza }}</p>
             <p><b>Es peligroso:</b> {{ canino.es_peligroso }}</p>
+            <p>
+              <b>Fecha de registro:</b>
+              {{
+                new Date(canino.created_at).toLocaleDateString("es-CO", {
+                  year: "numeric",
+                  month: "2-digit",
+                  day: "2-digit",
+                })
+              }}
+            </p>
+            <div class="w-full flex flex-wrap gap-2 mt-4">
+              <!-- boton de añadir novedad -->
+              <SecondaryLink
+                v-if="
+                  canino.estado != 'Rechazado' && canino.estado != 'Pendiente'
+                "
+                class="border hover:scale-105 bg-red-200"
+                v-tooltip.bottom="'Registrar Novedad'"
+                :href="route('caninos.edit', canino.id)"
+              >
+                <XMarkIcon class="h-6 w-6 text-red-800" />
+              </SecondaryLink>
+              <!-- boton de corregir cuando se es rechazado -->
+              <SecondaryLink
+                v-if="canino.estado == 'Rechazado'"
+                class="border-blue-800 hover:!bg-blue-200"
+                v-tooltip.bottom="'Corregir'"
+                :href="route('caninos.fixData', canino.id)"
+              >
+                <PencilIcon class="h-6 w-6 text-blue-800" />
+              </SecondaryLink>
+
+              <!-- boton de ver novedades -->
+              <SecondaryButton
+                v-if="canino.novedades && canino.novedades.length != 0"
+                class="border-gray-800 hover:!bg-gray-200"
+                v-tooltip.bottom="'Ver novedades'"
+                @click="ShowNovedad(canino)"
+              >
+                <NewspaperIcon class="h-6 w-6 text-gray-800" />
+              </SecondaryButton>
+            </div>
           </div>
         </div>
         <!-- paginator -->
@@ -168,6 +216,55 @@
       :imgs="[previewImage]"
       @hide="closeLightbox"
     />
+
+    <!-- Modal PDF -->
+    <div
+      v-if="showNovedad"
+      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+    >
+      <div
+        class="bg-white rounded-lg shadow-lg w-full max-w-2xl mx-4 h-[80vh] flex flex-col"
+      >
+        <div class="flex justify-between items-center p-4 border-b">
+          <h2 class="text-lg font-bold text-gray-800">
+            Novedades {{ caninoSelected.nombre }}
+
+          </h2>
+          <button
+            class="text-gray-500 hover:text-gray-800"
+            @click="showNovedad = false"
+          >
+            ✕
+          </button>
+        </div>
+        <div class="flex-1 overflow-auto">
+          <DataTable
+            :value="caninoSelected.novedades"
+            responsive-layout="scroll"
+            class="p-datatable-sm"
+          >
+            <template #header>
+              <div class="flex justify-between items-center">
+                <h2 class="text-lg font-bold">Lista de novedades</h2>
+              </div>
+            </template>
+
+            <Column header="#">
+              <template #body="slotProps">
+                <p>
+                  {{ slotProps.index + 1 }}
+                </p>
+              </template>
+            </Column>
+            <Column header="Novedad">
+              <template #body="slotProps">
+                {{ slotProps.data.novedad?.nombre || "N/A" }}
+              </template>
+            </Column>
+          </DataTable>
+        </div>
+      </div>
+    </div>
   </AuthenticatedLayout>
 </template>
 
@@ -181,11 +278,19 @@ import {
   MagnifyingGlassIcon,
   FingerPrintIcon,
   SparklesIcon,
+  XMarkIcon,
+  PencilIcon,
+  NewspaperIcon,
 } from "@heroicons/vue/24/solid";
 
 import Tag from "primevue/tag";
 import VueEasyLightbox from "vue-easy-lightbox";
 import Pagination from "@/Components/Pagination.vue";
+import PrimaryLink from "@/Components/PrimaryLink.vue";
+import SecondaryLink from "@/Components/SecondaryLink.vue";
+import SecondaryButton from "@/Components/SecondaryButton.vue";
+import DataTable from "primevue/datatable";
+import Column from "primevue/column";
 
 const props = defineProps({
   registros: {
@@ -205,6 +310,11 @@ const props = defineProps({
     default: () => ({}),
   },
 });
+
+//modal novedad
+const showNovedad = ref(false);
+//caninoselected novedad
+const caninoSelected = ref([]);
 
 // Lightbox
 const previewImage = ref("");
@@ -240,6 +350,11 @@ const closeLightbox = () => {
   showLightbox.value = false;
 };
 //end Lightbox
+
+const ShowNovedad = (canino) => {
+  showNovedad.value = true;
+  caninoSelected.value = canino;
+};
 
 const getUrl = (url) => `/storage/uploads/caninos/${url}`;
 

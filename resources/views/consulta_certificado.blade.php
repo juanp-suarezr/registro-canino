@@ -36,7 +36,7 @@
 
 <body>
     <div class="card">
-        <img src="{{ public_path('assets/img/logo.webp') }}" height="70">
+        <img src="{{ asset('assets/img/logo.webp') }}" height="70">
         <h2 style="margin-top:10px">Certificado de Registro Canino</h2>
         <div class="info">
             <p><strong>Nombre del canino:</strong> {{ $canino->nombre }}</p>

@@ -11,7 +11,7 @@
         <h3 class="text-gray-500">
           Corregir registro canino {{ canino.nombre }}
         </h3>
-        <SecondaryLink :href="route('caninos.index')"> Regresar </SecondaryLink>
+        <SecondaryButton @click="goBack"> Regresar </SecondaryButton>
       </div>
       <div class="p-4 md:p-5">
         <form
@@ -308,6 +308,7 @@ import { Head, useForm, usePage } from "@inertiajs/vue3";
 import SecondaryLink from "@/Components/SecondaryLink.vue";
 import { ref, computed, inject, watch, onMounted } from "vue";
 import { QuestionMarkCircleIcon } from "@heroicons/vue/24/solid";
+import SecondaryButton from "@/Components/SecondaryButton.vue";
 
 const Swal = inject("$swal");
 
@@ -461,7 +462,6 @@ const getRaza = (razaName) => {
 razasVisibles.value = obtenerRazasPeligrosas();
 
 const submit = () => {
-
   let esPeligrosa =
     form.tiene_agresiones == "Si" ||
     form.entrenado_ataque == "Si" ||
@@ -484,7 +484,11 @@ const submit = () => {
         text: "El registro del canino fue corregido y se ha enviado la solicitud para revisión.",
         confirmButtonText: "OK",
       }).then(() => {
-        window.location.href = route("caninos.index");
+        if (usePage().props.auth.user.roles[0].name.includes("Usuario")) {
+          window.location.href = route("dashboard");
+        } else {
+          window.location.href = route("caninos.index");
+        }
       });
       form.reset();
       fotoPreview.value = null;
@@ -506,7 +510,9 @@ onMounted(() => {
 
     razasVisibles.value.push(form.raza);
   }
-
 });
 
+function goBack() {
+  window.history.back();
+}
 </script>
