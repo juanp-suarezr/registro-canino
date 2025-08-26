@@ -16,6 +16,8 @@ Route::middleware('guest')->group(function () {
 
     Route::get('register', [RegisteredUserController::class, 'create']);
     Route::post('register', [RegisteredUserController::class, 'store'])->name('register');
+    //validar identificacion
+    Route::post('/validar-identificacion', [RegisteredUserController::class, 'verificar']);
 
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
                 ->name('login');

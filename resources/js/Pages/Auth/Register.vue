@@ -861,6 +861,8 @@ const esPeligroso = ref(false);
 
 //previsualizacion de la imagen
 const previewImage = ref(null);
+//mensaje error
+const errorMessage = ref("");
 
 //ITEMS DEL STEP
 const items = ref([
@@ -1027,7 +1029,6 @@ const nextStep = async (num) => {
           isValidate.value = false;
         }
 
-        isValidate.value = true;
       }
       break;
 

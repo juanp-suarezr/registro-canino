@@ -203,4 +203,17 @@ class RegisteredUserController extends Controller
             return back()->withErrors(['error' => 'Ocurrió un error durante el registro. Inténtelo nuevamente. '.$e]);
         }
     }
+
+    public function verificar(Request $request)
+    {
+        $request->validate([
+            'identificacion' => 'required'
+        ]);
+
+        $existe = InformacionUsuario::where('numero_documento', $request->identificacion)
+            ->exists();
+
+
+        return response()->json(['existe' => $existe]);
+    }
 }
