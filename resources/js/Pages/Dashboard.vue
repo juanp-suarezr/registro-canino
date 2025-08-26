@@ -127,7 +127,7 @@
     <div class="w-full" v-if="$page.props.auth.user.roles[0].name == 'Usuario'">
       <div class="w-full flex flex-wrap sm:justify-between">
         <h1 class="text-xl"><b>Total caninos registrados:</b> {{ caninos }}</h1>
-        <PrimaryLink class="!text-xl" :href="route('caninos.create')"> Agregar registro </PrimaryLink>
+        <PrimaryLink class="!text-xl" :href="route('caninos.create')"> Registrar otro canino </PrimaryLink>
       </div>
       <div class="sm:grid md:grid-cols-3 sm:grid-cols-2 w-full px-4 gap-4">
         <!-- card for caninos -->
@@ -163,6 +163,16 @@
               <b>Fecha de registro:</b>
               {{
                 new Date(canino.created_at).toLocaleDateString("es-CO", {
+                  year: "numeric",
+                  month: "2-digit",
+                  day: "2-digit",
+                })
+              }}
+            </p>
+            <p>
+              <b>Fecha de vencimiento:</b>
+              {{
+                new Date(canino.vencimiento).toLocaleDateString("es-CO", {
                   year: "numeric",
                   month: "2-digit",
                   day: "2-digit",
@@ -310,6 +320,7 @@ const props = defineProps({
     default: () => ({}),
   },
 });
+
 
 //modal novedad
 const showNovedad = ref(false);

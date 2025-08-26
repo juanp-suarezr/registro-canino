@@ -133,7 +133,7 @@ Route::get('/dashboard', function () {
         // Si el usuario no es administrador, obtiene el conteo de caninos registrados por el usuario
         $caninos = Caninos::where('user_id', $user->id)->count();
 
-        $caninos_info = Caninos::select('id', 'user_id', 'foto_url', 'nombre', 'raza', 'caracteristicas', 'es_peligroso', 'estado', 'created_at')
+        $caninos_info = Caninos::select('id', 'user_id', 'foto_url', 'nombre', 'raza', 'caracteristicas', 'es_peligroso', 'estado', 'created_at', 'vencimiento')
         ->with('novedades.novedad')
         ->where('user_id', $user->id)->paginate(6);
     }

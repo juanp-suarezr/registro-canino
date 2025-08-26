@@ -783,7 +783,7 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 import { Head, Link, useForm, router, usePage } from "@inertiajs/vue3";
 import { useReCaptcha } from "vue-recaptcha-v3";
-
+import axios from "axios";
 import { ref, watch, inject } from "vue";
 
 import { useToast } from "vue-toast-notification";
@@ -995,7 +995,7 @@ const prevStep = (num) => {
   active.value = num;
 };
 //next
-const nextStep = (num) => {
+const nextStep = async (num) => {
   isValidate.value = false;
   switch (num) {
     case 1:
@@ -1010,6 +1010,23 @@ const nextStep = (num) => {
         form.email &&
         form.password
       ) {
+        // Llama al servicio para comprobar la identificación
+        try {
+          const existe = await checkIdentificacionService(form.identificacion);
+          console.log("Identificación existe:", existe);
+          if (existe) {
+            errorMessage.value = "La identificación ya está registrada.";
+            isValidate.value = false;
+          } else {
+            errorMessage.value = "";
+            isValidate.value = true;
+          }
+        } catch (error) {
+          errorMessage.value =
+            "Error al validar la identificación. Intenta de nuevo.";
+          isValidate.value = false;
+        }
+
         isValidate.value = true;
       }
       break;
@@ -1024,8 +1041,9 @@ const nextStep = (num) => {
     if (!form.nombre) {
       form.errors.nombre = "Este campo es requerido.";
     }
-    if (!form.identificacion) {
-      form.errors.identificacion = "Este campo es requerido.";
+    if (!form.identificacion || errorMessage.value != "") {
+      form.errors.identificacion =
+        errorMessage.value || "Este campo es requerido.";
     }
     if (!form.edad) {
       form.errors.edad = "Este campo es requerido.";
@@ -1054,6 +1072,16 @@ const nextStep = (num) => {
     }
   }
 };
+
+//llamado validador identificacion
+const checkIdentificacionService = async (identificacion) => {
+  const response = await axios.post("/validar-identificacion", {
+    identificacion,
+  });
+
+  return response.data.existe; // true si existe, false si no
+};
+
 //play button
 const playInfo = () => {
   isFirstTime.value = false;
