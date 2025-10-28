@@ -70,7 +70,7 @@ class RegisteredUserController extends Controller
             'entrenado_proteccion' => 'required|string',
             'esterilizado' => 'required|string',
             'observaciones' => 'nullable|string|max:500',
-            'foto_url' => 'nullable|image|mimes:pg,png,jpeg,jpg,gif,bmp,tiff,svg,web,webp|max:2048',
+            'foto_url' => 'nullable|image|mimes:pg,png,jpeg,jpg,gif,bmp,tiff,svg,web,webp|max:5120',
             'vacunas' => 'required|mimes:pdf|max:2048',
             'poliza' => 'nullable|mimes:pdf|max:2048',
             'checked' => 'required|boolean',

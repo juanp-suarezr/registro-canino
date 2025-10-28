@@ -75,7 +75,7 @@
             <h1>¡Hola, {{ $nombre }}!</h1>
             <p><b>La alcaldía de Pereira</b>, a traves de la <b>Secretaria de gobierno</b> te informa que tu registro ha sido <b
                     style="color: green">aprobado.</b> y puedes descargar el certificado para {{ $nombre_canino }}</p>
-            <p>Ingresa a la pagina y descargar certificado</p>
+            <p>Adjunto encontrara su certificado o puede ingresa a la pagina y descargar certificado</p>
         </div>
         <div class="footer">
             &copy; {{ date('Y') }} Alcaldía de Pereira. Todos los derechos reservados.
