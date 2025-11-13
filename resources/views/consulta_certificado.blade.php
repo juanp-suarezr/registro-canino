@@ -41,6 +41,17 @@
         <div class="info">
             <p><strong>Nombre del canino:</strong> {{ $canino->nombre }}</p>
             <p><strong>Raza:</strong> {{ $canino->raza }}</p>
+            ---------------------------------------------------------------------
+            <h4><strong>Especificaciones</strong></h4>
+            <br>
+            <p><strong>Entrenado Para el ataque:</strong> {{ $canino->entrenado_ataque }}</p>
+            <br>
+            <p><strong>Tiene agresiones:</strong> {{ $canino->tiene_agresiones }}</p>
+            <br>
+            <p><strong>Entrenado Para el ataque:</strong> {{ $canino->entrenado_ataque }}</p>
+            <br>
+            <p><strong>Entrenado para protección:</strong> {{ $canino->entrenado_proteccion }}</p>
+            ---------------------------------------------------------------------
             <p><strong>Propietario:</strong> {{ $canino->user->informacionUsuario->nombre_completo ?? 'N/A' }}</p>
             <p><strong>Número de documento:</strong> {{ $canino->user->informacionUsuario->numero_documento ?? 'N/A' }}
             </p>

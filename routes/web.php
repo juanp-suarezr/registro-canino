@@ -114,7 +114,7 @@ Route::post('/crear-reporte', [PerdidosController::class, 'CrearReporte'])->name
 //Consultar por qr de carnet
 Route::get('/consulta-certificado/{id}', function ($id) {
     $canino = Caninos::with([
-        'user.informacionUsuario:nombre_completo,tipo_documento,numero_documento,direccion,telefono,celular,comuna,edad,zona,user_id',
+        'user.informacionUsuario:nombre_completo,tipo_documento,numero_documento,comuna,zona,user_id',
         'certificado'
     ])->findOrFail($id);
 
