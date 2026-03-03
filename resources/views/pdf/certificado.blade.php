@@ -179,7 +179,7 @@
                             <p style="margin-top:-10px;">
                                 __________________<br>
                                 <span style="font-weight: bold;">{{ $delegado->nombre }}</span><br>
-                                Secretaría de Gobierno<br>
+                                Subsecretario de Seguridad y Convivencia Ciudadana<br>
                                 Alcaldía de Pereira
                             </p>
                         </td>
