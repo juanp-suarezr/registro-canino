@@ -45,25 +45,28 @@ class ValidacionesController extends Controller
         $nombreCanino = RequestFacade::input('nombreCanino');
 
         $caninos = Caninos::query()
-            ->leftJoin('informacion_usuario', 'caninos.user_id', '=', 'informacion_usuario.user_id')
-            ->when($identificacion, function ($query) use ($identificacion) {
-                // Filtro por identificación del propietario
-                $query->where('informacion_usuario.numero_documento', 'like', '%' . $identificacion . '%');
-            })
-            ->when($nombre, function ($query) use ($nombre) {
-                // Filtro por nombre del propietario
-                $query->where('informacion_usuario.nombre_completo', 'like', '%' . $nombre . '%');
-            })
-            ->when($nombreCanino, function ($query) use ($nombreCanino) {
-                // Filtro por nombre del canino
-                $query->where('caninos.nombre', 'like', '%' . $nombreCanino . '%');
-            })
             ->with([
                 'user:id,name,email',
-                'user.informacionUsuario:nombre_completo,tipo_documento,numero_documento,direccion,telefono,celular,comuna,edad,zona,user_id', // Solo trae los campos necesarios de informacionUsuario
+                'user.informacionUsuario:nombre_completo,tipo_documento,numero_documento,direccion,telefono,celular,comuna,edad,zona,user_id',
             ])
-            ->where('caninos.estado', 'Pendiente')
-            ->orderBy('caninos.created_at', 'desc')
+            ->where('estado', 'Pendiente')
+            ->when($nombreCanino, function ($query) use ($nombreCanino) {
+                $query->where('nombre', 'like', '%' . $nombreCanino . '%');
+            })
+            ->where(function ($query) use ($identificacion, $nombre) {
+                // Incluir registros que tienen informacionUsuario con los filtros
+                $query->whereHas('user.informacionUsuario', function ($q) use ($identificacion, $nombre) {
+                    if ($identificacion) {
+                        $q->where('numero_documento', 'like', '%' . $identificacion . '%');
+                    }
+                    if ($nombre) {
+                        $q->where('nombre_completo', 'like', '%' . $nombre . '%');
+                    }
+                })
+                // O incluir registros que NO tienen informacionUsuario
+                ->orWhereDoesntHave('user.informacionUsuario');
+            })
+            ->orderBy('created_at', 'desc')
             ->paginate(6)
             ->withQueryString();
 
