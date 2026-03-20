@@ -55,8 +55,7 @@
             <template #body="slotProps">
               <p>
                 {{
-                  slotProps.data.user?.informacion_usuario?.nombre_completo ||
-                  "Sin información"
+                  slotProps.data.user?.informacion_usuario?.nombre_completo || slotProps.data.user?.name || "Sin información"
                 }}
               </p>
             </template>

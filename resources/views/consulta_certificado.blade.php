@@ -52,7 +52,7 @@
             <br>
             <p><strong>Entrenado para protección:</strong> {{ $canino->entrenado_proteccion }}</p>
             ---------------------------------------------------------------------
-            <p><strong>Propietario:</strong> {{ $canino->user->informacionUsuario->nombre_completo ?? 'N/A' }}</p>
+            <p><strong>Propietario:</strong> {{ $canino->user->informacionUsuario->nombre_completo ?? $canino->user->name ?? 'N/A' }}</p>
             <p><strong>Número de documento:</strong> {{ $canino->user->informacionUsuario->numero_documento ?? 'N/A' }}
             </p>
             <p><strong>Estado:</strong> {{ $canino->estado ?? 'N/A' }}</p>

@@ -134,9 +134,9 @@
                         <p><strong>Nombre:</strong> {{ $canino->nombre }}</p>
                         <p><strong>Raza:</strong> {{ $canino->raza }}</p>
                         <p><strong>Fecha de Nacimiento:</strong> {{ $canino->fecha_nacimiento }}</p>
-                        <p><strong>Propietario:</strong> {{ $canino->user->informacionUsuario->nombre_completo }}</p>
+                        <p><strong>Propietario:</strong> {{ $canino->user->informacionUsuario->nombre_completo ?? $canino->user->name }}</p>
                         <p><strong>Número de Documento:</strong>
-                            {{ $canino->user->informacionUsuario->numero_documento }}</p>
+                            {{ $canino->user->informacionUsuario->numero_documento ?? 'N/A' }}</p>
                         @php
                             use Carbon\Carbon;
                             $fechaEmision = isset($canino->certificado['fecha_emision'])
@@ -195,8 +195,8 @@
         <!-- Footer -->
         <div class="footer">
             <p>En caso de emergencia, no separe al canino de su propietario.</p>
-            <p><strong>Dirección:</strong> sector {{ $canino->user->informacionUsuario->comuna }} -
-                {{ $canino->user->informacionUsuario->direccion }}</p>
+            <p><strong>Dirección:</strong> sector {{ $canino->user->informacionUsuario->comuna ?? 'N/A' }} -
+                {{ $canino->user->informacionUsuario->direccion ?? 'N/A' }}</p>
         </div>
     </div>
 </body>

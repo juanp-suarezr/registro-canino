@@ -36,7 +36,7 @@ class InscriptionDisapprovedMail extends Mailable
             ->subject('Estado de registro del canino ' . $this->caninos->nombre)
             ->view('emails.inscription_disapproved')
             ->with([
-                'nombre' => $this->caninos->user->informacionUsuario->nombre_completo,
+                'nombre' => $this->caninos->user->informacionUsuario->nombre_completo ?? $this->caninos->user->name,
                 'nombre_canino' => $this->caninos->nombre,
                 'motivo' => $this->caninos->motivo
             ]);

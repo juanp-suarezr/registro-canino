@@ -225,8 +225,7 @@ const verCertificado = (id) => {
                     </td>
                     <td class="border border-gray-300 px-4 py-2 break-words">
                       {{
-                        canino.user?.informacion_usuario?.nombre_completo ||
-                        "Sin información"
+                        canino.user?.informacion_usuario?.nombre_completo || canino.user?.name || "Sin información"
                       }}
                     </td>
                     <!-- nombre -->
@@ -300,8 +299,7 @@ const verCertificado = (id) => {
                   <p>
                     <strong>Nombre del Usuario:</strong>
                     {{
-                      canino.user?.informacion_usuario?.nombre_completo ||
-                      "Sin información"
+                      canino.user?.informacion_usuario?.nombre_completo || canino.user?.name || "Sin información"
                     }}
                   </p>
                   <p><strong>Nombre del Canino:</strong> {{ canino.nombre }}</p>
