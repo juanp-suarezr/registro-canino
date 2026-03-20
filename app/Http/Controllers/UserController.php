@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Spatie\Permission\Models\Role;
 use App\Models\User;
+use App\Models\InformacionUsuario;
 use Inertia\Inertia;
 use DB;
 
@@ -29,7 +30,7 @@ class UserController extends Controller
     }
     public function index()
     {
-        return Inertia::render('Users/Index', 
+        return Inertia::render('Users/Index',
         [
             'users' => User::query()
                 ->when(RequestFacade::input('search'),function($query, $search) {
@@ -70,7 +71,7 @@ class UserController extends Controller
 
     public function edit(Request $request,$id_user)
     {
-        $usuario = User::findOrFail($id_user);
+        $usuario = User::with('informacionUsuario')->findOrFail($id_user);
         $roles = Role::pluck('name', 'name')->all();
         $userRole = $usuario->roles->pluck('name', 'name')->all();
         return Inertia::render('Users/Edit', compact('usuario','roles','userRole'));
@@ -88,6 +89,18 @@ class UserController extends Controller
         // Actualizar el modelo de usuario con los datos validados
         $user->fill($data)->save();
         $user->syncRoles($request->input('roles_user'));
+
+        // Actualizar o crear información del usuario
+        if ($request->has('informacion_usuario')) {
+            $infoData = $request->informacion_usuario;
+            $infoData['user_id'] = $user->id;
+
+            InformacionUsuario::updateOrCreate(
+                ['user_id' => $user->id],
+                $infoData
+            );
+        }
+
         return Redirect::route('users.edit',$user->id);
     }
 
