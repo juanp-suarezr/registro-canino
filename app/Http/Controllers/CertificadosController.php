@@ -37,34 +37,37 @@ class CertificadosController extends Controller
     {
         $user = Auth::user();
 
+        $identificacion = RequestFacade::input('identificacion');
+        $nombre = RequestFacade::input('nombre');
+
         $caninos = Caninos::query()
-            ->whereHas('user.informacionUsuario', function ($query) use ($user) {
-                if ($user->roles->pluck('name')->toArray() == ['Administrador'] || $user->roles->pluck('name')->toArray() == ['Supervisor']) {
-                    // Filtros opcionales para el administrador
-                    $identificacion = RequestFacade::input('identificacion');
-                    $nombre = RequestFacade::input('nombre');
-
-                    if ($identificacion) {
-                        $query->where('numero_documento', $identificacion);
-                    }
-
-                    if ($nombre) {
-                        $query->where('nombre_completo', 'like', '%' . $nombre . '%');
-                    }
-                } else {
-                    // Filtro obligatorio para usuarios no administradores
-                    $identificacion = InformacionUsuario::where('user_id', $user->id)->pluck('numero_documento')->first();
-                    $query->where('numero_documento', $identificacion);
-                }
-            })
+            ->with([
+                'user:id,name,email',
+                'user.informacionUsuario:nombre_completo,tipo_documento,numero_documento,direccion,celular,comuna,zona,user_id',
+                'certificado'
+            ])
             ->whereDoesntHave('novedades.novedad', function ($query) {
                 $query->whereIn('nombre', ['Fallecimiento', 'Cancelar registro']);
             })
             ->whereIn('estado', ['Aprobado', 'Vencido'])
-            ->with([
-                'user.informacionUsuario:nombre_completo,tipo_documento,numero_documento,direccion,celular,comuna,zona,user_id',
-                'certificado' // Solo trae los campos necesarios de informacionUsuario
-            ])
+            ->where(function ($query) use ($user, $identificacion, $nombre) {
+                // Incluir registros que tienen informacionUsuario y cumplen filtros
+                $query->whereHas('user.informacionUsuario', function ($q) use ($user, $identificacion, $nombre) {
+                    if ($user->roles->pluck('name')->toArray() == ['Administrador'] || $user->roles->pluck('name')->toArray() == ['Supervisor']) {
+                        if ($identificacion) {
+                            $q->where('numero_documento', 'like', '%' . $identificacion . '%');
+                        }
+                        if ($nombre) {
+                            $q->where('nombre_completo', 'like', '%' . $nombre . '%');
+                        }
+                    } else {
+                        $identificacion = InformacionUsuario::where('user_id', $user->id)->pluck('numero_documento')->first();
+                        $q->where('numero_documento', $identificacion);
+                    }
+                })
+                // O incluir registros que NO tienen informacionUsuario
+                ->orWhereDoesntHave('user.informacionUsuario');
+            })
             ->paginate(5)
             ->withQueryString();
 
@@ -84,6 +87,7 @@ class CertificadosController extends Controller
         ini_set('max_execution_time', 180); // 180 segundos (3 minutos)
 
         $canino = Caninos::with([
+            'user:id,name,email',
             'user.informacionUsuario:nombre_completo,tipo_documento,numero_documento,direccion,telefono,celular,comuna,edad,zona,user_id',
             'certificado'
         ])->findOrFail($id);
@@ -114,6 +118,7 @@ class CertificadosController extends Controller
         ini_set('max_execution_time', 180);
 
         $canino = Caninos::with([
+            'user:id,name,email',
             'user.informacionUsuario:nombre_completo,tipo_documento,numero_documento,direccion,telefono,celular,comuna,edad,zona,user_id',
             'certificado'
         ])->findOrFail($id);
