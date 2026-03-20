@@ -155,7 +155,7 @@ console.log(props.caninos);
 // Filtros
 let identificacion = ref(props.filters.identificacion || "");
 let nombre = ref(props.filters.nombre || "");
-let nombreCanino = ref("");
+let nombreCanino = ref(props.filters.nombreCanino || "");
 
 // Funciones
 const handleSearch = () => {
@@ -165,7 +165,6 @@ const handleSearch = () => {
       identificacion: identificacion.value,
       nombre: nombre.value,
       nombreCanino: nombreCanino.value,
-      rangoFechas: rangoFechas.value,
     },
     {
       preserveState: true,
@@ -178,7 +177,6 @@ const clearAll = () => {
   identificacion.value = "";
   nombre.value = "";
   nombreCanino.value = "";
-  rangoFechas.value = null;
   handleSearch();
 };
 

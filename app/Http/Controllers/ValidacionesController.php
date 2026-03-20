@@ -39,34 +39,39 @@ class ValidacionesController extends Controller
     {
         $user = Auth::user();
 
+        // Filtros obtenidos de la request
+        $identificacion = RequestFacade::input('identificacion');
+        $nombre = RequestFacade::input('nombre');
+        $nombreCanino = RequestFacade::input('nombreCanino');
+
         $caninos = Caninos::query()
-            ->whereHas('user.informacionUsuario', function ($query) use ($user) {
-                if ($user->roles->pluck('name')->toArray() == ['Administrador'] || $user->roles->pluck('name')->toArray() == ['Supervisor']) {
-                    // Filtros opcionales para el administrador
-                    $identificacion = RequestFacade::input('identificacion');
-                    $nombre = RequestFacade::input('nombre');
-
-                    if ($identificacion) {
-                        $query->where('numero_documento', $identificacion);
-                    }
-
-                    if ($nombre) {
-                        $query->where('nombre_completo', 'like', '%' . $nombre . '%');
-                    }
+            ->whereHas('user.informacionUsuario', function ($query) use ($user, $identificacion, $nombre) {
+                // Los filtros de identificación y nombre del propietario siempre aplican
+                if ($identificacion) {
+                    $query->where('numero_documento', 'like', '%' . $identificacion . '%');
                 }
+
+                if ($nombre) {
+                    $query->where('nombre_completo', 'like', '%' . $nombre . '%');
+                }
+            })
+            ->when($nombreCanino, function ($query) use ($nombreCanino) {
+                // Filtro por nombre del canino
+                $query->where('nombre', 'like', '%' . $nombreCanino . '%');
             })
             ->with([
                 'user.informacionUsuario:nombre_completo,tipo_documento,numero_documento,direccion,telefono,celular,comuna,edad,zona,user_id', // Solo trae los campos necesarios de informacionUsuario
             ])
             ->where('estado', 'Pendiente')
-            ->paginate(5)
+            ->orderBy('created_at', 'desc')
+            ->paginate(6)
             ->withQueryString();
 
         return Inertia::render(
             'GestionRegistros/Index',
             [
                 'caninos' => $caninos,
-                'filters' => RequestFacade::only(['identificacion', 'nombre']),
+                'filters' => RequestFacade::only(['identificacion', 'nombre', 'nombreCanino']),
             ]
         );
     }
