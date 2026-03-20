@@ -66,6 +66,14 @@ class UserController extends Controller
         ]);
         $user->syncRoles($request->input('roles_user'));
 
+        // Crear información del usuario si se proporciona
+        if ($request->has('informacion_usuario') && $request->informacion_usuario['numero_documento']) {
+            $infoData = $request->informacion_usuario;
+            $infoData['user_id'] = $user->id;
+
+            InformacionUsuario::create($infoData);
+        }
+
         return to_route('users.index');
     }
 
