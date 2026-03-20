@@ -33,27 +33,32 @@ class ConsultasController extends Controller
 
     public function showConsultasRegistros()
     {
+        $identificacion = RequestFacade::input('identificacion');
+
         return Inertia::render(
             'ConsultarRegistro',
             [
                 'registro' => Caninos::query()
-                    ->whereHas('user.informacionUsuario', function ($query) {
-                        $identificacion = RequestFacade::input('identificacion');
-                        if ($identificacion) {
-                            $query->where('numero_documento', $identificacion);
-                        } else {
-                            $query->where('numero_documento', 0);
-                        }
-                    })
+                    ->with([
+                        'user:id,name,email',
+                        'user.informacionUsuario:nombre_completo,user_id',
+                        'certificado'
+                    ])
                     ->whereDoesntHave('novedades.novedad', function ($query) {
                         $query->whereIn('nombre', ['Fallecimiento', 'Cancelar registro']);
                     })
                     ->whereIn('estado', ['Aprobado', 'Vencido'])
-                    ->with([
-                        'user.informacionUsuario:nombre_completo,user_id', // Solo trae el campo 'nombres' de informacionUsuario
-                        'certificado' // Solo trae los campos necesarios de informacionUsuario
-                    ])
-                    ->select('id', 'nombre', 'raza', 'edad_canino', 'sexo', 'foto_url', 'es_peligroso', 'user_id', 'estado') // Solo selecciona el ID del usuario
+                    ->where(function ($query) use ($identificacion) {
+                        // Incluir registros que tienen informacionUsuario y cumplen filtros
+                        $query->whereHas('user.informacionUsuario', function ($q) use ($identificacion) {
+                            if ($identificacion) {
+                                $q->where('numero_documento', 'like', '%' . $identificacion . '%');
+                            }
+                        })
+                        // O incluir registros que NO tienen informacionUsuario
+                        ->orWhereDoesntHave('user.informacionUsuario');
+                    })
+                    ->select('id', 'nombre', 'raza', 'edad_canino', 'sexo', 'foto_url', 'es_peligroso', 'user_id', 'estado')
                     ->paginate(4)
                     ->withQueryString(),
                 'filters' => RequestFacade::only(['identificacion']),
@@ -66,14 +71,19 @@ class ConsultasController extends Controller
     {
         $user = Auth::user();
 
-
-
+        $identificacion = RequestFacade::input('identificacion');
+        $nombre = RequestFacade::input('nombre');
+        $rango_fechas = RequestFacade::input('rangoFechas');
+        $estado = RequestFacade::input('estado');
+        $nombreCanino = RequestFacade::input('nombreCanino');
 
         $caninos = Caninos::query()
-            ->where(function ($query) {
-                $rango_fechas = RequestFacade::input('rangoFechas');
-                $estado = RequestFacade::input('estado');
-                $nombre = RequestFacade::input('nombreCanino');
+            ->with([
+                'user:id,name,email',
+                'user.informacionUsuario:nombre_completo,tipo_documento,numero_documento,direccion,telefono,celular,comuna,edad,zona,user_id',
+                'novedades.novedad'
+            ])
+            ->where(function ($query) use ($rango_fechas, $estado, $nombreCanino) {
                 if ($estado) {
                     $query->where('estado', $estado);
                 }
@@ -83,35 +93,28 @@ class ConsultasController extends Controller
                         \Carbon\Carbon::parse($rango_fechas[1] ?? date('Y-m-d'))->endOfDay()
                     ]);
                 }
-                if ($nombre) {
-                    $query->where('nombre', 'like', '%' . $nombre . '%');
+                if ($nombreCanino) {
+                    $query->where('nombre', 'like', '%' . $nombreCanino . '%');
                 }
             })
-            ->whereHas('user.informacionUsuario', function ($query) use ($user) {
-
-                if ($user->roles->pluck('name')->toArray() == ['Administrador'] || $user->roles->pluck('name')->toArray() == ['Supervisor']) {
-                    // Filtros opcionales para el administrador
-                    $identificacion = RequestFacade::input('identificacion');
-                    $nombre = RequestFacade::input('nombre');
-
-
-                    if ($identificacion) {
-                        $query->where('numero_documento', $identificacion);
+            ->where(function ($query) use ($user, $identificacion, $nombre) {
+                // Incluir registros que tienen informacionUsuario y cumplen filtros
+                $query->whereHas('user.informacionUsuario', function ($q) use ($user, $identificacion, $nombre) {
+                    if ($user->roles->pluck('name')->toArray() == ['Administrador'] || $user->roles->pluck('name')->toArray() == ['Supervisor']) {
+                        if ($identificacion) {
+                            $q->where('numero_documento', 'like', '%' . $identificacion . '%');
+                        }
+                        if ($nombre) {
+                            $q->where('nombre_completo', 'like', '%' . $nombre . '%');
+                        }
+                    } else {
+                        $identificacion = InformacionUsuario::where('user_id', $user->id)->pluck('numero_documento')->first();
+                        $q->where('numero_documento', $identificacion);
                     }
-
-                    if ($nombre) {
-                        $query->where('nombre_completo', 'like', '%' . $nombre . '%');
-                    }
-                } else {
-                    // Filtro obligatorio para usuarios no administradores
-                    $identificacion = InformacionUsuario::where('user_id', $user->id)->pluck('numero_documento')->first();
-                    $query->where('numero_documento', $identificacion);
-                }
+                })
+                // O incluir registros que NO tienen informacionUsuario
+                ->orWhereDoesntHave('user.informacionUsuario');
             })
-            ->with([
-                'user.informacionUsuario:nombre_completo,tipo_documento,numero_documento,direccion,telefono,celular,comuna,edad,zona,user_id', // Solo trae los campos necesarios de informacionUsuario
-                'novedades.novedad'
-            ],)
             ->paginate(5)
             ->withQueryString();
 
