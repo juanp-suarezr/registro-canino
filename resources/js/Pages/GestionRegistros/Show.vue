@@ -47,6 +47,10 @@
             <b>Dirección:</b>
             {{ canino.user?.informacion_usuario?.direccion || "N/A" }}
           </div>
+          <div v-if="canino.estado === 'Rechazado'" class="col-span-1 md:col-span-2 mt-4 p-4 bg-red-100 border border-red-400 rounded">
+            <b class="text-red-700">Motivo del rechazo:</b>
+            <p class="text-red-600">{{ canino.motivo || "Sin motivo registrado" }}</p>
+          </div>
         </div>
       </div>
 
