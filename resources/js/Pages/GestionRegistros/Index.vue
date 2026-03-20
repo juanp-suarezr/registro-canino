@@ -152,7 +152,9 @@ const props = defineProps({
   },
 });
 
-console.log(props.caninos);
+console.log('Caninos:', props.caninos);
+console.log('Filters:', props.filters);
+
 
 // Filtros
 let identificacion = ref(props.filters.identificacion || "");
