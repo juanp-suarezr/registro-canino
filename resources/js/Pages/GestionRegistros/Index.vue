@@ -57,16 +57,18 @@
                 <b>Nombre:</b>
                 {{
                   slotProps.data.user?.informacion_usuario?.nombre_completo ||
+                  slotProps.data.user?.name ||
                   "Sin información"
                 }}
                 <br />
                 <b
                   >{{
-                    slotProps.data.user?.informacion_usuario?.tipo_documento
+                    slotProps.data.user?.informacion_usuario?.tipo_documento || "ID"
                   }}:</b
                 >
                 {{
                   slotProps.data.user?.informacion_usuario?.numero_documento ||
+                  slotProps.data.user?.id ||
                   "N/A"
                 }}
                 <br />

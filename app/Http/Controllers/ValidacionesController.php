@@ -59,6 +59,7 @@ class ValidacionesController extends Controller
                 $query->where('caninos.nombre', 'like', '%' . $nombreCanino . '%');
             })
             ->with([
+                'user:id,name,email',
                 'user.informacionUsuario:nombre_completo,tipo_documento,numero_documento,direccion,telefono,celular,comuna,edad,zona,user_id', // Solo trae los campos necesarios de informacionUsuario
             ])
             ->where('caninos.estado', 'Pendiente')
