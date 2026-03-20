@@ -23,6 +23,7 @@
             <b>Nombre:</b>
             {{
               canino.user?.informacion_usuario?.nombre_completo ||
+              canino.user?.name ||
               "Sin información"
             }}
           </div>
@@ -114,7 +115,7 @@
             <span class="text-gray-400 italic">No tiene póliza</span>
           </template>
         </div>
-        
+
         <!-- Select de motivos de rechazo -->
         <div class="flex flex-col gap-2 w-full md:w-1/3">
           <b>Motivo de rechazo:</b>

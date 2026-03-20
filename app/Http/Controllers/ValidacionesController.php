@@ -82,6 +82,7 @@ class ValidacionesController extends Controller
     public function show($id)
     {
         $canino = Caninos::with([
+            'user:id,name,email',
             'user.informacionUsuario:nombre_completo,tipo_documento,numero_documento,direccion,telefono,celular,comuna,edad,zona,user_id'
         ])->findOrFail($id);
 
