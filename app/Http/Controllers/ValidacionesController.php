@@ -45,25 +45,24 @@ class ValidacionesController extends Controller
         $nombreCanino = RequestFacade::input('nombreCanino');
 
         $caninos = Caninos::query()
-            ->whereHas('user.informacionUsuario', function ($query) use ($user, $identificacion, $nombre) {
-                // Los filtros de identificación y nombre del propietario siempre aplican
-                if ($identificacion) {
-                    $query->where('numero_documento', 'like', '%' . $identificacion . '%');
-                }
-
-                if ($nombre) {
-                    $query->where('nombre_completo', 'like', '%' . $nombre . '%');
-                }
+            ->leftJoin('informacion_usuarios', 'caninos.user_id', '=', 'informacion_usuarios.user_id')
+            ->when($identificacion, function ($query) use ($identificacion) {
+                // Filtro por identificación del propietario
+                $query->where('informacion_usuarios.numero_documento', 'like', '%' . $identificacion . '%');
+            })
+            ->when($nombre, function ($query) use ($nombre) {
+                // Filtro por nombre del propietario
+                $query->where('informacion_usuarios.nombre_completo', 'like', '%' . $nombre . '%');
             })
             ->when($nombreCanino, function ($query) use ($nombreCanino) {
                 // Filtro por nombre del canino
-                $query->where('nombre', 'like', '%' . $nombreCanino . '%');
+                $query->where('caninos.nombre', 'like', '%' . $nombreCanino . '%');
             })
             ->with([
                 'user.informacionUsuario:nombre_completo,tipo_documento,numero_documento,direccion,telefono,celular,comuna,edad,zona,user_id', // Solo trae los campos necesarios de informacionUsuario
             ])
-            ->where('estado', 'Pendiente')
-            ->orderBy('created_at', 'desc')
+            ->where('caninos.estado', 'Pendiente')
+            ->orderBy('caninos.created_at', 'desc')
             ->paginate(6)
             ->withQueryString();
 
