@@ -45,14 +45,14 @@ class ValidacionesController extends Controller
         $nombreCanino = RequestFacade::input('nombreCanino');
 
         $caninos = Caninos::query()
-            ->leftJoin('informacion_usuarios', 'caninos.user_id', '=', 'informacion_usuarios.user_id')
+            ->leftJoin('informacion_usuario', 'caninos.user_id', '=', 'informacion_usuario.user_id')
             ->when($identificacion, function ($query) use ($identificacion) {
                 // Filtro por identificación del propietario
-                $query->where('informacion_usuarios.numero_documento', 'like', '%' . $identificacion . '%');
+                $query->where('informacion_usuario.numero_documento', 'like', '%' . $identificacion . '%');
             })
             ->when($nombre, function ($query) use ($nombre) {
                 // Filtro por nombre del propietario
-                $query->where('informacion_usuarios.nombre_completo', 'like', '%' . $nombre . '%');
+                $query->where('informacion_usuario.nombre_completo', 'like', '%' . $nombre . '%');
             })
             ->when($nombreCanino, function ($query) use ($nombreCanino) {
                 // Filtro por nombre del canino
