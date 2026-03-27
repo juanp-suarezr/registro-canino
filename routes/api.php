@@ -4,6 +4,7 @@ use App\Http\Controllers\api\RegistroController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\UserAuthController;
+use App\Http\Controllers\api\ConsultasEstadisticasController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,7 +28,7 @@ Route::get('userinfo',function () {
     ], 200);
 });
 
-// Protected routes 
+// Protected routes
 Route::middleware('auth:sanctum')->group( function () {
     Route::post('/logout', [UserAuthController::class, 'logout']);
 
@@ -39,5 +40,12 @@ Route::middleware('auth:sanctum')->group( function () {
 });
 
 Route::get('/registrados', [RegistroController::class, 'index']);
+
+// Rutas de estadísticas y consultas
+Route::prefix('estadisticas')->group(function () {
+    Route::get('/caninos', [ConsultasEstadisticasController::class, 'estadisticasCaninos']);
+    Route::get('/personas', [ConsultasEstadisticasController::class, 'estadisticasPersonas']);
+    Route::get('/generales', [ConsultasEstadisticasController::class, 'estadisticasGenerales']);
+});
 
 Route::post('login',[UserAuthController::class,'login']);
