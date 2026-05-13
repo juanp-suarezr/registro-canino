@@ -322,4 +322,85 @@ class ConsultasEstadisticasController extends Controller
             ], 500);
         }
     }
+
+    /**
+     * Indicadores de registros caninos por mes y año
+     *
+     * Retorna lista de registros de usuarios que registran caninos
+     * con información para política pública, sin datos sensibles,
+     * filtrados por mes y año
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function indicadores(Request $request)
+    {
+        try {
+            // Validar parámetros de entrada (opcionales)
+            $request->validate([
+                'mes' => 'nullable|integer|min:1|max:12',
+                'anio' => 'nullable|integer|min:2000|max:' . (date('Y') + 10),
+            ]);
+
+            // Query base: registros de caninos con info de usuario
+            $query = DB::table('caninos')
+                ->join('informacion_usuario', 'caninos.user_id', '=', 'informacion_usuario.user_id');
+
+            // Aplicar filtros si se proporcionan
+            if ($request->has('anio')) {
+                $query->whereYear('caninos.created_at', $request->anio);
+            }
+            if ($request->has('mes')) {
+                $mes = str_pad($request->mes, 2, '0', STR_PAD_LEFT);
+                $query->whereMonth('caninos.created_at', $mes);
+            }
+
+            $query->select([
+                'caninos.id',
+                'informacion_usuario.edad',
+                'informacion_usuario.comuna',
+                'informacion_usuario.zona',
+                'caninos.created_at',
+            ])
+            ->orderBy('caninos.created_at', 'desc');
+
+            $registros = $query->get();
+
+            // Transformar datos para política pública (anonimizados)
+            $data = $registros->map(function ($registro) {
+                return [
+                    'id' => $registro->id,
+                    'genero' => 'N/A', // Campo no disponible, podría agregarse en futuras versiones
+                    'edad' => $registro->edad,
+                    'comuna' => $registro->comuna,
+                    'condicion' => 'N/A', // No hay campo condición en el modelo actual
+                    'etnia' => 'N/A', // No hay campo etnia
+                    'nivel_estudio' => 'N/A', // No hay campo nivel_estudio
+                    'tipo_servicio' => 'registro_canino', // Tipo de servicio fijo para este sistema
+                    'dignatario' => 0, // No aplica para registros caninos
+                    'id_puntos' => 0, // No aplica
+                    'punto_nombre' => 'Registro Canino Municipal', // Nombre fijo del punto de servicio
+                    'created_at' => $registro->created_at,
+                ];
+            });
+
+            $total = $data->count();
+
+            $response = [
+                'status' => true,
+                'total' => $total . ' Registros obtenidos',
+                'data' => $data,
+            ];
+
+            return response()->json($response, 200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'total' => '0 Registros obtenidos',
+                'data' => [],
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
 }
