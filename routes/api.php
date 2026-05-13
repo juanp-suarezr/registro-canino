@@ -48,4 +48,6 @@ Route::prefix('estadisticas')->group(function () {
     Route::get('/generales', [ConsultasEstadisticasController::class, 'estadisticasGenerales']);
 });
 
+Route::get('/indicadores', [ConsultasEstadisticasController::class, 'indicadores']);
+
 Route::post('login',[UserAuthController::class,'login']);
