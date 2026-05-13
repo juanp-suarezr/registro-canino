@@ -342,9 +342,9 @@ class ConsultasEstadisticasController extends Controller
                 'anio' => 'nullable|integer|min:2000|max:' . (date('Y') + 10),
             ]);
 
-            // Query base: registros de caninos con info de usuario
-            $query = DB::table('caninos')
-                ->join('informacion_usuario', 'caninos.user_id', '=', 'informacion_usuario.user_id');
+            // Query base: usuarios que han registrado caninos, con filtros opcionales
+            $query = DB::table('informacion_usuario')
+                ->join('caninos', 'informacion_usuario.user_id', '=', 'caninos.user_id');
 
             // Aplicar filtros si se proporcionan
             if ($request->has('anio')) {
@@ -355,14 +355,16 @@ class ConsultasEstadisticasController extends Controller
                 $query->whereMonth('caninos.created_at', $mes);
             }
 
+            // Seleccionar solo campos no sensibles de informacion_usuario
             $query->select([
-                'caninos.id',
+                'informacion_usuario.id',
                 'informacion_usuario.edad',
                 'informacion_usuario.comuna',
                 'informacion_usuario.zona',
-                'caninos.created_at',
+                'informacion_usuario.created_at',
             ])
-            ->orderBy('caninos.created_at', 'desc');
+            ->distinct() // Evitar duplicados de usuarios
+            ->orderBy('informacion_usuario.created_at', 'desc');
 
             $registros = $query->get();
 
@@ -370,16 +372,14 @@ class ConsultasEstadisticasController extends Controller
             $data = $registros->map(function ($registro) {
                 return [
                     'id' => $registro->id,
-                    'genero' => 'N/A', // Campo no disponible, podría agregarse en futuras versiones
+                    // 'genero' => 'N/A', // Campo no disponible, podría agregarse en futuras versiones
                     'edad' => $registro->edad,
                     'comuna' => $registro->comuna,
-                    'condicion' => 'N/A', // No hay campo condición en el modelo actual
-                    'etnia' => 'N/A', // No hay campo etnia
-                    'nivel_estudio' => 'N/A', // No hay campo nivel_estudio
+                    // 'condicion' => 'N/A', // No hay campo condición en el modelo actual
+                    // 'etnia' => 'N/A', // No hay campo etnia
+                    // 'nivel_estudio' => 'N/A', // No hay campo nivel_estudio
                     'tipo_servicio' => 'registro_canino', // Tipo de servicio fijo para este sistema
-                    'dignatario' => 0, // No aplica para registros caninos
-                    'id_puntos' => 0, // No aplica
-                    'punto_nombre' => 'Registro Canino Municipal', // Nombre fijo del punto de servicio
+                    // 'dignatario' => 0, // No aplica para registros caninos
                     'created_at' => $registro->created_at,
                 ];
             });
