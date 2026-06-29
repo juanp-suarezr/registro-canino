@@ -27,6 +27,10 @@
                 <CheckIcon class="h-6 w-6 text-white" />
                 <span class="mx-3">Gestión caninos</span>
             </nav-link>
+            <nav-link v-if="$page.props.user.permissions.includes('usuarios-listar')" :href="route('perdidos.index')" :active="route().current().includes('perdidos')">
+                <ClipboardDocumentIcon class="h-6 w-6 text-white" />
+                <span class="mx-3">Animales perdidos</span>
+            </nav-link>
             <nav-link v-if="$page.props.user.permissions.includes('usuarios-listar')" :href="route('caninos.index')" :active="route().current().includes('caninos')">
                 <ClipboardDocumentIcon class="h-6 w-6 text-white" />
                 <span class="mx-3">Registro caninos </span>

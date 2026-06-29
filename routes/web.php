@@ -100,15 +100,60 @@ Route::get('/certificado', function () {
 
 });
 
-//gestión perdidos
+//gestión perdidos — Rutas públicas
 Route::get('/busqueda-perdidos', function () {
 
+    $query = Perdidos::activos();
+
+    // Búsqueda por texto (nombre canino, nombre reportante, lugar)
+    if ($search = request()->input('search')) {
+        $query->where(function ($q) use ($search) {
+            $q->where('nombre', 'like', "%{$search}%")
+              ->orWhere('nombre_reportante', 'like', "%{$search}%")
+              ->orWhere('lugar', 'like', "%{$search}%");
+        });
+    }
+
+    // Filtro por origen (ciudadano, policia, hospivet, etc.)
+    if ($origen = request()->input('origen')) {
+        $query->where('origen', $origen);
+    }
+
+    // Filtro por tipo (Propietario = dueño busca, Canino perdido = encontrado)
+    if ($tipo = request()->input('tipo')) {
+        $query->where('tipo', $tipo);
+    }
+
+    // Filtro por rango de fechas
+    if ($fecha_desde = request()->input('fecha_desde')) {
+        $query->whereDate('fecha_hora', '>=', $fecha_desde);
+    }
+    if ($fecha_hasta = request()->input('fecha_hasta')) {
+        $query->whereDate('fecha_hora', '<=', $fecha_hasta);
+    }
+
+    $perPage = min((int) request()->input('per_page', 12), 24);
+
     return Inertia::render('BusquedaPerdidos', [
-        'perdidos' => Perdidos::where('estado', 1)->get(),
+        'perdidos' => $query->orderBy('created_at', 'desc')->paginate($perPage)->withQueryString(),
+        'filters'  => request()->only(['search', 'origen', 'tipo', 'fecha_desde', 'fecha_hasta']),
     ]);
 
 });
 Route::post('/crear-reporte', [PerdidosController::class, 'CrearReporte'])->name('crear-reporte');
+
+//gestión perdidos — Rutas protegidas (admin/gestion)
+Route::middleware(['auth'])->prefix('perdidos')->name('perdidos.')->group(function () {
+    Route::get('/', [PerdidosController::class, 'index'])->name('index');
+    Route::get('/create', [PerdidosController::class, 'create'])->name('create');
+    Route::post('/', [PerdidosController::class, 'store'])->name('store');
+    Route::get('/{id}', [PerdidosController::class, 'show'])->name('show');
+    Route::get('/{id}/edit', [PerdidosController::class, 'edit'])->name('edit');
+    Route::put('/{id}', [PerdidosController::class, 'update'])->name('update');
+    Route::post('/{id}/aprobar', [PerdidosController::class, 'aprobar'])->name('aprobar');
+    Route::post('/{id}/rechazar', [PerdidosController::class, 'rechazar'])->name('rechazar');
+    Route::post('/{id}/resolver', [PerdidosController::class, 'resolver'])->name('resolver');
+});
 
 
 //Consultar por qr de carnet
