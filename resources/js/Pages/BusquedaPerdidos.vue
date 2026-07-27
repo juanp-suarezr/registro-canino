@@ -385,3 +385,5 @@ const origenQuienReporta = (data) => {
   if (data.tipo === 'Propietario') return 'El DUEÑO';
   return origenes[data.origen] || 'Un CIUDADANO';
 };
+
+</script>
