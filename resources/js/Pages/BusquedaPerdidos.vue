@@ -36,6 +36,17 @@
               <span class="text-2xl text-blue-600 transition group-hover:translate-x-1">→</span>
             </button>
           </div>
+
+          <div class="mt-4">
+            <button @click="router.visit(route('perdidos.resueltos'))" class="group flex items-center gap-3 rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-left transition hover:border-emerald-400 hover:bg-white">
+              <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-2xl transition group-hover:scale-105">🐾</span>
+              <span class="flex-1">
+                <span class="block text-base font-semibold text-gray-900">Perritos felices</span>
+                <span class="mt-1 block text-sm text-gray-600">Historias con final feliz.</span>
+              </span>
+              <span class="text-emerald-600 transition group-hover:translate-x-0.5">→</span>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -273,7 +284,7 @@
       </div>
     </div>
 
-    <!-- ============================================================ -->
+      <!-- ============================================================ -->
     <!-- LIGHTBOX                                                      -->
     <!-- ============================================================ -->
     <div v-if="lightboxVisible" class="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-[60]" @click.self="cerrarLightbox">

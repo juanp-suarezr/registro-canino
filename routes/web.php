@@ -140,6 +140,18 @@ Route::get('/busqueda-perdidos', function () {
     ]);
 
 })->name('busqueda.perdidos');
+
+Route::get('/perritos-felices', function () {
+    $query = Perdidos::resueltos();
+
+    $perPage = min((int) request()->input('per_page', 12), 24);
+
+    return Inertia::render('PerdidosResueltos', [
+        'resueltos' => $query->orderBy('created_at', 'desc')->paginate($perPage)->withQueryString(),
+    ]);
+
+})->name('perdidos.resueltos');
+
 Route::post('/crear-reporte', [PerdidosController::class, 'CrearReporte'])->name('crear-reporte');
 
 Route::get('/reportar-perdido/{tipo?}', function ($tipo = null) {
