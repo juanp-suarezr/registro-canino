@@ -139,8 +139,20 @@ Route::get('/busqueda-perdidos', function () {
         'filters'  => request()->only(['search', 'origen', 'tipo', 'fecha_desde', 'fecha_hasta']),
     ]);
 
-});
+})->name('busqueda.perdidos');
 Route::post('/crear-reporte', [PerdidosController::class, 'CrearReporte'])->name('crear-reporte');
+
+Route::get('/reportar-perdido/{tipo?}', function ($tipo = null) {
+    $tipoNormalizado = match(strtolower($tipo)) {
+        'propietario' => 'Propietario',
+        'canino-perdido', 'canino_perdido', 'caninoperdido' => 'Canino perdido',
+        default => null,
+    };
+
+    return Inertia::render('ReportarPerdidos', [
+        'tipoPreseleccionado' => $tipoNormalizado,
+    ]);
+})->name('reportar.perdido');
 
 //gestión perdidos — Rutas protegidas (admin/gestion)
 Route::middleware(['auth'])->prefix('perdidos')->name('perdidos.')->group(function () {

@@ -158,7 +158,7 @@ class PerdidosController extends Controller
                 'fotos'             => !empty($fotosGuardadas) ? $fotosGuardadas : null,
                 'autorizacion'      => $request->autorizacion,
                 'origen'            => $request->origen,
-                'estado'            => 'activo',
+                'estado'            => 'pendiente',
             ]);
 
             DB::commit();

@@ -16,9 +16,16 @@
           Comparte fotos e información para reportar mascotas perdidas o encontradas y ayudar a que regresen a casa.
           <i class="text-parrafo mt-2 block">Difunde el reporte para que más personas puedan ayudar.</i>
         </p>
-        <PrimaryButton class="mt-4 sm:text-base text-xs" @click="ReportarCanino = true">
-          Reportar caninos perdidos <RocketLaunchIcon class="w-4 h-4 ms-2" />
-        </PrimaryButton>
+        <div class="mt-4 flex flex-col sm:flex-row gap-3">
+          <PrimaryButton class="sm:text-base text-xs" @click="router.visit(route('reportar.perdido', 'Canino-perdido'))">
+            Encontré un perro perdido, quiero reportarlo para ayudar a encontrar a su dueño
+            <RocketLaunchIcon class="w-4 h-4 ms-2" />
+          </PrimaryButton>
+          <PrimaryButton class="sm:text-base text-xs" @click="router.visit(route('reportar.perdido', 'Propietario'))">
+            Perdí a mi perro, quiero solicitar ayuda para encontrarlo
+            <RocketLaunchIcon class="w-4 h-4 ms-2" />
+          </PrimaryButton>
+        </div>
       </div>
 
       <!-- ============================================================ -->
@@ -102,7 +109,7 @@
               <!-- Tag tipo -->
               <div
                 class="absolute top-2 left-2 text-[10px] sm:text-xs font-bold px-2 py-1 rounded-md shadow-md flex items-center gap-1"
-                :class="item.tipo == 'Propietario' ? 'bg-red-600 text-white' : 'bg-green-700 text-white'"
+                :class="item.tipo == 'Propietario' ? 'bg-red-600 text-white' : 'bg-orange-700 text-white'"
               >
                 <span>{{ item.tipo == 'Propietario' ? '🔍' : '🐾' }}</span>
                 <span>{{ item.tipo == 'Propietario' ? 'PERDIDO' : 'REPORTADO' }}</span>
@@ -268,148 +275,21 @@
       </div>
     </div>
 
-    <!-- Modal formulario reporte -->
-    <div v-if="ReportarCanino" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div class="bg-white rounded-lg shadow-lg w-full max-w-4xl mx-4 h-[80vh] flex flex-col">
-        <div class="flex justify-between items-center p-4 border-b">
-          <h2 class="text-lg font-bold text-gray-800">Reportar canino perdido</h2>
-          <button class="text-gray-500 hover:text-gray-800" @click="ReportarCanino = false">✕</button>
-        </div>
-        <div class="flex-1 overflow-auto p-4">
-          <form class="md:grid md:grid-cols-2 md:gap-4" @submit.prevent="submit">
-            <div class="mb-4 md:col-span-2">
-              <label class="block text-sm font-medium text-gray-700">¿Quién realiza el reporte? *</label>
-              <select v-model="form.origen" class="mt-1 block w-full border rounded-lg p-2" required>
-                <option value="">Seleccione quién reporta</option>
-                <option value="ciudadano">🧑 Ciudadano (particular)</option>
-                <option value="policia">👮 Policía</option>
-                <option value="hospivet">🏥 Hospivet (Hospital veterinario público)</option>
-                <option value="clinica">🏪 Clínica veterinaria</option>
-                <option value="fundacion">🤝 Fundación de animales</option>
-              </select>
-            </div>
-            <div class="mb-4">
-              <label class="block text-sm font-medium text-gray-700">Tu nombre completo *</label>
-              <input type="text" v-model="form.nombre_reportante" class="mt-1 block w-full border rounded-lg p-2" required />
-            </div>
-            <div class="mb-4">
-              <label class="block text-sm font-medium text-gray-700">Tu número de contacto *</label>
-              <input type="tel" v-model="form.contacto" class="mt-1 block w-full border rounded-lg p-2" required />
-            </div>
-            <div class="mb-4">
-              <label class="block text-sm font-medium text-gray-700">Email de contacto</label>
-              <input type="email" v-model="form.email" class="mt-1 block w-full border rounded-lg p-2" required />
-            </div>
-            <div class="mb-4">
-              <label class="block text-sm font-medium text-gray-700">Nombre del canino (opcional)</label>
-              <input type="text" v-model="form.nombre" class="mt-1 block w-full border rounded-lg p-2" />
-            </div>
-            <div class="mb-4">
-              <div class="flex items-center gap-2">
-                <label class="block text-sm font-medium text-gray-700">Raza o parecido</label>
-                <div class="relative group">
-                  <QuestionMarkCircleIcon class="w-5 h-5 text-blue-500" v-tooltip.bottom="'Seleccione la raza de su canino.'" />
-                </div>
-              </div>
-              <Select id="raza" v-model="form.raza" :options="Razas" filter optionLabel="label" placeholder="Seleccione una raza" checkmark :highlightOnSelect="false" class="w-full" />
-            </div>
-            <div class="mb-4">
-              <label class="block text-sm font-medium text-gray-700">Color del pelaje</label>
-              <input type="text" v-model="form.color" class="mt-1 block w-full border rounded-lg p-2" placeholder="Ej: Negro, marrón..." />
-            </div>
-            <div class="mb-4">
-              <label class="block text-sm font-medium text-gray-700">Tamaño</label>
-              <select v-model="form.tamano" class="mt-1 block w-full border rounded-lg p-2">
-                <option value="">Seleccione un tamaño</option>
-                <option value="pequeno">Pequeño</option>
-                <option value="mediano">Mediano</option>
-                <option value="grande">Grande</option>
-              </select>
-            </div>
-            <div class="mb-4">
-              <label class="block text-sm font-medium text-gray-700">Tipo de reporte *</label>
-              <select v-model="form.tipo" class="mt-1 block w-full border rounded-lg p-2" required>
-                <option value="">Seleccione una opción</option>
-                <option value="Propietario">Soy el propietario y busco al canino</option>
-                <option value="Canino perdido">Reporto un canino que encontré perdido</option>
-              </select>
-            </div>
-            <div class="mb-4">
-              <label class="block text-sm font-medium text-gray-700">Fecha y hora del incidente *</label>
-              <input type="datetime-local" v-model="form.fecha_hora" class="mt-1 block w-full border rounded-lg p-2" required />
-            </div>
-            <div class="mb-4">
-              <label class="block text-sm font-medium text-gray-700">Lugar *</label>
-              <input type="text" v-model="form.lugar" class="mt-1 block w-full border rounded-lg p-2" required />
-            </div>
-            <div class="mb-4">
-              <label class="block text-sm font-medium text-gray-700">Estado en que se encuentra</label>
-              <select v-model="form.estado_encuentra" class="mt-1 block w-full border rounded-lg p-2">
-                <option value="">Seleccione</option>
-                <option value="bueno">Buen estado</option>
-                <option value="regular">Estado regular</option>
-                <option value="malo">Mal estado</option>
-                <option value="herido">Herido / Lesionado</option>
-              </select>
-            </div>
-            <div class="mb-4">
-              <label class="block text-sm font-medium text-gray-700">Particularidades</label>
-              <textarea v-model="form.particularidades" class="mt-1 block w-full border rounded-lg p-2" rows="2" placeholder="Ej: Tiene un collar rojo..."></textarea>
-            </div>
-            <div class="mb-4 col-span-2">
-              <label class="block text-sm font-medium text-gray-700">Descripción *</label>
-              <textarea v-model="form.descripcion" class="mt-1 block w-full border rounded-lg p-2" rows="3" required></textarea>
-            </div>
-            <div class="mb-4 col-span-2">
-              <label class="block text-sm font-medium text-gray-700">Fotos (máximo 6, opcional)</label>
-              <input type="file" multiple @change="onImagesChange" accept="image/*" class="mt-1 block w-full border rounded-lg p-2" />
-              <div v-if="previews.length > 0" class="flex flex-wrap gap-2 mt-2">
-                <div v-for="(preview, index) in previews" :key="index" class="relative">
-                  <img :src="preview" class="w-20 h-20 object-cover rounded border" />
-                  <button type="button" @click="removeFoto(index)" class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center">✕</button>
-                </div>
-              </div>
-              <p class="text-xs text-gray-500 mt-1">Formatos: JPG, PNG, WebP.</p>
-            </div>
-            <div class="mb-4 col-span-2">
-              <label class="flex items-start gap-2">
-                <input type="checkbox" v-model="form.autorizacion" class="mt-1" required />
-                <span class="text-sm text-gray-700">Autorizo la publicación de mis datos de contacto. *</span>
-              </label>
-            </div>
-            <div class="mb-4 hidden col-span-2">
-              <label class="block text-sm font-medium text-gray-700">No llenar</label>
-              <input type="text" v-model="form.campo_obligatorio" class="mt-1 block w-full border rounded-lg p-2" tabindex="-1" autocomplete="off" />
-            </div>
-            <div class="flex justify-end mt-4 col-span-2">
-              <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                Enviar reporte
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
   </PageLayout>
 </template>
 
 <script setup>
-import { Head, useForm, router } from "@inertiajs/vue3";
+import { Head, router } from "@inertiajs/vue3";
 import { ref, inject, reactive } from "vue";
 import PageLayout from "@/Layouts/PageLayout.vue";
 import Pagination from "@/Components/Pagination.vue";
-import { RocketLaunchIcon, QuestionMarkCircleIcon } from "@heroicons/vue/24/solid";
+import { RocketLaunchIcon } from "@heroicons/vue/24/solid";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import Razas from "@/shared/razas.json";
-import Select from "primevue/select";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
-import { useReCaptcha } from "vue-recaptcha-v3";
 import dayjs from "dayjs";
 
-const { executeRecaptcha } = useReCaptcha();
 AOS.init();
-const swal = inject("$swal");
 
 const props = defineProps({
   perdidos: { type: Object, default: () => ({ data: [], links: [] }) },
@@ -505,53 +385,3 @@ const origenQuienReporta = (data) => {
   if (data.tipo === 'Propietario') return 'El DUEÑO';
   return origenes[data.origen] || 'Un CIUDADANO';
 };
-
-// Formulario
-const ReportarCanino = ref(false);
-const previews = ref([]);
-const fotosSeleccionadas = ref([]);
-
-const form = useForm({
-  nombre_reportante: "", contacto: "", email: "", nombre: "", raza: "", color: "",
-  tamano: "", particularidades: "", descripcion: "", estado_encuentra: "", lugar: "",
-  fecha_hora: "", tipo: "", fotos: [], autorizacion: false,
-  origen: "", campo_obligatorio: "", recaptcha_token: "",
-});
-
-const onImagesChange = (event) => {
-  const files = Array.from(event.target.files);
-  const maxFotos = 6;
-  files.slice(0, maxFotos - fotosSeleccionadas.value.length).forEach((file) => {
-    if (fotosSeleccionadas.value.length < maxFotos) {
-      fotosSeleccionadas.value.push(file);
-      const reader = new FileReader();
-      reader.onload = (e) => previews.value.push(e.target.result);
-      reader.readAsDataURL(file);
-    }
-  });
-  form.fotos = fotosSeleccionadas.value;
-};
-
-const removeFoto = (index) => {
-  fotosSeleccionadas.value.splice(index, 1);
-  previews.value.splice(index, 1);
-  form.fotos = fotosSeleccionadas.value;
-};
-
-const submit = async () => {
-  try {
-    form.recaptcha_token = await executeRecaptcha("register");
-    form.post(route("crear-reporte"), {
-      onSuccess: () => {
-        swal.fire({ title: "Registro exitoso", text: "Tu reporte ha sido generado correctamente.", icon: "success", confirmButtonText: "OK" })
-          .then(() => window.location.reload());
-      },
-      onError: () => {
-        swal.fire({ title: "Error", text: "Revisa los campos o inténtalo nuevamente.", icon: "error", confirmButtonText: "OK" });
-      },
-    });
-  } catch (error) {
-    swal.fire({ title: "Error de reCAPTCHA", text: "Hubo un problema al validar reCAPTCHA.", icon: "error", confirmButtonText: "OK" });
-  }
-};
-</script>
