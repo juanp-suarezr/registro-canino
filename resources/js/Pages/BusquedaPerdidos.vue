@@ -16,15 +16,25 @@
           Comparte fotos e información para reportar mascotas perdidas o encontradas y ayudar a que regresen a casa.
           <i class="text-parrafo mt-2 block">Difunde el reporte para que más personas puedan ayudar.</i>
         </p>
-        <div class="mt-4 flex flex-col sm:flex-row gap-3">
-          <PrimaryButton class="sm:text-base text-xs" @click="router.visit(route('reportar.perdido', 'Canino-perdido'))">
-            Encontré un perro perdido, quiero reportarlo para ayudar a encontrar a su dueño
-            <RocketLaunchIcon class="w-4 h-4 ms-2" />
-          </PrimaryButton>
-          <PrimaryButton class="sm:text-base text-xs" @click="router.visit(route('reportar.perdido', 'Propietario'))">
-            Perdí a mi perro, quiero solicitar ayuda para encontrarlo
-            <RocketLaunchIcon class="w-4 h-4 ms-2" />
-          </PrimaryButton>
+        <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <button @click="router.visit(route('reportar.perdido', 'Canino-perdido'))" class="group flex items-center gap-4 rounded-xl border border-orange-200 bg-orange-50 p-4 text-left transition hover:border-orange-400 hover:bg-white">
+            <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-orange-100 text-orange-700 transition group-hover:scale-105">
+              <span class="text-xl">🐾</span>
+            </span>
+            <span>
+              <span class="block text-sm font-semibold text-gray-900">Encontré un perro perdido</span>
+              <span class="mt-1 block text-xs text-gray-600">Repórtalo aquí para ayudar a encontrar a su dueño.</span>
+            </span>
+            <span class="ms-auto text-orange-600 transition group-hover:translate-x-0.5">→</span>
+          </button>
+          <button @click="router.visit(route('reportar.perdido', 'Propietario'))" class="group flex items-center gap-4 rounded-xl border border-blue-200 bg-blue-50 p-4 text-left transition hover:border-blue-400 hover:bg-white">
+            <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-blue-100 text-blue-700 transition group-hover:scale-105">🔍</span>
+            <span>
+              <span class="block text-sm font-semibold text-gray-900">Perdí a mi perro</span>
+              <span class="mt-1 block text-xs text-gray-600">Solicita ayuda con fotos y datos del animal.</span>
+            </span>
+            <span class="ms-auto text-blue-600 transition group-hover:translate-x-0.5">→</span>
+          </button>
         </div>
       </div>
 

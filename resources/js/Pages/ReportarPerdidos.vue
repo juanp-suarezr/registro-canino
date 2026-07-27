@@ -159,7 +159,7 @@
 </template>
 
 <script setup>
-import { computed, inject } from "vue";
+import { computed, inject, ref } from "vue";
 import { Head, useForm, router } from "@inertiajs/vue3";
 import PageLayout from "@/Layouts/PageLayout.vue";
 import { QuestionMarkCircleIcon } from "@heroicons/vue/24/solid";
