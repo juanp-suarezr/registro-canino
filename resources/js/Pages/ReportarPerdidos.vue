@@ -53,34 +53,35 @@
                   <span>Escuchar esta sección</span>
                 </button>
 
-                <template v-else>
-                  <button
-                    v-if="audioEstado === 'playing'"
-                    type="button"
-                    @click="hablar('Sección uno: Datos de la mascota. Por favor completa la información del animal: nombre, raza, color, tamaño, fecha y lugar del incidente, estado físico, particularidades, descripción y fotos si tienes.')"
-                    class="inline-flex items-center gap-2 rounded-full border border-orange-300 bg-orange-50 px-4 py-2 text-base font-medium text-orange-800 hover:bg-orange-100"
-                  >
-                    <span class="text-xl">⏸️</span>
-                    <span>Pausar</span>
-                  </button>
-                  <button
-                    v-if="audioEstado === 'paused'"
-                    type="button"
-                    @click="hablar('Sección uno: Datos de la mascota. Por favor completa la información del animal: nombre, raza, color, tamaño, fecha y lugar del incidente, estado físico, particularidades, descripción y fotos si tienes.')"
-                    class="inline-flex items-center gap-2 rounded-full border border-orange-300 bg-orange-50 px-4 py-2 text-base font-medium text-orange-800 hover:bg-orange-100"
-                  >
-                    <span class="text-xl">▶️</span>
-                    <span>Continuar</span>
-                  </button>
-                  <button
-                    type="button"
-                    @click="detenerAudio"
-                    class="inline-flex items-center gap-2 rounded-full border border-red-200 bg-white px-4 py-2 text-base font-medium text-red-700 hover:bg-red-50"
-                  >
-                    <span class="text-xl">⏹️</span>
-                    <span>Detener</span>
-                  </button>
-                </template>
+                <button
+                  v-if="audioEstado === 'playing'"
+                  type="button"
+                  @click="hablar('Sección uno: Datos de la mascota. Por favor completa la información del animal: nombre, raza, color, tamaño, fecha y lugar del incidente, estado físico, particularidades, descripción y fotos si tienes.')"
+                  class="inline-flex items-center gap-2 rounded-full border border-orange-300 bg-orange-50 px-4 py-2 text-base font-medium text-orange-800 hover:bg-orange-100"
+                >
+                  <span class="text-xl">⏸️</span>
+                  <span>Pausar</span>
+                </button>
+
+                <button
+                  v-if="audioEstado === 'paused'"
+                  type="button"
+                  @click="hablar('Sección uno: Datos de la mascota. Por favor completa la información del animal: nombre, raza, color, tamaño, fecha y lugar del incidente, estado físico, particularidades, descripción y fotos si tienes.')"
+                  class="inline-flex items-center gap-2 rounded-full border border-orange-300 bg-orange-50 px-4 py-2 text-base font-medium text-orange-800 hover:bg-orange-100"
+                >
+                  <span class="text-xl">▶️</span>
+                  <span>Continuar</span>
+                </button>
+
+                <button
+                  v-if="audioEstado !== 'idle'"
+                  type="button"
+                  @click="detenerAudio"
+                  class="inline-flex items-center gap-2 rounded-full border border-red-200 bg-white px-4 py-2 text-base font-medium text-red-700 hover:bg-red-50"
+                >
+                  <span class="text-xl">⏹️</span>
+                  <span>Detener</span>
+                </button>
               </div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -120,8 +121,8 @@
               </div>
 
               <div>
-                <label class="block text-lg font-medium text-gray-800">Lugar *</label>
-                <input type="text" v-model="form.lugar" class="mt-2 block w-full border rounded-xl p-4 text-lg" placeholder="Ej: Parque Central, carrera 5 # 10-20..." required />
+                <label class="block text-lg font-medium text-gray-800">{{ etiquetaLugar }} *</label>
+                <input type="text" v-model="form.lugar" class="mt-2 block w-full border rounded-xl p-4 text-lg" :placeholder="etiquetaLugar" required />
               </div>
 
               <div>
@@ -179,34 +180,35 @@
                   <span>Escuchar esta sección</span>
                 </button>
 
-                <template v-else>
-                  <button
-                    v-if="audioEstado === 'playing'"
-                    type="button"
-                    @click="hablar('Sección dos: Datos personales. Por favor indica quién realiza el reporte, tu nombre completo, número de contacto, correo electrónico y autoriza el uso de tus datos.')"
-                    class="inline-flex items-center gap-2 rounded-full border border-blue-300 bg-blue-50 px-4 py-2 text-base font-medium text-blue-800 hover:bg-blue-100"
-                  >
-                    <span class="text-xl">⏸️</span>
-                    <span>Pausar</span>
-                  </button>
-                  <button
-                    v-if="audioEstado === 'paused'"
-                    type="button"
-                    @click="hablar('Sección dos: Datos personales. Por favor indica quién realiza el reporte, tu nombre completo, número de contacto, correo electrónico y autoriza el uso de tus datos.')"
-                    class="inline-flex items-center gap-2 rounded-full border border-blue-300 bg-blue-50 px-4 py-2 text-base font-medium text-blue-800 hover:bg-blue-100"
-                  >
-                    <span class="text-xl">▶️</span>
-                    <span>Continuar</span>
-                  </button>
-                  <button
-                    type="button"
-                    @click="detenerAudio"
-                    class="inline-flex items-center gap-2 rounded-full border border-red-200 bg-white px-4 py-2 text-base font-medium text-red-700 hover:bg-red-50"
-                  >
-                    <span class="text-xl">⏹️</span>
-                    <span>Detener</span>
-                  </button>
-                </template>
+                <button
+                  v-if="audioEstado === 'playing'"
+                  type="button"
+                  @click="hablar('Sección dos: Datos personales. Por favor indica quién realiza el reporte, tu nombre completo, número de contacto, correo electrónico y autoriza el uso de tus datos.')"
+                  class="inline-flex items-center gap-2 rounded-full border border-blue-300 bg-blue-50 px-4 py-2 text-base font-medium text-blue-800 hover:bg-blue-100"
+                >
+                  <span class="text-xl">⏸️</span>
+                  <span>Pausar</span>
+                </button>
+
+                <button
+                  v-if="audioEstado === 'paused'"
+                  type="button"
+                  @click="hablar('Sección dos: Datos personales. Por favor indica quién realiza el reporte, tu nombre completo, número de contacto, correo electrónico y autoriza el uso de tus datos.')"
+                  class="inline-flex items-center gap-2 rounded-full border border-blue-300 bg-blue-50 px-4 py-2 text-base font-medium text-blue-800 hover:bg-blue-100"
+                >
+                  <span class="text-xl">▶️</span>
+                  <span>Continuar</span>
+                </button>
+
+                <button
+                  v-if="audioEstado !== 'idle'"
+                  type="button"
+                  @click="detenerAudio"
+                  class="inline-flex items-center gap-2 rounded-full border border-red-200 bg-white px-4 py-2 text-base font-medium text-red-700 hover:bg-red-50"
+                >
+                  <span class="text-xl">⏹️</span>
+                  <span>Detener</span>
+                </button>
               </div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -302,8 +304,31 @@ const descripcionPagina = computed(() => {
 
 const previews = ref([]);
 const fotosSeleccionadas = ref([]);
+
 const audioEstado = ref("idle");
 const textoAuditivoActual = ref("");
+
+const etiquetaLugar = computed(() => {
+  if (props.tipoPreseleccionado === "Propietario") {
+    return "Dirección de residencia o lugar de vivienda de la mascota";
+  }
+  if (props.tipoPreseleccionado === "Canino perdido") {
+    return "Sector o último lugar visto";
+  }
+  return "Lugar";
+});
+
+const resetearAudio = () => {
+  try {
+    if ("speechSynthesis" in window) {
+      window.speechSynthesis.cancel();
+    }
+  } catch (e) {
+    // silencioso
+  }
+  audioEstado.value = "idle";
+  textoAuditivoActual.value = "";
+};
 
 const hablar = (texto) => {
   if (!("speechSynthesis" in window)) {
@@ -311,52 +336,48 @@ const hablar = (texto) => {
     return;
   }
 
-  const synth = window.speechSynthesis;
-
   if (audioEstado.value === "playing" && textoAuditivoActual.value === texto) {
-    synth.pause();
-    audioEstado.value = "paused";
+    resetearAudio();
     return;
   }
 
   if (audioEstado.value === "paused" && textoAuditivoActual.value === texto) {
-    synth.resume();
-    audioEstado.value = "playing";
+    resetearAudio();
     return;
   }
 
-  synth.cancel();
+  resetearAudio();
 
-  const utterance = new SpeechSynthesisUtterance(texto);
-  utterance.lang = "es-MX";
-  utterance.rate = 0.95;
-  utterance.pitch = 1;
+  setTimeout(() => {
+    try {
+      const utterance = new SpeechSynthesisUtterance(texto);
+      utterance.lang = "es-MX";
+      utterance.rate = 0.95;
+      utterance.pitch = 1;
 
-  textoAuditivoActual.value = texto;
+      textoAuditivoActual.value = texto;
+      audioEstado.value = "playing";
 
-  utterance.onstart = () => {
-    audioEstado.value = "playing";
-  };
+      utterance.onend = () => {
+        audioEstado.value = "idle";
+        textoAuditivoActual.value = "";
+      };
 
-  utterance.onend = () => {
-    audioEstado.value = "idle";
-    textoAuditivoActual.value = "";
-  };
+      utterance.onerror = () => {
+        audioEstado.value = "idle";
+        textoAuditivoActual.value = "";
+      };
 
-  utterance.onerror = () => {
-    audioEstado.value = "idle";
-    textoAuditivoActual.value = "";
-  };
-
-  synth.speak(utterance);
+      window.speechSynthesis.speak(utterance);
+    } catch (e) {
+      audioEstado.value = "idle";
+      textoAuditivoActual.value = "";
+    }
+  }, 50);
 };
 
 const detenerAudio = () => {
-  if ("speechSynthesis" in window) {
-    window.speechSynthesis.cancel();
-  }
-  audioEstado.value = "idle";
-  textoAuditivoActual.value = "";
+  resetearAudio();
 };
 
 const form = useForm({
