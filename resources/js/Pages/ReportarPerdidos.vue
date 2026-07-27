@@ -232,17 +232,61 @@ const descripcionPagina = computed(() => {
 
 const previews = ref([]);
 const fotosSeleccionadas = ref([]);
+const audioEstado = ref("idle");
+const textoAuditivoActual = ref("");
 
 const hablar = (texto) => {
   if (!("speechSynthesis" in window)) {
     alert("Tu navegador no soporta voz.");
     return;
   }
-  window.speechSynthesis.cancel();
+
+  const synth = window.speechSynthesis;
+
+  if (audioEstado.value === "playing" && textoAuditivoActual.value === texto) {
+    synth.pause();
+    audioEstado.value = "paused";
+    return;
+  }
+
+  if (audioEstado.value === "paused" && textoAuditivoActual.value === texto) {
+    synth.resume();
+    audioEstado.value = "playing";
+    return;
+  }
+
+  synth.cancel();
+
   const utterance = new SpeechSynthesisUtterance(texto);
   utterance.lang = "es-MX";
-  utterance.rate = 0.9;
-  window.speechSynthesis.speak(utterance);
+  utterance.rate = 0.95;
+  utterance.pitch = 1;
+
+  textoAuditivoActual.value = texto;
+
+  utterance.onstart = () => {
+    audioEstado.value = "playing";
+  };
+
+  utterance.onend = () => {
+    audioEstado.value = "idle";
+    textoAuditivoActual.value = "";
+  };
+
+  utterance.onerror = () => {
+    audioEstado.value = "idle";
+    textoAuditivoActual.value = "";
+  };
+
+  synth.speak(utterance);
+};
+
+const detenerAudio = () => {
+  if ("speechSynthesis" in window) {
+    window.speechSynthesis.cancel();
+  }
+  audioEstado.value = "idle";
+  textoAuditivoActual.value = "";
 };
 
 const form = useForm({
