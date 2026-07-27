@@ -42,11 +42,46 @@
                   <p class="text-base text-gray-600 mt-0.5">Describe cómo es el animal y lo que ocurrió.</p>
                 </div>
               </div>
-              <button type="button" @click="hablar('Sección uno: Datos de la mascota. Por favor completa la información del animal: nombre, raza, color, tamaño, fecha y lugar del incidente, estado físico, particularidades, descripción y fotos si tienes.')"
-                class="inline-flex items-center gap-2 rounded-full border border-orange-200 bg-white px-4 py-2 text-base font-medium text-orange-700 hover:bg-orange-50">
-                <span class="text-xl">🔊</span>
-                <span>Escuchar esta sección</span>
-              </button>
+              <div class="flex flex-col sm:flex-row sm:items-center sm:justify-end gap-2">
+                <button
+                  v-if="audioEstado === 'idle'"
+                  type="button"
+                  @click="hablar('Sección uno: Datos de la mascota. Por favor completa la información del animal: nombre, raza, color, tamaño, fecha y lugar del incidente, estado físico, particularidades, descripción y fotos si tienes.')"
+                  class="inline-flex items-center gap-2 rounded-full border border-orange-200 bg-white px-4 py-2 text-base font-medium text-orange-700 hover:bg-orange-50"
+                >
+                  <span class="text-xl">🔊</span>
+                  <span>Escuchar esta sección</span>
+                </button>
+
+                <template v-else>
+                  <button
+                    v-if="audioEstado === 'playing'"
+                    type="button"
+                    @click="hablar('Sección uno: Datos de la mascota. Por favor completa la información del animal: nombre, raza, color, tamaño, fecha y lugar del incidente, estado físico, particularidades, descripción y fotos si tienes.')"
+                    class="inline-flex items-center gap-2 rounded-full border border-orange-300 bg-orange-50 px-4 py-2 text-base font-medium text-orange-800 hover:bg-orange-100"
+                  >
+                    <span class="text-xl">⏸️</span>
+                    <span>Pausar</span>
+                  </button>
+                  <button
+                    v-if="audioEstado === 'paused'"
+                    type="button"
+                    @click="hablar('Sección uno: Datos de la mascota. Por favor completa la información del animal: nombre, raza, color, tamaño, fecha y lugar del incidente, estado físico, particularidades, descripción y fotos si tienes.')"
+                    class="inline-flex items-center gap-2 rounded-full border border-orange-300 bg-orange-50 px-4 py-2 text-base font-medium text-orange-800 hover:bg-orange-100"
+                  >
+                    <span class="text-xl">▶️</span>
+                    <span>Continuar</span>
+                  </button>
+                  <button
+                    type="button"
+                    @click="detenerAudio"
+                    class="inline-flex items-center gap-2 rounded-full border border-red-200 bg-white px-4 py-2 text-base font-medium text-red-700 hover:bg-red-50"
+                  >
+                    <span class="text-xl">⏹️</span>
+                    <span>Detener</span>
+                  </button>
+                </template>
+              </div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
@@ -133,11 +168,46 @@
                   <p class="text-base text-gray-600 mt-0.5">Información de contacto para que puedan comunicarse contigo.</p>
                 </div>
               </div>
-              <button type="button" @click="hablar('Sección dos: Datos personales. Por favor indica quién realiza el reporte, tu nombre completo, número de contacto, correo electrónico y autoriza el uso de tus datos.')"
-                class="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-white px-4 py-2 text-base font-medium text-blue-700 hover:bg-blue-50">
-                <span class="text-xl">🔊</span>
-                <span>Escuchar esta sección</span>
-              </button>
+              <div class="flex flex-col sm:flex-row sm:items-center sm:justify-end gap-2">
+                <button
+                  v-if="audioEstado === 'idle'"
+                  type="button"
+                  @click="hablar('Sección dos: Datos personales. Por favor indica quién realiza el reporte, tu nombre completo, número de contacto, correo electrónico y autoriza el uso de tus datos.')"
+                  class="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-white px-4 py-2 text-base font-medium text-blue-700 hover:bg-blue-50"
+                >
+                  <span class="text-xl">🔊</span>
+                  <span>Escuchar esta sección</span>
+                </button>
+
+                <template v-else>
+                  <button
+                    v-if="audioEstado === 'playing'"
+                    type="button"
+                    @click="hablar('Sección dos: Datos personales. Por favor indica quién realiza el reporte, tu nombre completo, número de contacto, correo electrónico y autoriza el uso de tus datos.')"
+                    class="inline-flex items-center gap-2 rounded-full border border-blue-300 bg-blue-50 px-4 py-2 text-base font-medium text-blue-800 hover:bg-blue-100"
+                  >
+                    <span class="text-xl">⏸️</span>
+                    <span>Pausar</span>
+                  </button>
+                  <button
+                    v-if="audioEstado === 'paused'"
+                    type="button"
+                    @click="hablar('Sección dos: Datos personales. Por favor indica quién realiza el reporte, tu nombre completo, número de contacto, correo electrónico y autoriza el uso de tus datos.')"
+                    class="inline-flex items-center gap-2 rounded-full border border-blue-300 bg-blue-50 px-4 py-2 text-base font-medium text-blue-800 hover:bg-blue-100"
+                  >
+                    <span class="text-xl">▶️</span>
+                    <span>Continuar</span>
+                  </button>
+                  <button
+                    type="button"
+                    @click="detenerAudio"
+                    class="inline-flex items-center gap-2 rounded-full border border-red-200 bg-white px-4 py-2 text-base font-medium text-red-700 hover:bg-red-50"
+                  >
+                    <span class="text-xl">⏹️</span>
+                    <span>Detener</span>
+                  </button>
+                </template>
+              </div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
@@ -222,10 +292,10 @@ const tituloPagina = computed(() => {
 
 const descripcionPagina = computed(() => {
   if (props.tipoPreseleccionado === "Propietario") {
-    return "Perdiste a tu mascota? Cuéntanos lo sucedido y comparte la información para que más personas puedan ayudarte a encontrarla.";
+    return "¿Perdiste a tu mascota? Cuéntanos lo sucedido y comparte la información para que más personas puedan ayudarte a encontrarla.";
   }
   if (props.tipoPreseleccionado === "Canino perdido") {
-    return "Encontraste un perro perdido? Repórtalo aquí con fotos y datos para ayudar a que vuelva a casa con su dueño.";
+    return "¿Encontraste un perro perdido? Repórtalo aquí con fotos y datos para ayudar a que vuelva a casa con su dueño.";
   }
   return "Completa el formulario para generar un reporte.";
 });
