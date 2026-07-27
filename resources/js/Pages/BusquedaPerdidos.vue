@@ -4,37 +4,38 @@
   </Head>
 
   <PageLayout>
-    <div class="flex items-center justify-center items-center py-4 mt-0 mb-4 bg-azul">
-      <h1 class="text-3xl font-bold text-white">Caninos perdidos</h1>
+    <div class="flex items-center justify-center py-5 mt-0 mb-6 bg-azul">
+      <h1 class="text-4xl sm:text-5xl font-bold text-white">Caninos perdidos</h1>
     </div>
-    <div class="container mx-auto sm:px-12 px-2">
-      <div class="mt-8">
-        <h2 class="sm:text-2xl text-lg font-bold text-black">
-          ¿Perdiste o encontraste un animal de compañía?
-        </h2>
-        <p class="mt-4 sm:text-xl text-base">
-          Comparte fotos e información para reportar mascotas perdidas o encontradas y ayudar a que regresen a casa.
-          <i class="text-parrafo mt-2 block">Difunde el reporte para que más personas puedan ayudar.</i>
-        </p>
-        <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <button @click="router.visit(route('reportar.perdido', 'Canino-perdido'))" class="group flex items-center gap-4 rounded-xl border border-orange-200 bg-orange-50 p-4 text-left transition hover:border-orange-400 hover:bg-white">
-            <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-orange-100 text-orange-700 transition group-hover:scale-105">
-              <span class="text-xl">🐾</span>
-            </span>
-            <span>
-              <span class="block text-sm font-semibold text-gray-900">Encontré un perro perdido</span>
-              <span class="mt-1 block text-xs text-gray-600">Repórtalo aquí para ayudar a encontrar a su dueño.</span>
-            </span>
-            <span class="ms-auto text-orange-600 transition group-hover:translate-x-0.5">→</span>
-          </button>
-          <button @click="router.visit(route('reportar.perdido', 'Propietario'))" class="group flex items-center gap-4 rounded-xl border border-blue-200 bg-blue-50 p-4 text-left transition hover:border-blue-400 hover:bg-white">
-            <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-blue-100 text-blue-700 transition group-hover:scale-105">🔍</span>
-            <span>
-              <span class="block text-sm font-semibold text-gray-900">Perdí a mi perro</span>
-              <span class="mt-1 block text-xs text-gray-600">Solicita ayuda con fotos y datos del animal.</span>
-            </span>
-            <span class="ms-auto text-blue-600 transition group-hover:translate-x-0.5">→</span>
-          </button>
+    <div class="container mx-auto sm:px-12 px-3">
+      <div class="my-8 rounded-2xl bg-white p-6 sm:p-10 shadow-md">
+        <div class="max-w-3xl">
+          <h2 class="text-2xl sm:text-3xl font-bold text-gray-900">¿Perdiste o encontraste un animal de compañía?</h2>
+          <p class="mt-4 text-lg sm:text-xl text-gray-700 leading-relaxed">
+            Comparte fotos e información para reportar mascotas perdidas o encontradas y ayudar a que regresen a casa.
+            <span class="block text-base sm:text-lg text-gray-500 mt-2">Difunde el reporte para que más personas puedan ayudar.</span>
+          </p>
+
+          <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <button @click="router.visit(route('reportar.perdido', 'Canino-perdido'))" class="group flex items-center gap-4 rounded-xl border border-orange-200 bg-orange-50 p-5 text-left transition hover:border-orange-400 hover:bg-white">
+              <span class="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-orange-100 text-3xl transition group-hover:scale-105">
+                🐾
+              </span>
+              <span class="flex-1">
+                <span class="block text-lg font-semibold text-gray-900">Encontré un perro perdido</span>
+                <span class="mt-1 block text-base text-gray-600">Repórtalo aquí para ayudar a encontrar a su dueño.</span>
+              </span>
+              <span class="text-2xl text-orange-600 transition group-hover:translate-x-1">→</span>
+            </button>
+            <button @click="router.visit(route('reportar.perdido', 'Propietario'))" class="group flex items-center gap-4 rounded-xl border border-blue-200 bg-blue-50 p-5 text-left transition hover:border-blue-400 hover:bg-white">
+              <span class="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-blue-100 text-3xl transition group-hover:scale-105">🔍</span>
+              <span class="flex-1">
+                <span class="block text-lg font-semibold text-gray-900">Perdí a mi perro</span>
+                <span class="mt-1 block text-base text-gray-600">Solicita ayuda con fotos y datos del animal.</span>
+              </span>
+              <span class="text-2xl text-blue-600 transition group-hover:translate-x-1">→</span>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -89,17 +90,17 @@
       <!-- ============================================================ -->
       <!-- GRILLA RESPONSIVE (Instagram-style)                          -->
       <!-- ============================================================ -->
-      <div v-if="perdidos.data && perdidos.data.length > 0" class="my-6">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+      <div v-if="perdidos.data && perdidos.data.length > 0" class="my-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           <div
             v-for="item in perdidos.data"
             :key="item.id"
-            class="border rounded-lg shadow-md bg-white flex flex-col overflow-hidden"
+            class="flex flex-col overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition hover:shadow-md"
           >
             <!-- ========== SECCIÓN DE FOTOS ========== -->
             <div class="relative flex-shrink-0">
               <div
-                class="w-full h-56 bg-gray-100 flex items-center justify-center cursor-pointer overflow-hidden"
+                class="w-full h-60 bg-gray-100 flex items-center justify-center cursor-pointer overflow-hidden"
                 @click="(item.fotos_urls || []).length > 0 ? abrirLightbox(item, imagenActiva[item.id] || 0) : null"
               >
                 <img
@@ -109,16 +110,16 @@
                   class="w-full h-full object-contain hover:scale-105 transition-transform duration-300"
                 />
                 <div v-else class="flex flex-col items-center justify-center text-gray-400">
-                  <svg class="w-12 h-12 text-gray-300 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg class="w-14 h-14 text-gray-300 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z" />
                   </svg>
-                  <span class="text-sm">Sin foto</span>
+                  <span class="text-base">Sin foto</span>
                 </div>
               </div>
 
               <!-- Tag tipo -->
               <div
-                class="absolute top-2 left-2 text-[10px] sm:text-xs font-bold px-2 py-1 rounded-md shadow-md flex items-center gap-1"
+                class="absolute top-3 left-3 text-xs font-bold px-2.5 py-1 rounded-lg shadow-md flex items-center gap-1"
                 :class="item.tipo == 'Propietario' ? 'bg-red-600 text-white' : 'bg-orange-700 text-white'"
               >
                 <span>{{ item.tipo == 'Propietario' ? '🔍' : '🐾' }}</span>
@@ -128,7 +129,7 @@
               <!-- Contador fotos -->
               <div
                 v-if="(item.fotos_urls || []).length > 1"
-                class="absolute bottom-2 right-2 bg-black bg-opacity-60 text-white text-xs px-2 py-0.5 rounded-full"
+                class="absolute bottom-3 right-3 bg-black bg-opacity-60 text-white text-xs px-2.5 py-1 rounded-full"
               >
                 {{ (imagenActiva[item.id] || 0) + 1 }}/{{ item.fotos_urls.length }}
               </div>
@@ -136,24 +137,24 @@
               <!-- Miniaturas -->
               <div
                 v-if="(item.fotos_urls || []).length > 1"
-                class="flex gap-1 px-2 py-2 bg-gray-50 overflow-x-auto"
+                class="flex gap-1.5 px-3 py-2.5 bg-white/90 overflow-x-auto"
               >
                 <img
                   v-for="(url, idx) in item.fotos_urls"
                   :key="idx"
                   :src="url"
                   :alt="'Foto ' + (idx + 1)"
-                  class="w-12 h-12 object-cover rounded border-2 cursor-pointer flex-shrink-0 transition-all duration-200"
-                  :class="(imagenActiva[item.id] || 0) === idx ? 'border-blue-500 opacity-100' : 'border-transparent opacity-60 hover:opacity-100'"
+                  class="h-12 w-12 object-cover rounded-lg border-2 cursor-pointer flex-shrink-0 transition-all duration-200"
+                  :class="(imagenActiva[item.id] || 0) === idx ? 'border-blue-500 opacity-100' : 'border-transparent opacity-70 hover:opacity-100'"
                   @click="imagenActiva[item.id] = idx"
                 />
               </div>
             </div>
 
             <!-- ========== INFORMACIÓN ========== -->
-            <div class="p-3 space-y-1.5 text-sm flex-1 overflow-hidden">
+            <div class="p-4 space-y-2 text-base flex-1 overflow-hidden">
               <div
-                class="text-xs font-semibold px-2 py-1 rounded-md inline-block mb-1"
+                class="text-sm font-semibold px-2.5 py-1 rounded-lg inline-block"
                 :class="item.tipo == 'Propietario' ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'"
               >
                 <template v-if="item.tipo == 'Propietario'">
@@ -164,7 +165,7 @@
                 </template>
               </div>
 
-              <div class="font-bold text-base text-blue-900 truncate">
+              <div class="text-lg font-bold text-blue-900 truncate">
                 {{ item.nombre || 'Sin nombre' }}
               </div>
 
@@ -177,7 +178,7 @@
                 <b>Descripción:</b>
                 <span v-if="item.descripcion.length > 60">
                   {{ item.descripcion.substring(0, 60) }}...
-                  <button @click="abrirDetalle(item)" class="text-blue-600 hover:text-blue-800 font-semibold text-xs ml-1">Ver más</button>
+                  <button @click="abrirDetalle(item)" class="text-blue-600 hover:text-blue-800 font-semibold text-sm ml-1">Ver más</button>
                 </span>
                 <span v-else>{{ item.descripcion }}</span>
               </div>
@@ -186,11 +187,11 @@
             </div>
 
             <!-- Botón -->
-            <div class="p-3 pt-0 flex justify-center">
+            <div class="p-4 pt-0 flex justify-center">
               <button
                 type="button"
                 @click="abrirDetalle(item)"
-                class="bg-secondary hover:bg-primary text-xs sm:text-sm text-white px-4 py-2 rounded-md shadow-md transition-colors w-full"
+                class="bg-secondary hover:bg-primary text-base sm:text-base text-white px-4 py-2.5 rounded-lg shadow-md transition-colors w-full"
               >
                 Ver detalle completo
               </button>
@@ -199,14 +200,15 @@
         </div>
 
         <!-- Paginación -->
-        <div class="mt-8 flex justify-center" v-if="perdidos.links && perdidos.links.length > 3">
+        <div class="mt-10 flex justify-center" v-if="perdidos.links && perdidos.links.length > 3">
           <Pagination :links="perdidos.links" />
         </div>
       </div>
 
       <!-- Empty state -->
-      <div v-else class="my-12 text-secondary text-center sm:text-2xl text-lg font-bold">
-        Actualmente no hay caninos perdidos
+      <div v-else class="my-16 rounded-2xl border border-dashed border-gray-300 bg-white p-10 text-center">
+        <p class="text-2xl sm:text-3xl font-semibold text-gray-800">🐕‍🦺 Aún no hay reportes</p>
+        <p class="mt-2 text-base text-gray-500">Usa los botones de arriba para crear el primero y ayudar a la comunidad.</p>
       </div>
     </div>
 
@@ -229,26 +231,26 @@
           <button class="text-gray-500 hover:text-gray-800 text-2xl" @click="cerrarDetalle">✕</button>
         </div>
 
-        <div class="flex-1 overflow-y-auto p-4">
+        <div class="flex-1 overflow-y-auto p-6">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <div class="w-full h-64 md:h-80 bg-gray-100 rounded-lg flex items-center justify-center cursor-pointer overflow-hidden" @click="abrirLightbox(detalleData, detalleIndexActivo)">
+              <div class="w-full h-72 md:h-80 bg-gray-100 rounded-lg flex items-center justify-center cursor-pointer overflow-hidden" @click="abrirLightbox(detalleData, detalleIndexActivo)">
                 <img v-if="(detalleData.fotos_urls || []).length > 0" :src="(detalleData.fotos_urls || [])[detalleIndexActivo]" alt="Foto principal" class="w-full h-full object-contain hover:opacity-90 transition" />
                 <span v-else class="text-gray-400">Sin foto</span>
               </div>
               <div v-if="(detalleData.fotos_urls || []).length > 1" class="flex gap-2 mt-3 overflow-x-auto pb-1">
                 <img v-for="(url, idx) in detalleData.fotos_urls" :key="idx" :src="url" :alt="'Mini ' + (idx + 1)" class="w-16 h-16 object-cover rounded-lg border-2 cursor-pointer flex-shrink-0" :class="detalleIndexActivo === idx ? 'border-blue-500 ring-2 ring-blue-300' : 'border-gray-200 opacity-70 hover:opacity-100'" @click="detalleIndexActivo = idx" />
               </div>
-              <p class="text-xs text-gray-500 mt-3">Reportado: {{ formatDate(detalleData.created_at) }}</p>
+              <p class="text-sm text-gray-500 mt-3">Reportado: {{ formatDate(detalleData.created_at) }}</p>
             </div>
 
-            <div class="space-y-3 text-sm break-words">
-              <div class="text-xs font-semibold px-2 py-1 rounded-md inline-block mb-1" :class="detalleData.tipo == 'Propietario' ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'">
+            <div class="space-y-4 text-base break-words">
+              <div class="text-base font-semibold px-2.5 py-1.5 rounded-lg inline-block" :class="detalleData.tipo == 'Propietario' ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'">
                 <template v-if="detalleData.tipo == 'Propietario'">🔍 {{ origenQuienReporta(detalleData) }} reportó su mascota como perdida</template>
                 <template v-else>🐾 {{ origenQuienReporta(detalleData) }} reportó un animal extraviado</template>
               </div>
               <div><b>Nombre del reportante:</b><p class="break-words">{{ detalleData.nombre_reportante }}</p></div>
-              <div><b>Contacto:</b><p class="text-blue-700 font-semibold break-words">{{ detalleData.contacto }}</p></div>
+              <div><b>Contacto:</b><p class="text-blue-700 font-semibold break-words text-lg">{{ detalleData.contacto }}</p></div>
               <div v-if="detalleData.email"><b>Email:</b><p class="break-words">{{ detalleData.email }}</p></div>
               <hr />
               <div><b>Raza:</b><p class="break-words">{{ detalleData.raza || 'No especificada' }}</p></div>
@@ -260,7 +262,7 @@
               <div><b>Última vez visto:</b><p class="break-words">{{ detalleData.lugar }}</p></div>
               <div><b>Fecha del incidente:</b><p class="break-words">{{ formatDate(detalleData.fecha_hora) }}</p></div>
               <hr />
-              <div><b>Descripción:</b><p class="text-gray-600 mt-1 break-words whitespace-pre-line">{{ detalleData.descripcion }}</p></div>
+              <div><b>Descripción:</b><p class="text-gray-600 mt-1 break-words whitespace-pre-line text-lg">{{ detalleData.descripcion }}</p></div>
             </div>
           </div>
         </div>
@@ -293,7 +295,6 @@ import { Head, router } from "@inertiajs/vue3";
 import { ref, inject, reactive } from "vue";
 import PageLayout from "@/Layouts/PageLayout.vue";
 import Pagination from "@/Components/Pagination.vue";
-import { RocketLaunchIcon } from "@heroicons/vue/24/solid";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import PrimaryButton from "@/Components/PrimaryButton.vue";

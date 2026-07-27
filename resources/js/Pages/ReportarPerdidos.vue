@@ -4,25 +4,28 @@
   </Head>
 
   <PageLayout>
-    <div class="flex items-center justify-center py-4 mt-0 mb-4 bg-azul">
-      <h1 class="text-3xl font-bold text-white">{{ tituloPagina }}</h1>
+    <div class="flex items-center justify-center py-5 mt-0 mb-6 bg-azul">
+      <h1 class="text-4xl sm:text-5xl font-bold text-white">{{ tituloPagina }}</h1>
     </div>
 
-    <div class="container mx-auto sm:px-12 px-2 py-6">
-      <div class="max-w-3xl mx-auto bg-white rounded-lg shadow-md p-4 sm:p-6">
-        <div class="mb-6 text-center">
-          <p class="text-gray-600 text-base sm:text-lg">{{ descripcionPagina }}</p>
-          <p class="text-xs text-gray-500 mt-2">
-            <span v-if="tipoPreseleccionado === 'Propietario'">
-              Al enviar este reporte, compartirás tu información de contacto para que quienes hayan visto a tu mascota puedan comunicarse contigo.
+    <div class="container mx-auto sm:px-12 px-3 py-8">
+      <div class="max-w-3xl mx-auto bg-white rounded-2xl shadow-lg p-6 sm:p-10">
+        <div class="mb-8 text-center">
+          <p class="text-lg sm:text-xl text-gray-700 leading-relaxed">{{ descripcionPagina }}</p>
+          <div class="mt-4 inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-4 py-2 text-sm text-blue-800">
+            <span class="text-base">ℹ️</span>
+            <span>
+              <span v-if="tipoPreseleccionado === 'Propietario'">
+                Al enviar este reporte, compartirás tu información de contacto para que quienes hayan visto a tu mascota puedan comunicarse contigo.
+              </span>
+              <span v-else>
+                Al enviar este reporte, compartirás tu información de contacto para que el dueño del animal pueda comunicarse contigo.
+              </span>
             </span>
-            <span v-else>
-              Al enviar este reporte, compartirás tu información de contacto para que el due?o del animal pueda comunicarse contigo.
-            </span>
-          </p>
+          </div>
         </div>
 
-        <form @submit.prevent="submit" enctype="multipart/form-data" class="space-y-4">
+        <form @submit.prevent="submit" enctype="multipart/form-data" class="space-y-8">
           <input type="hidden" v-model="form.tipo" />
 
           <div class="hidden">
@@ -30,87 +33,96 @@
             <input type="text" v-model="form.campo_obligatorio" tabindex="-1" autocomplete="off" />
           </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label class="block text-sm font-medium text-gray-700">Nombre del canino (opcional)</label>
-              <input type="text" v-model="form.nombre" class="mt-1 block w-full border rounded-lg p-2" />
+          <section class="rounded-xl border border-orange-100 bg-orange-50/60 p-5 sm:p-6">
+            <div class="flex items-center gap-2 mb-5">
+              <span class="flex h-10 w-10 items-center justify-center rounded-full bg-orange-100 text-xl">🐾</span>
+              <h2 class="text-xl font-semibold text-gray-900">Información del canino</h2>
             </div>
-
-            <div>
-              <div class="flex items-center gap-2">
-                <label class="block text-sm font-medium text-gray-700">Raza o parecido</label>
-                <div class="relative group">
-                  <QuestionMarkCircleIcon class="w-5 h-5 text-blue-500" v-tooltip.bottom="'Seleccione la raza de su canino.'" />
-                </div>
-              </div>
-              <Select id="raza" v-model="form.raza" :options="Razas" filter optionLabel="label" placeholder="Seleccione una raza" checkmark :highlightOnSelect="false" class="w-full" />
-            </div>
-
-            <div>
-              <label class="block text-sm font-medium text-gray-700">Color del pelaje</label>
-              <input type="text" v-model="form.color" class="mt-1 block w-full border rounded-lg p-2" placeholder="Ej: Negro, marrón..." />
-            </div>
-
-            <div>
-              <label class="block text-sm font-medium text-gray-700">Tamaño</label>
-              <select v-model="form.tamano" class="mt-1 block w-full border rounded-lg p-2">
-                <option value="">Seleccione un tamaño</option>
-                <option value="pequeno">Pequeño</option>
-                <option value="mediano">Mediano</option>
-                <option value="grande">Grande</option>
-              </select>
-            </div>
-
-            <div>
-              <label class="block text-sm font-medium text-gray-700">Fecha y hora del incidente *</label>
-              <input type="datetime-local" v-model="form.fecha_hora" class="mt-1 block w-full border rounded-lg p-2" required />
-            </div>
-
-            <div>
-              <label class="block text-sm font-medium text-gray-700">Lugar *</label>
-              <input type="text" v-model="form.lugar" class="mt-1 block w-full border rounded-lg p-2" required />
-            </div>
-
-            <div>
-              <label class="block text-sm font-medium text-gray-700">Estado en que se encuentra</label>
-              <select v-model="form.estado_encuentra" class="mt-1 block w-full border rounded-lg p-2">
-                <option value="">Seleccione</option>
-                <option value="bueno">Buen estado</option>
-                <option value="regular">Estado regular</option>
-                <option value="malo">Mal estado</option>
-                <option value="herido">Herido / Lesionado</option>
-              </select>
-            </div>
-
-            <div>
-              <label class="block text-sm font-medium text-gray-700">Particularidades</label>
-              <textarea v-model="form.particularidades" class="mt-1 block w-full border rounded-lg p-2" rows="2" placeholder="Ej: Tiene un collar rojo..."></textarea>
-            </div>
-
-            <div class="md:col-span-2">
-              <label class="block text-sm font-medium text-gray-700">Descripción *</label>
-              <textarea v-model="form.descripcion" class="mt-1 block w-full border rounded-lg p-2" rows="3" required></textarea>
-            </div>
-
-            <div class="md:col-span-2">
-              <label class="block text-sm font-medium text-gray-700">Fotos (máximo 6, opcional)</label>
-              <input type="file" multiple @change="onImagesChange" accept="image/*" class="mt-1 block w-full border rounded-lg p-2" />
-              <div v-if="previews.length > 0" class="flex flex-wrap gap-2 mt-2">
-                <div v-for="(preview, index) in previews" :key="index" class="relative">
-                  <img :src="preview" class="w-20 h-20 object-cover rounded border" />
-                  <button type="button" @click="removeFoto(index)" class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center">✕</button>
-                </div>
-              </div>
-              <p class="text-xs text-gray-500 mt-1">Formatos: JPG, PNG, WebP.</p>
-            </div>
-          </div>
-
-          <div class="border-t pt-4 mt-4">
-            <h3 class="text-base font-semibold text-gray-800 mb-3">Datos del reportante</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div>
-                <label class="block text-sm font-medium text-gray-700">¿Quién realiza el reporte? *</label>
-                <select v-model="form.origen" class="mt-1 block w-full border rounded-lg p-2" required>
+                <label class="block text-base font-medium text-gray-800">Nombre del canino (opcional)</label>
+                <input type="text" v-model="form.nombre" class="mt-1.5 block w-full border rounded-xl p-3 text-base" placeholder="Ej: Max, Luna..." />
+              </div>
+
+              <div>
+                <div class="flex items-center gap-2">
+                  <label class="block text-base font-medium text-gray-800">Raza o parecido</label>
+                  <div class="relative group">
+                    <QuestionMarkCircleIcon class="w-5 h-5 text-blue-500" v-tooltip.bottom="'Seleccione la raza de su canino.'" />
+                  </div>
+                </div>
+                <Select id="raza" v-model="form.raza" :options="Razas" filter optionLabel="label" placeholder="Seleccione una raza" checkmark :highlightOnSelect="false" class="w-full mt-1.5" />
+              </div>
+
+              <div>
+                <label class="block text-base font-medium text-gray-800">Color del pelaje</label>
+                <input type="text" v-model="form.color" class="mt-1.5 block w-full border rounded-xl p-3 text-base" placeholder="Ej: Negro, marrón, blanco..." />
+              </div>
+
+              <div>
+                <label class="block text-base font-medium text-gray-800">Tamaño</label>
+                <select v-model="form.tamano" class="mt-1.5 block w-full border rounded-xl p-3 text-base">
+                  <option value="">Seleccione un tamaño</option>
+                  <option value="pequeno">Pequeño</option>
+                  <option value="mediano">Mediano</option>
+                  <option value="grande">Grande</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-base font-medium text-gray-800">Fecha y hora del incidente *</label>
+                <input type="datetime-local" v-model="form.fecha_hora" class="mt-1.5 block w-full border rounded-xl p-3 text-base" required />
+              </div>
+
+              <div>
+                <label class="block text-base font-medium text-gray-800">Lugar *</label>
+                <input type="text" v-model="form.lugar" class="mt-1.5 block w-full border rounded-xl p-3 text-base" placeholder="Ej: Parque Central, carrera 5 # 10-20..." required />
+              </div>
+
+              <div>
+                <label class="block text-base font-medium text-gray-800">Estado en que se encuentra</label>
+                <select v-model="form.estado_encuentra" class="mt-1.5 block w-full border rounded-xl p-3 text-base">
+                  <option value="">Seleccione</option>
+                  <option value="bueno">Buen estado</option>
+                  <option value="regular">Estado regular</option>
+                  <option value="malo">Mal estado</option>
+                  <option value="herido">Herido / Lesionado</option>
+                </select>
+              </div>
+
+              <div class="md:col-span-2">
+                <label class="block text-base font-medium text-gray-800">Particularidades</label>
+                <textarea v-model="form.particularidades" class="mt-1.5 block w-full border rounded-xl p-3 text-base" rows="2" placeholder="Ej: Tiene un collar rojo, una mancha en el ojo izquierdo..."></textarea>
+              </div>
+
+              <div class="md:col-span-2">
+                <label class="block text-base font-medium text-gray-800">Descripción *</label>
+                <textarea v-model="form.descripcion" class="mt-1.5 block w-full border rounded-xl p-3 text-base" rows="4" required></textarea>
+              </div>
+
+              <div class="md:col-span-2">
+                <label class="block text-base font-medium text-gray-800">Fotos (máximo 6, opcional)</label>
+                <input type="file" multiple @change="onImagesChange" accept="image/*" class="mt-1.5 block w-full border rounded-xl p-3 text-base" />
+                <div v-if="previews.length > 0" class="flex flex-wrap gap-3 mt-3">
+                  <div v-for="(preview, index) in previews" :key="index" class="relative">
+                    <img :src="preview" class="h-20 w-20 object-cover rounded-lg border" />
+                    <button type="button" @click="removeFoto(index)" class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 text-sm flex items-center justify-center shadow-sm">✕</button>
+                  </div>
+                </div>
+                <p class="text-sm text-gray-500 mt-1">Formatos: JPG, PNG, WebP.</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="rounded-xl border border-blue-100 bg-blue-50/60 p-5 sm:p-6">
+            <div class="flex items-center gap-2 mb-5">
+              <span class="flex h-10 w-10 items-center justify-center rounded-full bg-blue-100 text-xl">👤</span>
+              <h2 class="text-xl font-semibold text-gray-900">Datos del reportante</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div>
+                <label class="block text-base font-medium text-gray-800">¿Quién realiza el reporte? *</label>
+                <select v-model="form.origen" class="mt-1.5 block w-full border rounded-xl p-3 text-base" required>
                   <option value="">Seleccione quién reporta</option>
                   <option value="ciudadano">🧑 Ciudadano (particular)</option>
                   <option value="policia">👮 Policía</option>
@@ -121,34 +133,34 @@
               </div>
 
               <div>
-                <label class="block text-sm font-medium text-gray-700">Tu nombre completo *</label>
-                <input type="text" v-model="form.nombre_reportante" class="mt-1 block w-full border rounded-lg p-2" required />
+                <label class="block text-base font-medium text-gray-800">Tu nombre completo *</label>
+                <input type="text" v-model="form.nombre_reportante" class="mt-1.5 block w-full border rounded-xl p-3 text-base" required />
               </div>
 
               <div>
-                <label class="block text-sm font-medium text-gray-700">Tu número de contacto *</label>
-                <input type="tel" v-model="form.contacto" class="mt-1 block w-full border rounded-lg p-2" required />
+                <label class="block text-base font-medium text-gray-800">Tu número de contacto *</label>
+                <input type="tel" v-model="form.contacto" class="mt-1.5 block w-full border rounded-xl p-3 text-base" required />
               </div>
 
               <div>
-                <label class="block text-sm font-medium text-gray-700">Email de contacto *</label>
-                <input type="email" v-model="form.email" class="mt-1 block w-full border rounded-lg p-2" required />
+                <label class="block text-base font-medium text-gray-800">Email de contacto *</label>
+                <input type="email" v-model="form.email" class="mt-1.5 block w-full border rounded-xl p-3 text-base" required />
               </div>
 
               <div class="md:col-span-2">
-                <label class="flex items-start gap-2">
-                  <input type="checkbox" v-model="form.autorizacion" class="mt-1" required />
-                  <span class="text-sm text-gray-700">Autorizo la publicación de mis datos de contacto. *</span>
+                <label class="flex items-start gap-3 rounded-xl border border-gray-200 bg-white p-4">
+                  <input type="checkbox" v-model="form.autorizacion" class="mt-0.5 h-5 w-5 rounded border-gray-300" required />
+                  <span class="text-base text-gray-700">Autorizo la publicación de mis datos de contacto. *</span>
                 </label>
               </div>
             </div>
-          </div>
+          </section>
 
-          <div class="mt-6 flex flex-col sm:flex-row justify-end gap-3">
-            <button type="button" @click="router.visit(route('busqueda.perdidos'))" class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-lg transition">
+          <div class="mt-8 flex flex-col-reverse sm:flex-row justify-end gap-3">
+            <button type="button" @click="router.visit(route('busqueda.perdidos'))" class="rounded-xl border border-gray-300 bg-white px-5 py-3 text-center text-base font-medium text-gray-700 hover:bg-gray-50">
               Cancelar
             </button>
-            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+            <button type="submit" class="rounded-xl bg-blue-600 hover:bg-blue-700 px-5 py-3 text-center text-base font-medium text-white shadow-sm transition disabled:opacity-50" :class="{ 'opacity-50': form.processing }" :disabled="form.processing">
               Enviar reporte
             </button>
           </div>
