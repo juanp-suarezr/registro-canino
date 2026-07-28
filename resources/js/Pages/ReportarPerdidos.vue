@@ -420,7 +420,7 @@ const descripcionEstado = computed(() => {
     delicado: "Flaco, débil o visiblemente demacrado, aunque no presenta lesiones abiertas.",
     herido_enfermo: "Tiene heridas, cojea, sangra o muestra signos claros de dolor o enfermedad.",
   };
-  return descripciones[form.estado_encuentra.value] || "";
+  return descripciones[form.estado_encuentra] || "";
 });
 
 const onImagesChange = (event) => {
