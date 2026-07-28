@@ -239,11 +239,12 @@ class Perdidos extends Model
     public function getEstadoEncuentraLabelAttribute(): string
     {
         return match ($this->estado_encuentra) {
-            'bueno'   => 'Buen estado',
-            'regular' => 'Estado regular',
-            'malo'    => 'Mal estado',
-            'herido'  => 'Herido/lesionado',
-            default   => 'No especificado',
+            'muy_bien'        => 'Muy bien',
+            'bien'            => 'Bien',
+            'regular'         => 'Regular',
+            'delicado'        => 'Delicado',
+            'herido_enfermo'  => 'Herido / Enfermo',
+            default           => 'No especificado',
         };
     }
 
