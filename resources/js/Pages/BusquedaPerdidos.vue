@@ -263,8 +263,8 @@
                     </template>
                   </div>
 
-                  <div class="text-base font-bold text-blue-900 truncate transition-colors group-hover:text-blue-700">
-                    {{ item.nombre || 'Sin nombre' }}
+                  <div v-if="item.nombre" class="text-base font-bold text-blue-900 truncate transition-colors group-hover:text-blue-700">
+                    {{ item.nombre }}
                   </div>
 
                   <div v-if="item.raza" class="text-gray-700 text-sm"><span class="font-semibold text-gray-900">Raza:</span> {{ truncate(item.raza, 60) }}</div>
@@ -326,7 +326,7 @@
       <div class="bg-white rounded-2xl shadow-2xl shadow-gray-300/40 w-full max-w-3xl max-h-[90vh] flex flex-col overflow-x-hidden border border-gray-100">
         <div class="flex justify-between items-center p-5 border-b border-gray-100 bg-gradient-to-r from-gray-50 to-white flex-shrink-0">
           <div class="flex items-center gap-2">
-            <h2 class="text-lg font-bold text-gray-800">{{ detalleData.nombre || 'Animal sin nombre' }}</h2>
+            <h2 v-if="detalleData.nombre" class="text-lg font-bold text-gray-800">{{ detalleData.nombre }}</h2>
             <div class="text-xs font-bold px-3 py-1.5 rounded-full shadow-md" :class="detalleData.tipo == 'Propietario' ? 'bg-rose-500 text-white' : 'bg-emerald-600 text-white'">
               {{ detalleData.tipo == 'Propietario' ? '🔍 MASCOTA PERDIDA' : '🐾 ANIMAL REPORTADO' }}
             </div>
