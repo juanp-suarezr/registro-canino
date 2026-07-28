@@ -329,17 +329,6 @@ const etiquetaLugar = computed(() => {
   return "Lugar";
 });
 
-const descripcionEstado = computed(() => {
-  const descripciones = {
-    muy_bien: "Sano, limpio, cuidado y parece haberse extraviado hace poco.",
-    bien: "Sano, pero está algo sucio o despeinado; puede llevar un par de días en la calle.",
-    regular: "Flaco, con hambre, sed o desorientado, pero sin heridas ni dolor evidente.",
-    delicado: "Flaco, débil o visiblemente demacrado, aunque no presenta lesiones abiertas.",
-    herido_enfermo: "Tiene heridas, cojea, sangra o muestra signos claros de dolor o enfermedad.",
-  };
-  return descripciones[form.estado_encuentra.value] || "";
-});
-
 const resetearAudio = () => {
   try {
     if ("speechSynthesis" in window) {
@@ -421,6 +410,17 @@ const form = useForm({
   origen: "",
   campo_obligatorio: "",
   recaptcha_token: "",
+});
+
+const descripcionEstado = computed(() => {
+  const descripciones = {
+    muy_bien: "Sano, limpio, cuidado y parece haberse extraviado hace poco.",
+    bien: "Sano, pero está algo sucio o despeinado; puede llevar un par de días en la calle.",
+    regular: "Flaco, con hambre, sed o desorientado, pero sin heridas ni dolor evidente.",
+    delicado: "Flaco, débil o visiblemente demacrado, aunque no presenta lesiones abiertas.",
+    herido_enfermo: "Tiene heridas, cojea, sangra o muestra signos claros de dolor o enfermedad.",
+  };
+  return descripciones[form.estado_encuentra.value] || "";
 });
 
 const onImagesChange = (event) => {
