@@ -92,7 +92,7 @@
 
               <div>
                 <div class="flex items-center gap-2">
-                  <label class="block text-lg font-medium text-gray-800">Raza o parecido</label>
+                  <label class="block text-lg font-medium text-gray-800">¿Qué raza es o a cuál se parece?</label>
                   <div class="relative group">
                     <QuestionMarkCircleIcon class="w-6 h-6 text-blue-500" v-tooltip.bottom="'Seleccione la raza de su canino.'" />
                   </div>
@@ -101,12 +101,12 @@
               </div>
 
               <div>
-                <label class="block text-lg font-medium text-gray-800">Color del pelaje</label>
+                <label class="block text-lg font-medium text-gray-800">¿De qué color es?</label>
                 <input type="text" v-model="form.color" class="mt-2 block w-full border rounded-xl p-4 text-lg" placeholder="Ej: Negro, marrón, blanco..." />
               </div>
 
               <div>
-                <label class="block text-lg font-medium text-gray-800">Tamaño</label>
+                <label class="block text-lg font-medium text-gray-800">¿Qué tamaño tiene?</label>
                 <select v-model="form.tamano" class="mt-2 block w-full border rounded-xl p-4 text-lg">
                   <option value="">Seleccione un tamaño</option>
                   <option value="pequeno">Pequeño</option>
@@ -116,7 +116,7 @@
               </div>
 
               <div>
-                <label class="block text-lg font-medium text-gray-800">Fecha y hora del incidente *</label>
+                <label class="block text-lg font-medium text-gray-800">¿Cuándo lo viste o encontraste?</label>
                 <input type="datetime-local" v-model="form.fecha_hora" class="mt-2 block w-full border rounded-xl p-4 text-lg" required />
               </div>
 
@@ -126,23 +126,24 @@
               </div>
 
               <div>
-                <label class="block text-lg font-medium text-gray-800">Estado en que se encuentra</label>
+                <label class="block text-lg font-medium text-gray-800">¿Estado en que se encuentra?</label>
                 <select v-model="form.estado_encuentra" class="mt-2 block w-full border rounded-xl p-4 text-lg">
                   <option value="">Seleccione</option>
-                  <option value="bueno">Buen estado</option>
-                  <option value="regular">Estado regular</option>
-                  <option value="malo">Mal estado</option>
-                  <option value="herido">Herido / Lesionado</option>
+                  <option value="muy_bien">Muy bien</option>
+                  <option value="bien">Bien</option>
+                  <option value="regular">Regular</option>
+                  <option value="delicado">Delicado</option>
+                  <option value="herido_enfermo">Herido / Enfermo</option>
                 </select>
               </div>
 
               <div class="md:col-span-2">
-                <label class="block text-lg font-medium text-gray-800">Particularidades</label>
+                <label class="block text-lg font-medium text-gray-800">¿Tiene alguna característica que lo haga fácil de reconocer?</label>
                 <textarea v-model="form.particularidades" class="mt-2 block w-full border rounded-xl p-4 text-lg" rows="3" placeholder="Ej: Tiene un collar rojo, una mancha en el ojo izquierdo..."></textarea>
               </div>
 
               <div class="md:col-span-2">
-                <label class="block text-lg font-medium text-gray-800">Descripción *</label>
+                <label class="block text-lg font-medium text-gray-800">Cuéntanos qué ocurrió</label>
                 <textarea v-model="form.descripcion" class="mt-2 block w-full border rounded-xl p-4 text-lg" rows="5" required></textarea>
               </div>
 
@@ -235,7 +236,7 @@
               </div>
 
               <div>
-                <label class="block text-lg font-medium text-gray-800">Email de contacto *</label>
+                <label class="block text-lg font-medium text-gray-800">Email de contacto (opcional)</label>
                 <input type="email" v-model="form.email" class="mt-2 block w-full border rounded-xl p-4 text-lg" required />
               </div>
 
@@ -287,7 +288,7 @@ const tituloPagina = computed(() => {
     return "Reportar mi perro perdido";
   }
   if (props.tipoPreseleccionado === "Canino perdido") {
-    return "Reportar perro extraviado";
+    return "Reportar perro encontrado";
   }
   return "Reportar canino perdido";
 });
