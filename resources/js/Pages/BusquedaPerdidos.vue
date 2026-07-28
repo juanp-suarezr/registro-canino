@@ -168,6 +168,7 @@
                 class="text-sm font-semibold px-2.5 py-1 rounded-lg inline-block"
                 :class="item.tipo == 'Propietario' ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'"
               >
+                <span class="mr-1">{{ formatDate(item.fecha_hora) }}</span>
                 <template v-if="item.tipo == 'Propietario'">
                   🔍 El dueño reportó su mascota como perdida
                 </template>
