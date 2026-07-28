@@ -196,7 +196,8 @@
                 <span v-else>{{ item.descripcion }}</span>
               </div>
 
-              <div v-if="item.estado_encuentra_label"><b>Estado:</b> {{ item.estado_encuentra_label }}</div>
+               <div v-if="item.estado_encuentra_label"><b>Estado:</b> {{ item.estado_encuentra_label }}</div>
+               <div v-if="item.estado_encuentra" class="text-sm text-gray-600 italic">{{ descripcionEstado(item.estado_encuentra) }}</div>
             </div>
 
             <!-- Botón -->
@@ -270,7 +271,8 @@
               <div v-if="detalleData.color"><b>Color:</b><p class="break-words">{{ detalleData.color }}</p></div>
               <div><b>Tamaño:</b><p class="break-words">{{ detalleData.tamano_label || 'No especificado' }}</p></div>
               <div v-if="detalleData.particularidades"><b>Particularidades:</b><p class="break-words">{{ detalleData.particularidades }}</p></div>
-              <div><b>Estado físico:</b><p class="break-words">{{ detalleData.estado_encuentra_label || 'No especificado' }}</p></div>
+               <div><b>Estado físico:</b><p class="break-words">{{ detalleData.estado_encuentra_label || 'No especificado' }}</p></div>
+               <div v-if="detalleData.estado_encuentra" class="text-sm text-gray-600 italic">{{ descripcionEstado(detalleData.estado_encuentra) }}</div>
               <hr />
               <div><b>Última vez visto:</b><p class="break-words">{{ detalleData.lugar }}</p></div>
               <div><b>Fecha del incidente:</b><p class="break-words">{{ formatDate(detalleData.fecha_hora) }}</p></div>
@@ -408,6 +410,17 @@ const origenQuienReporta = (data) => {
   };
   if (data.tipo === 'Propietario') return 'El DUEÑO';
   return origenes[data.origen] || 'Un CIUDADANO';
+};
+
+const descripcionEstado = (estado) => {
+  const descripciones = {
+    muy_bien: "Sano, limpio, cuidado y parece haberse extraviado hace poco.",
+    bien: "Sano, pero está algo sucio o despeinado; puede llevar un par de días en la calle.",
+    regular: "Flaco, con hambre, sed o desorientado, pero sin heridas ni dolor evidente.",
+    delicado: "Flaco, débil o visiblemente demacrado, aunque no presenta lesiones abiertas.",
+    herido_enfermo: "Tiene heridas, cojea, sangra o muestra signos claros de dolor o enfermedad.",
+  };
+  return descripciones[estado] || "";
 };
 
 </script>
