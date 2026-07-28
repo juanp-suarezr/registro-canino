@@ -24,14 +24,14 @@
           </span>
         </div>
         <div class="flex gap-2 flex-wrap">
-          <PrimaryButton
+          <SecondaryButton
             v-if="reporte.estado === 'pendiente'"
             @click="aprobarReporte"
             :disabled="form.processing"
-            class="min-w-[130px] justify-center"
+            class="!bg-blue-600 text-white hover:!bg-blue-700 min-w-[130px] justify-center"
           >
             Aprobar
-          </PrimaryButton>
+          </SecondaryButton>
           <SecondaryButton
             v-if="reporte.estado === 'pendiente' || reporte.estado === 'activo'"
             @click="abrirModalRechazo"
