@@ -54,6 +54,7 @@
       <!-- FILTROS DE BÚSQUEDA                                           -->
       <!-- ============================================================ -->
       <div class="bg-white rounded-lg shadow-md p-4 my-6">
+        <h3 class="text-lg font-semibold text-gray-800 mb-3">Criterios de búsqueda</h3>
         <!-- Fila 1: Búsqueda, Origen, Tipo, Botones -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-3">
           <div>
