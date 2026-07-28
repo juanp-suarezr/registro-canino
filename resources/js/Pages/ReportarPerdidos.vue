@@ -125,16 +125,26 @@
                 <input type="text" v-model="form.lugar" class="mt-2 block w-full border rounded-xl p-4 text-lg" :placeholder="etiquetaLugar" required />
               </div>
 
-              <div>
-                <label class="block text-lg font-medium text-gray-800">¿Estado en que se encuentra?</label>
-                <select v-model="form.estado_encuentra" class="mt-2 block w-full border rounded-xl p-4 text-lg">
-                  <option value="">Seleccione</option>
-                  <option value="muy_bien">Muy bien</option>
-                  <option value="bien">Bien</option>
-                  <option value="regular">Regular</option>
-                  <option value="delicado">Delicado</option>
-                  <option value="herido_enfermo">Herido / Enfermo</option>
-                </select>
+              <div class="md:col-span-2">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label class="block text-lg font-medium text-gray-800">¿Estado en que se encuentra?</label>
+                    <select v-model="form.estado_encuentra" class="mt-2 block w-full border rounded-xl p-4 text-lg">
+                      <option value="">Seleccione</option>
+                      <option value="muy_bien">Muy bien</option>
+                      <option value="bien">Bien</option>
+                      <option value="regular">Regular</option>
+                      <option value="delicado">Delicado</option>
+                      <option value="herido_enfermo">Herido / Enfermo</option>
+                    </select>
+                  </div>
+                  <div v-if="form.estado_encuentra" class="flex items-center">
+                    <div class="w-full rounded-xl border border-blue-200 bg-blue-50 p-4 text-base text-gray-700">
+                      <div class="font-semibold text-blue-800 mb-1">Información del estado</div>
+                      {{ descripcionEstado }}
+                    </div>
+                  </div>
+                </div>
               </div>
 
               <div class="md:col-span-2">
@@ -243,7 +253,7 @@
               <div class="md:col-span-2">
                 <label class="flex items-start gap-4 rounded-xl border-2 border-gray-200 bg-white p-5 hover:border-gray-300">
                   <input type="checkbox" v-model="form.autorizacion" class="mt-1 h-6 w-6 rounded border-gray-300" required />
-                  <span class="text-lg text-gray-700 leading-relaxed">Autorizo la publicación de mis datos de contacto para que la comunidad pueda comunicarse conmigo y ayudar a encontrar al animal. *</span>
+                  <span class="text-lg text-gray-700 leading-relaxed">Autorizo la publicación de mis datos de contacto para que la comunidad pueda comunicarse conmigo y ayudar a encontrar al animal, de acuerdo con la <a href="https://www.pereira.gov.co/publicaciones/38/politicas-de-privacidad-y-condiciones-de-uso/" target="_blank" rel="noopener noreferrer" class="text-blue-600 underline hover:text-blue-800">política de tratamiento de datos</a>. *</span>
                 </label>
               </div>
             </div>
@@ -317,6 +327,17 @@ const etiquetaLugar = computed(() => {
     return "Sector o último lugar visto";
   }
   return "Lugar";
+});
+
+const descripcionEstado = computed(() => {
+  const descripciones = {
+    muy_bien: "Sano, limpio, cuidado y parece haberse extraviado hace poco.",
+    bien: "Sano, pero está algo sucio o despeinado; puede llevar un par de días en la calle.",
+    regular: "Flaco, con hambre, sed o desorientado, pero sin heridas ni dolor evidente.",
+    delicado: "Flaco, débil o visiblemente demacrado, aunque no presenta lesiones abiertas.",
+    herido_enfermo: "Tiene heridas, cojea, sangra o muestra signos claros de dolor o enfermedad.",
+  };
+  return descripciones[form.estado_encuentra.value] || "";
 });
 
 const resetearAudio = () => {
