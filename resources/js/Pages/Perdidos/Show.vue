@@ -28,13 +28,14 @@
             v-if="reporte.estado === 'pendiente'"
             @click="aprobarReporte"
             :disabled="form.processing"
+            class="min-w-[130px] justify-center"
           >
             Aprobar
           </PrimaryButton>
           <SecondaryButton
             v-if="reporte.estado === 'pendiente' || reporte.estado === 'activo'"
             @click="abrirModalRechazo"
-            class="!bg-orange-500 text-white hover:!bg-orange-600"
+            class="!bg-orange-500 text-white hover:!bg-orange-600 min-w-[130px] justify-center"
             :disabled="form.processing"
           >
             Rechazar
@@ -42,7 +43,7 @@
           <SecondaryButton
             v-if="reporte.estado === 'activo'"
             @click="resolverReporte"
-            class="!bg-green-600 text-white hover:!bg-green-700"
+            class="!bg-green-600 text-white hover:!bg-green-700 min-w-[130px] justify-center"
             :disabled="form.processing"
           >
             Resuelto
@@ -50,7 +51,7 @@
           <SecondaryButton
             v-if="reporte.estado === 'activo'"
             @click="noEncontradoReporte"
-            class="!bg-gray-500 text-white hover:!bg-gray-600"
+            class="!bg-gray-500 text-white hover:!bg-gray-600 min-w-[130px] justify-center"
             :disabled="form.processing"
           >
             No encontrado
