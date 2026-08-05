@@ -44,10 +44,10 @@
 
         <div class="mt-3">
           <button @click="router.visit(route('perdidos.resueltos'))" class="group flex items-center gap-3 rounded-xl border border-amber-200 bg-amber-50 p-3.5 text-left transition hover:border-amber-400 hover:bg-white w-full sm:w-auto">
-            <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-amber-100 text-xl transition group-hover:scale-105">🐾</span>
+            <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-amber-100 text-2xl transition group-hover:scale-105">🐶</span>
             <span class="flex-1">
-              <span class="block text-sm font-semibold text-gray-900">Perritos felices</span>
-              <span class="block text-xs text-gray-600">Historias con final feliz.</span>
+              <span class="block text-sm font-semibold text-gray-900">Reencuentros felices</span>
+              <span class="block text-xs text-gray-600">Perritos que encontraron su camino a casa.</span>
             </span>
             <span class="text-amber-600 transition group-hover:translate-x-0.5">→</span>
           </button>
