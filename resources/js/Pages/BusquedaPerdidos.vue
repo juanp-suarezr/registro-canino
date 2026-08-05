@@ -24,7 +24,7 @@
         <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
            <button @click="router.visit(route('reportar.perdido', 'Canino-perdido'))" class="group flex items-center gap-3 rounded-xl border border-vibrante/20 bg-vibrante/5 p-4 text-left transition hover:border-vibrante hover:bg-white hover:shadow-md">
              <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-vibrante/10 text-2xl transition group-hover:scale-105">
-               🐕 🐈 🐇 ...
+               📍
              </span>
             <span class="flex-1">
               <span class="block text-base font-semibold text-gray-900">Encontré una mascota perdido</span>
