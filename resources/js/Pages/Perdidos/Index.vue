@@ -131,7 +131,7 @@
                   :severity="estadoSeverity(slotProps.data.estado)"
                 />
                 <Tag
-                  v-if="slotProps.data.estado === 'pendiente'"
+                  v-if="slotProps.data.estado === 'Pendiente'"
                   :value="calcularTiempoEspera(slotProps.data.created_at).texto"
                   :severity="calcularTiempoEspera(slotProps.data.created_at).color"
                   class="text-xs"
@@ -210,8 +210,8 @@ let filtroOrigen = ref(props.filters?.origen || "");
 const reportesOrdenados = computed(() => {
   const data = props.reportes?.data || [];
   return [...data].sort((a, b) => {
-    const aPend = a.estado === "pendiente" ? 0 : 1;
-    const bPend = b.estado === "pendiente" ? 0 : 1;
+    const aPend = a.estado === "Pendiente" ? 0 : 1;
+    const bPend = b.estado === "Pendiente" ? 0 : 1;
     if (aPend !== bPend) return aPend - bPend;
     return dayjs(b.created_at).diff(dayjs(a.created_at));
   });
