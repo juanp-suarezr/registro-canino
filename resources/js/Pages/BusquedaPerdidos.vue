@@ -232,19 +232,20 @@
                   </div>
 
                   <!-- Miniaturas -->
-              <div
-                v-show="(item.fotos_urls || []).length > 1"
-                class="flex gap-1.5 px-3 py-2.5 bg-white/90 overflow-x-auto"
-              >
-                    <img
-                      v-for="(url, idx) in item.fotos_urls"
-                      :key="idx"
-                      :src="url"
-                      :alt="'Foto ' + (idx + 1)"
-                      class="h-12 w-12 object-cover rounded-lg border-2 cursor-pointer flex-shrink-0 transition-all duration-200"
+                <div
+                  class="flex gap-1.5 px-3 py-2.5 bg-white/90 overflow-x-auto min-h-[68px]"
+                >
+                    <template v-if="(item.fotos_urls || []).length > 1">
+                      <img
+                        v-for="(url, idx) in item.fotos_urls"
+                        :key="idx"
+                        :src="url"
+                        :alt="'Foto ' + (idx + 1)"
+                        class="h-12 w-12 object-cover rounded-lg border-2 cursor-pointer flex-shrink-0 transition-all duration-200"
                        :class="(imagenActiva[item.id] || 0) === idx ? 'border-primary opacity-100' : 'border-transparent opacity-70 hover:opacity-100'"
-                      @click="imagenActiva[item.id] = idx"
-                    />
+                        @click="imagenActiva[item.id] = idx"
+                      />
+                    </template>
                   </div>
                 </div>
 
