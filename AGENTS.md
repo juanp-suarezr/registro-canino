@@ -17,12 +17,14 @@ Estilo institucional con colores de la alcaldía.
 
 ## Opción 3 (Moderno con desvanecido vistoso)
 Más moderno y dinámico, conservando la institucionalidad.
-- Hero: `from-primary via-secondary to-primary` (gradiente multi-stop)
-- Tarjetas de acción: `border-primary/10` / `border-secondary/10`, fondos `from-white to-red-50/50` con gradiente sutil
+- **vibrante**: `#ED1C24` (rojo vivo - títulos, botones, acentos)
+- **dorado**: `#FFBA00` (dorado/amarillo - acentos, botones secundarios)
+- Hero: `from-vibrante to-dorado` (gradiente rojo-dorado vibrante)
+- Tarjetas de acción: bordes `vibrante/20` / `dorado/20`, fondos `vibrante/5` / `dorado/5`
 - Sidebar header: `bg-gradient-to-r from-gray-50 to-white`
-- Inputs/selects: `bg-white/50` con `border-primary/50` y focus `ring-primary/20`
-- Tarjetas de resultados: `border-gray-100` con overlay gradiente `from-primary/5 to-transparent` en la foto
-- Botones buscar y detalle: `hover:from-primary/90 hover:to-secondary/90`
-- Empty state: `border-primary/10`, fondo `from-primary/5 via-white to-white`
-- Botón limpiar: `bg-primary/5 hover:bg-primary/10`
+- Inputs/selects: `bg-white/50` con `border-vibrante/50` y focus `ring-vibrante/20`
+- Tarjetas de resultados: `border-gray-100` con overlay gradiente `from-vibrante/5 to-transparent` en la foto
+- Botones buscar y detalle: gradiente `from-vibrante to-dorado` con hover `from-vibrante/90 hover:to-dorado/90`
+- Empty state: `border-vibrante/10`, fondo `from-vibrante/5 via-white to-white`
+- Chips activos: `bg-vibrante/10 text-vibrante`
 - Tags PERDIDO/REPORTADO: sin cambios (se mantienen originales)
