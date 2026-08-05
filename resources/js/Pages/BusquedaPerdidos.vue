@@ -7,23 +7,24 @@
     <!-- ============================================================ -->
     <!-- HERO                                                         -->
     <!-- ============================================================ -->
-    <div       class="flex items-center justify-center py-6 mt-0 mb-8 bg-gradient-to-r from-primary to-secondary rounded-b-[2.5rem] shadow-lg">
-      <h1 class="text-4xl sm:text-5xl font-bold text-white drop-shadow-sm">🐕 Caninos perdidos</h1>
-    </div>
+     <div class="flex items-center justify-center py-6 mt-0 mb-8 bg-gradient-to-br from-primary via-secondary to-primary rounded-b-[2.5rem] shadow-lg">
+       <h1 class="text-4xl sm:text-5xl font-bold text-white drop-shadow-sm">🐕 Caninos perdidos</h1>
+     </div>
 
     <div class="container mx-auto sm:px-12 px-3">
       <!-- ============================================================ -->
       <!-- BOTONES DE ACCIÓN (siempre arriba)                          -->
       <!-- ============================================================ -->
-      <div class="my-6 rounded-2xl bg-white p-6 sm:p-8 shadow-md">
-        <h2 class="text-xl sm:text-2xl font-bold text-gray-900">¿Perdiste o encontraste un animal de compañía?</h2>
+       <div class="my-6 rounded-2xl bg-white p-6 sm:p-8 shadow-md">
+         <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-primary via-secondary to-primary rounded-t-2xl"></div>
+         <h2 class="text-xl sm:text-2xl font-bold text-gray-900">¿Perdiste o encontraste un animal de compañía?</h2>
         <p class="mt-2 text-gray-700 leading-relaxed">
           Comparte fotos e información para reportar mascotas perdidas o encontradas y ayudar a que regresen a casa.
         </p>
 
         <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <button @click="router.visit(route('reportar.perdido', 'Canino-perdido'))" class="group flex items-center gap-3 rounded-xl border border-primary/20 bg-red-50 p-4 text-left transition hover:border-primary hover:bg-white">
-            <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary/10 text-2xl transition group-hover:scale-105">
+           <button @click="router.visit(route('reportar.perdido', 'Canino-perdido'))" class="group flex items-center gap-3 rounded-xl border border-primary/10 bg-gradient-to-br from-white to-red-50/50 p-4 text-left transition hover:border-primary/30 hover:shadow-md hover:bg-white">
+            <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-primary/10 to-secondary/10 text-2xl transition group-hover:scale-105">
               🐾
             </span>
             <span class="flex-1">
@@ -32,8 +33,8 @@
             </span>
             <span class="text-xl text-primary transition group-hover:translate-x-1">→</span>
           </button>
-          <button @click="router.visit(route('reportar.perdido', 'Propietario'))" class="group flex items-center gap-3 rounded-xl border border-secondary/20 bg-red-50 p-4 text-left transition hover:border-secondary hover:bg-white">
-            <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-secondary/10 text-2xl transition group-hover:scale-105">🔍</span>
+          <button @click="router.visit(route('reportar.perdido', 'Propietario'))" class="group flex items-center gap-3 rounded-xl border border-secondary/10 bg-gradient-to-br from-white to-red-50/50 p-4 text-left transition hover:border-secondary/30 hover:shadow-md hover:bg-white">
+            <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-secondary/10 to-primary/10 text-2xl transition group-hover:scale-105">🔍</span>
             <span class="flex-1">
               <span class="block text-base font-semibold text-gray-900">Perdí a mi perro</span>
               <span class="block text-sm text-gray-600">Solicita ayuda con fotos y datos del animal.</span>
@@ -43,8 +44,8 @@
         </div>
 
         <div class="mt-3">
-          <button @click="router.visit(route('perdidos.resueltos'))" class="group flex items-center gap-3 rounded-xl border border-amber-200 bg-amber-50 p-3.5 text-left transition hover:border-amber-400 hover:bg-white w-full sm:w-auto">
-            <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-amber-100 text-2xl transition group-hover:scale-105">🐶</span>
+           <button @click="router.visit(route('perdidos.resueltos'))" class="group flex items-center gap-3 rounded-xl border border-amber-200 bg-gradient-to-br from-amber-50/80 to-white p-3.5 text-left transition hover:border-amber-400 hover:shadow-md hover:bg-white w-full sm:w-auto">
+            <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-amber-100 to-amber-200 text-xl transition group-hover:scale-105">🐶</span>
             <span class="flex-1">
               <span class="block text-sm font-semibold text-gray-900">Reencuentros felices</span>
               <span class="block text-xs text-gray-600">Perritos que encontraron su camino a casa.</span>
@@ -83,17 +84,16 @@
                - En mobile (< lg): se muestra/oculta con v-show según filtrosExpandidos
                - En lg+: siempre visible
           -->
-          <div
-            class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden"
-            :class="filtrosExpandidos ? 'block' : 'hidden lg:block'"
-          >
-            <!-- Header del sidebar (solo en desktop) -->
-            <div class="hidden lg:flex items-center justify-between p-4 border-b border-gray-100">
+           <div
+             class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden"
+             :class="filtrosExpandidos ? 'block' : 'hidden lg:block'"
+           >
+             <div class="hidden lg:flex items-center justify-between p-4 border-b border-gray-100 bg-gradient-to-r from-gray-50 to-white">
               <h3 class="text-lg font-bold text-gray-800 flex items-center gap-2">
                 <span>🔎</span> Filtros
                 <span v-if="filtrosActivos > 0" class="ml-1 bg-secondary text-white text-xs font-bold px-2 py-0.5 rounded-full">{{ filtrosActivos }}</span>
               </h3>
-               <button @click="limpiarFiltros" v-if="filtrosActivos > 0" class="text-xs text-primary hover:text-primary/80 font-medium transition">
+               <button @click="limpiarFiltros" v-if="filtrosActivos > 0" class="text-xs text-primary hover:text-primary/80 font-medium transition px-3 py-1 rounded-full bg-primary/5 hover:bg-primary/10">
                 Limpiar todo
               </button>
             </div>
@@ -106,14 +106,14 @@
                   <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                   </svg>
-                  <input type="text" v-model="filtroSearch" placeholder="Nombre, reportante o lugar..."                   class="w-full border border-gray-200 rounded-lg pl-10 pr-3 py-2.5 text-sm focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none transition" @keyup.enter="aplicarFiltros" />
+                  <input type="text" v-model="filtroSearch" placeholder="Nombre, reportante o lugar..."                   class="w-full border border-gray-200 rounded-lg pl-10 pr-3 py-2.5 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary/50 outline-none transition bg-white/50" @keyup.enter="aplicarFiltros" />
                 </div>
               </div>
 
               <!-- Quién reporta -->
               <div>
                 <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wider mb-1.5">Quién reporta</label>
-                <select v-model="filtroOrigen"                   class="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none transition bg-white" @change="aplicarFiltros">
+                 <select v-model="filtroOrigen"                   class="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary/50 outline-none transition bg-white/50" @change="aplicarFiltros">
                   <option value="">Todos</option>
                   <option value="ciudadano">🧑 Ciudadano</option>
                   <option value="policia">👮 Policía</option>
@@ -126,7 +126,7 @@
               <!-- Tipo -->
               <div>
                 <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wider mb-1.5">Tipo</label>
-                <select v-model="filtroTipo"                   class="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none transition bg-white" @change="aplicarFiltros">
+                 <select v-model="filtroTipo"                   class="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary/50 outline-none transition bg-white/50" @change="aplicarFiltros">
                   <option value="">Todos</option>
                   <option value="Propietario">🔍 Mascota perdida</option>
                   <option value="Canino perdido">🐾 Mascota reportada</option>
@@ -136,18 +136,18 @@
               <!-- Fecha desde -->
               <div>
                 <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wider mb-1.5">Fecha desde</label>
-                 <input type="date" v-model="filtroFechaDesde" class="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none transition" @change="aplicarFiltros" />
+                  <input type="date" v-model="filtroFechaDesde" class="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary/50 outline-none transition bg-white/50" @change="aplicarFiltros" />
               </div>
 
               <!-- Fecha hasta -->
               <div>
                 <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wider mb-1.5">Fecha hasta</label>
-                 <input type="date" v-model="filtroFechaHasta" class="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none transition" @change="aplicarFiltros" />
+                  <input type="date" v-model="filtroFechaHasta" class="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary/50 outline-none transition bg-white/50" @change="aplicarFiltros" />
               </div>
 
               <!-- Botones de acción -->
               <div class="flex gap-2 pt-2">
-                <button @click="aplicarFiltros" class="flex-1 bg-gradient-to-r from-primary to-secondary hover:from-primary hover:to-secondary text-white text-sm font-semibold px-4 py-2.5 rounded-lg transition shadow-md hover:shadow-lg">
+                <button @click="aplicarFiltros" class="flex-1 bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-white text-sm font-semibold px-4 py-2.5 rounded-lg transition shadow-md hover:shadow-lg">
                   Buscar
                 </button>
                 <button @click="limpiarFiltros" class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium px-4 py-2.5 rounded-lg transition border border-gray-200">
@@ -188,17 +188,18 @@
           <!-- ============================================================ -->
           <template v-if="perdidos.data && perdidos.data.length > 0">
             <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
-              <div
-                v-for="item in perdidos.data"
-                :key="item.id"
-                class="flex flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
-              >
+               <div
+                 v-for="item in perdidos.data"
+                 :key="item.id"
+                 class="flex flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+               >
                 <!-- ========== SECCIÓN DE FOTOS ========== -->
                 <div class="relative flex-shrink-0">
-                  <div
-                    class="w-full h-52 bg-gray-100 flex items-center justify-center cursor-pointer overflow-hidden"
-                    @click="(item.fotos_urls || []).length > 0 ? abrirLightbox(item, imagenActiva[item.id] || 0) : null"
-                  >
+                   <div
+                     class="w-full h-52 bg-gray-100 flex items-center justify-center cursor-pointer overflow-hidden relative"
+                     @click="(item.fotos_urls || []).length > 0 ? abrirLightbox(item, imagenActiva[item.id] || 0) : null"
+                   >
+                     <div class="absolute inset-0 bg-gradient-to-t from-primary/5 to-transparent pointer-events-none"></div>
                     <img
                       v-if="(item.fotos_urls || []).length > 0"
                       :src="(item.fotos_urls || [])[imagenActiva[item.id] || 0]"
@@ -261,7 +262,7 @@
                 <div class="p-4 space-y-2 text-base flex-1 overflow-hidden">
                   <div
                     class="text-xs font-semibold px-2.5 py-1 rounded-lg inline-block"
-                    :class="item.tipo == 'Propietario' ? 'bg-rose-100 text-rose-800' : 'bg-primary/10 text-primary'"
+                    :class="item.tipo == 'Propietario' ? 'bg-rose-500 text-white' : 'bg-amber-600 text-white'"
                   >
                     <span class="mr-1">{{ formatDate(item.fecha_hora) }}</span>
                     <br>
@@ -296,15 +297,15 @@
                 </div>
 
                 <!-- Botón -->
-                <div class="p-4 pt-0 flex justify-center">
-                  <button
-                    type="button"
-                    @click="abrirDetalle(item)"
-                    class="bg-gradient-to-r from-primary to-secondary hover:from-primary hover:to-secondary text-white text-sm px-4 py-2 rounded-lg shadow transition-all duration-200 hover:shadow-md w-full"
-                  >
-                    Ver detalle completo
-                  </button>
-                </div>
+                 <div class="p-4 pt-0 flex justify-center">
+                   <button
+                     type="button"
+                     @click="abrirDetalle(item)"
+                     class="bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-white text-sm px-4 py-2 rounded-lg shadow transition-all duration-200 hover:shadow-md w-full"
+                   >
+                     Ver detalle completo
+                   </button>
+                 </div>
               </div>
             </div>
 
@@ -314,8 +315,8 @@
             </div>
           </template>
 
-          <template v-else>
-            <div class="my-12 rounded-2xl border-2 border-dashed border-primary/20 bg-gradient-to-b from-primary/5 to-white p-10 text-center">
+           <template v-else>
+             <div class="my-12 rounded-2xl border-2 border-dashed border-primary/10 bg-gradient-to-b from-primary/5 via-white to-white p-10 text-center">
               <div class="text-5xl mb-3">🐾</div>
               <p class="text-xl sm:text-2xl font-bold text-gray-800">Aún no hay reportes</p>
               <p class="mt-2 text-sm text-gray-500 max-w-sm mx-auto">Usa los botones de arriba para crear el primero y ayudar a que más perritos encuentren su camino a casa.</p>
