@@ -233,7 +233,6 @@
 
                    <!-- Miniaturas -->
                    <div
-                     v-show="(item.fotos_urls || []).length > 1"
                      class="flex gap-1.5 px-3 py-2.5 bg-white/90 overflow-x-auto"
                    >
                      <img
