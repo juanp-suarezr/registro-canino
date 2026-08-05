@@ -23,11 +23,11 @@
 
         <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
            <button @click="router.visit(route('reportar.perdido', 'Canino-perdido'))" class="group flex items-center gap-3 rounded-xl border border-vibrante/20 bg-vibrante/5 p-4 text-left transition hover:border-vibrante hover:bg-white hover:shadow-md">
-            <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-vibrante/10 text-2xl transition group-hover:scale-105">
-              🐾
-            </span>
+             <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-vibrante/10 text-2xl transition group-hover:scale-105">
+               🐕 🐈 🐇 ...
+             </span>
             <span class="flex-1">
-              <span class="block text-base font-semibold text-gray-900">Encontré un perro perdido</span>
+              <span class="block text-base font-semibold text-gray-900">Encontré una mascota perdido</span>
               <span class="block text-sm text-gray-600">Repórtalo aquí para ayudar a encontrar a su dueño.</span>
             </span>
             <span class="text-xl text-vibrante transition group-hover:translate-x-1">→</span>
@@ -44,7 +44,7 @@
 
          <div class="mt-3">
            <button @click="router.visit(route('perdidos.resueltos'))" class="group flex items-center gap-3 rounded-xl border border-amber-200 bg-gradient-to-r from-amber-50 to-white p-3.5 text-left transition hover:border-amber-400 hover:shadow-md hover:bg-white w-full sm:w-auto">
-              <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-amber-100 to-amber-200 text-xl transition group-hover:scale-105">🐾</span>
+              <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-amber-100 to-amber-200 text-xl transition group-hover:scale-105">🏠</span>
             <span class="flex-1">
               <span class="block text-sm font-semibold text-gray-900">Reencuentros felices</span>
                <span class="block text-xs text-gray-600">Mascotas que encontraron su camino a casa.</span>
@@ -307,10 +307,10 @@
 
              <template v-else>
              <div class="my-12 rounded-2xl border-2 border-dashed border-vibrante/10 bg-gradient-to-b from-vibrante/5 via-white to-white p-10 text-center">
-              <div class="text-5xl mb-3">🐾</div>
+               <div class="text-5xl mb-3">🐕 🐈 🐇</div>
               <p class="text-xl sm:text-2xl font-bold text-gray-800">Aún no hay reportes</p>
-              <p class="mt-2 text-sm text-gray-500 max-w-sm mx-auto">Usa los botones de arriba para crear el primero y ayudar a que más perritos encuentren su camino a casa.</p>
-              <div class="mt-4 flex justify-center gap-2 text-xl">🐕 🐩 🐕‍🦺</div>
+              <p class="mt-2 text-sm text-gray-500 max-w-sm mx-auto">Usa los botones de arriba para crear el primero y ayudar a que más mascotas encuentren su camino a casa.</p>
+               <div class="mt-4 flex justify-center gap-2 text-xl">🐕 🐈 🐇</div>
             </div>
           </template>
         </main>
