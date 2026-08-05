@@ -1,5 +1,5 @@
 <template>
-  <Head title="Busqueda de caninos perdidos">
+  <Head title="Busqueda de mascotas perdidas">
     <link rel="preload" href="/assets/img/apoyoCanino.jpg" as="image" />
   </Head>
 
@@ -8,7 +8,7 @@
     <!-- HERO                                                         -->
     <!-- ============================================================ -->
      <div class="flex items-center justify-center py-6 mt-0 mb-8 bg-gradient-to-r from-vibrante to-dorado rounded-b-[2.5rem] shadow-lg">
-       <h1 class="text-4xl sm:text-5xl font-bold text-white drop-shadow-sm">🐕 Caninos perdidos</h1>
+       <h1 class="text-4xl sm:text-5xl font-bold text-white drop-shadow-sm">🐾 Mascotas perdidas</h1>
      </div>
 
     <div class="container mx-auto sm:px-12 px-3">
@@ -44,10 +44,10 @@
 
          <div class="mt-3">
            <button @click="router.visit(route('perdidos.resueltos'))" class="group flex items-center gap-3 rounded-xl border border-amber-200 bg-gradient-to-r from-amber-50 to-white p-3.5 text-left transition hover:border-amber-400 hover:shadow-md hover:bg-white w-full sm:w-auto">
-            <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-amber-100 to-amber-200 text-xl transition group-hover:scale-105">🐶</span>
+              <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-amber-100 to-amber-200 text-xl transition group-hover:scale-105">🐾</span>
             <span class="flex-1">
               <span class="block text-sm font-semibold text-gray-900">Reencuentros felices</span>
-              <span class="block text-xs text-gray-600">Perritos que encontraron su camino a casa.</span>
+               <span class="block text-xs text-gray-600">Mascotas que encontraron su camino a casa.</span>
             </span>
             <span class="text-amber-600 transition group-hover:translate-x-0.5">→</span>
           </button>
