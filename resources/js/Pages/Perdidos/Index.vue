@@ -57,7 +57,7 @@
       <!-- Tabla -->
       <div class="bg-white shadow-md rounded-lg p-4">
         <DataTable
-          :value="reportes.data"
+          :value="reportesOrdenados"
           responsive-layout="scroll"
           class="p-datatable-sm"
         >
@@ -125,10 +125,18 @@
 
           <Column header="Estado">
             <template #body="slotProps">
-              <Tag
-                :value="estadoLabel(slotProps.data.estado)"
-                :severity="estadoSeverity(slotProps.data.estado)"
-              />
+              <div class="flex flex-col gap-1">
+                <Tag
+                  :value="estadoLabel(slotProps.data.estado)"
+                  :severity="estadoSeverity(slotProps.data.estado)"
+                />
+                <Tag
+                  v-if="slotProps.data.estado === 'pendiente'"
+                  :value="calcularTiempoEspera(slotProps.data.created_at).texto"
+                  :severity="calcularTiempoEspera(slotProps.data.created_at).color"
+                  class="text-xs"
+                />
+              </div>
             </template>
           </Column>
 
@@ -165,7 +173,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { router } from "@inertiajs/vue3";
 import { Head } from "@inertiajs/vue3";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
@@ -180,6 +188,7 @@ import Column from "primevue/column";
 import Tag from "primevue/tag";
 import { EyeIcon, PencilIcon } from "@heroicons/vue/24/solid";
 import dayjs from "dayjs";
+import "dayjs/locale/es";
 
 const props = defineProps({
   reportes: {
@@ -197,6 +206,16 @@ let filtroNombreReportante = ref(props.filters?.nombre_reportante || "");
 let filtroContacto = ref(props.filters?.contacto || "");
 let filtroEstado = ref(props.filters?.estado || "");
 let filtroOrigen = ref(props.filters?.origen || "");
+
+const reportesOrdenados = computed(() => {
+  const data = props.reportes?.data || [];
+  return [...data].sort((a, b) => {
+    const aPend = a.estado === "pendiente" ? 0 : 1;
+    const bPend = b.estado === "pendiente" ? 0 : 1;
+    if (aPend !== bPend) return aPend - bPend;
+    return dayjs(b.created_at).diff(dayjs(a.created_at));
+  });
+});
 
 const handleSearch = () => {
   router.get(
@@ -226,6 +245,33 @@ const clearAll = () => {
 const formatDate = (date) => {
   if (!date) return "N/A";
   return dayjs(date).format("DD/MM/YYYY h:mm A");
+};
+
+const calcularTiempoEspera = (createdAt) => {
+  if (!createdAt) return { texto: "Desconocido", color: "secondary" };
+
+  const ahora = dayjs();
+  const creado = dayjs(createdAt);
+  const dias = ahora.diff(creado, "days");
+  const horas = ahora.diff(creado, "hours") % 24;
+  const minutos = ahora.diff(creado, "minutes") % 60;
+
+  let color = "secondary";
+  if (dias >= 1 && dias <= 3) {
+    color = "success";
+  } else if (dias >= 4 && dias <= 6) {
+    color = "warn";
+  } else if (dias >= 7) {
+    color = "danger";
+  }
+
+  let texto = "";
+  if (dias > 0) texto += `${dias} días `;
+  if (horas > 0) texto += `${horas} horas `;
+  if (minutos > 0 || dias === 0) texto += `${minutos} min`;
+  texto = texto.trim() || "0 min";
+
+  return { texto, color };
 };
 
 const estadoLabel = (estado) => {

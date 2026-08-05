@@ -200,7 +200,8 @@ class PerdidosController extends Controller
             $query->where('origen', $request->origen);
         }
 
-        $reportes = $query->orderBy('created_at', 'desc')
+        $reportes = $query->orderByRaw("CASE WHEN estado = 'pendiente' THEN 0 ELSE 1 END")
+            ->orderBy('created_at', 'desc')
             ->paginate(10)
             ->withQueryString();
 
