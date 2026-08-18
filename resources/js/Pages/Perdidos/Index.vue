@@ -49,7 +49,11 @@
             <option value="fundacion">Fundación</option>
           </select>
         </div>
-        <div class="mt-4 flex justify-end">
+        <div class="mt-4 flex justify-end gap-2">
+          <SecondaryButton @click="handleExport" type="button">
+            <ArrowDownTrayIcon class="h-5 w-5 mr-1" />
+            Exportar a Excel
+          </SecondaryButton>
           <PrimaryButton @click="handleSearch">Buscar</PrimaryButton>
         </div>
       </div>
@@ -186,7 +190,7 @@ import Pagination from "@/Components/Pagination.vue";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 import Tag from "primevue/tag";
-import { EyeIcon, PencilIcon } from "@heroicons/vue/24/solid";
+import { EyeIcon, PencilIcon, ArrowDownTrayIcon } from "@heroicons/vue/24/solid";
 import dayjs from "dayjs";
 import "dayjs/locale/es";
 
@@ -231,6 +235,18 @@ const handleSearch = () => {
       replace: true,
     }
   );
+};
+
+const handleExport = () => {
+  const params = new URLSearchParams();
+  if (filtroNombreReportante.value)
+    params.append("nombre_reportante", filtroNombreReportante.value);
+  if (filtroContacto.value)
+    params.append("contacto", filtroContacto.value);
+  if (filtroEstado.value) params.append("estado", filtroEstado.value);
+  if (filtroOrigen.value) params.append("origen", filtroOrigen.value);
+
+  window.location.href = route("perdidos.exportar") + "?" + params.toString();
 };
 
 const clearAll = () => {

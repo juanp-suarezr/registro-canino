@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\PerdidosExport;
 use App\Http\Controllers\Controller;
 use App\Models\Perdidos;
 use Illuminate\Http\Request;
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PerdidosController extends Controller
 {
@@ -209,6 +211,41 @@ class PerdidosController extends Controller
             'reportes' => $reportes,
             'filters'  => $request->only(['nombre_reportante', 'contacto', 'estado', 'origen']),
         ]);
+    }
+
+    /**
+     * Exportar todos los reportes que cumplen los filtros actuales a Excel.
+     * Incluye estado actual, fecha de creación y quién aprobó/rechazó el registro.
+     */
+    public function exportar(Request $request)
+    {
+        $query = Perdidos::with(['usuario', 'aprobador']);
+
+        // Filtro por nombre del reportante
+        if ($request->filled('nombre_reportante')) {
+            $query->where('nombre_reportante', 'like', '%' . $request->nombre_reportante . '%');
+        }
+
+        // Filtro por contacto
+        if ($request->filled('contacto')) {
+            $query->where('contacto', 'like', '%' . $request->contacto . '%');
+        }
+
+        // Filtro por estado
+        if ($request->filled('estado')) {
+            $query->where('estado', $request->estado);
+        }
+
+        // Filtro por origen
+        if ($request->filled('origen')) {
+            $query->where('origen', $request->origen);
+        }
+
+        $reportes = $query->orderByRaw("CASE WHEN estado = 'pendiente' THEN 0 ELSE 1 END")
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return Excel::download(new PerdidosExport($reportes), 'reportes_perdidos.xlsx');
     }
 
     /**

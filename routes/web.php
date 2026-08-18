@@ -170,6 +170,7 @@ Route::get('/reportar-perdido/{tipo?}', function ($tipo = null) {
 Route::middleware(['auth'])->prefix('perdidos')->name('perdidos.')->group(function () {
     Route::get('/', [PerdidosController::class, 'index'])->name('index');
     Route::get('/create', [PerdidosController::class, 'create'])->name('create');
+    Route::get('/exportar', [PerdidosController::class, 'exportar'])->name('exportar');
     Route::post('/', [PerdidosController::class, 'store'])->name('store');
     Route::get('/{id}', [PerdidosController::class, 'show'])->name('show');
     Route::get('/{id}/edit', [PerdidosController::class, 'edit'])->name('edit');
