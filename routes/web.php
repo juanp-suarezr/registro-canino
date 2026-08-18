@@ -135,7 +135,7 @@ Route::get('/busqueda-perdidos', function () {
     $perPage = min((int) request()->input('per_page', 12), 24);
 
     return Inertia::render('BusquedaPerdidos', [
-        'perdidos' => $query->orderBy('created_at', 'desc')->paginate($perPage)->withQueryString(),
+        'perdidos' => $query->orderBy('fecha_hora', 'desc')->orderBy('created_at', 'desc')->paginate($perPage)->withQueryString(),
         'filters'  => request()->only(['search', 'origen', 'tipo', 'fecha_desde', 'fecha_hasta']),
     ]);
 
@@ -147,7 +147,7 @@ Route::get('/perritos-felices', function () {
     $perPage = min((int) request()->input('per_page', 12), 24);
 
     return Inertia::render('PerdidosResueltos', [
-        'resueltos' => $query->orderBy('created_at', 'desc')->paginate($perPage)->withQueryString(),
+        'resueltos' => $query->orderBy('fecha_hora', 'desc')->orderBy('created_at', 'desc')->paginate($perPage)->withQueryString(),
     ]);
 
 })->name('perdidos.resueltos');
