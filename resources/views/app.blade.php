@@ -4,12 +4,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="keywords" content="restaurante saludable, restaurantes, salubridad, pereira, acceso internet pereira">
+    <meta name="keywords" content="registro canino, perros, mascotas perdidas, caninos de manejo especial, Hospivet, alcaldía de Pereira, fundaciones, policía">
     <meta name="description"
-        content="Sitio diseñado para presentar información sobre restaurantes con concepto de salubridad aprobado - servicios de la alcaldía de Pereira">
-    <meta name="author" content="M.Sc.&#169; Alcaldía de Pereira">
+        content="Plataforma de registro canino para caninos de manejo especial y reporte de mascotas perdidas en alianza con clínicas veterinarias, policía y fundaciones">
+    <meta name="author" content="Registro Canino - Alcaldía de Pereira">
 
-    <title inertia>Alimentación segura</title>
+    <title inertia>Registro Canino</title>
 
     <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
     <!-- Fonts -->
