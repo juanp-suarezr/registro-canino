@@ -19,7 +19,7 @@
         <div class="max-w-3xl">
           <h2 class="text-2xl sm:text-3xl font-bold text-gray-900">Historias con final feliz 🎉</h2>
           <p class="mt-4 text-gray-700 leading-relaxed">
-            Estos perritos ya fueron encontrados o se reunieron con sus familias.
+            Estas mascotas ya fueron encontradas o se reunieron con sus familias.
             <span class="block text-gray-500 mt-2">Cada reporte resuelto es una victoria para la comunidad. ❤️</span>
           </p>
         </div>
@@ -65,7 +65,7 @@
               <!-- Tag feliz -->
               <div class="absolute top-3 left-3 text-xs font-bold px-3 py-1.5 rounded-full shadow-lg flex items-center gap-1.5 bg-emerald-500 text-white">
                 <span>🐾</span>
-                <span>PERRITO FELIZ</span>
+                <span>MASCOTA FELIZ</span>
               </div>
 
               <!-- Contador fotos -->
@@ -162,7 +162,7 @@
           <div class="flex items-center gap-2">
             <h2 v-if="detalleData.nombre" class="text-lg font-bold text-gray-800">{{ detalleData.nombre }}</h2>
             <div class="text-xs font-bold px-3 py-1.5 rounded-full shadow-md bg-emerald-500 text-white">
-              🐾 PERRITO FELIZ
+              🐾 MASCOTA FELIZ
             </div>
           </div>
           <button class="text-gray-500 hover:text-gray-800 text-2xl transition-transform hover:rotate-90" @click="cerrarDetalle">✕</button>

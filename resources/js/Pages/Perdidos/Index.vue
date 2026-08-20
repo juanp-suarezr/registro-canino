@@ -238,15 +238,31 @@ const handleSearch = () => {
 };
 
 const handleExport = () => {
+  const url = route("perdidos.exportar");
+
+  const form = document.createElement("form");
+  form.method = "GET";
+  form.action = url;
+  form.target = "_blank";
+
   const params = new URLSearchParams();
   if (filtroNombreReportante.value)
     params.append("nombre_reportante", filtroNombreReportante.value);
-  if (filtroContacto.value)
-    params.append("contacto", filtroContacto.value);
+  if (filtroContacto.value) params.append("contacto", filtroContacto.value);
   if (filtroEstado.value) params.append("estado", filtroEstado.value);
   if (filtroOrigen.value) params.append("origen", filtroOrigen.value);
 
-  window.location.href = route("perdidos.exportar") + "?" + params.toString();
+  params.forEach((value, key) => {
+    const input = document.createElement("input");
+    input.type = "hidden";
+    input.name = key;
+    input.value = value;
+    form.appendChild(input);
+  });
+
+  document.body.appendChild(form);
+  form.submit();
+  document.body.removeChild(form);
 };
 
 const clearAll = () => {
