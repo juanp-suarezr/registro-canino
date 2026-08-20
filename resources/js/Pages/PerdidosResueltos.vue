@@ -1,5 +1,5 @@
 <template>
-  <Head title="Perritos felices">
+  <Head title="Mascotas felices">
     <link rel="preload" href="/assets/img/apoyoCanino.jpg" as="image" />
   </Head>
 
@@ -8,7 +8,7 @@
     <!-- HERO                                                         -->
     <!-- ============================================================ -->
     <div class="flex items-center justify-center py-6 mt-0 mb-8 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-b-[2.5rem] shadow-lg">
-      <h1 class="text-4xl sm:text-5xl font-bold text-white drop-shadow-sm">🐶 Perritos felices</h1>
+      <h1 class="text-4xl sm:text-5xl font-bold text-white drop-shadow-sm">🏠 Mascotas felices</h1>
     </div>
 
     <div class="container mx-auto sm:px-12 px-3">
